@@ -1,0 +1,82 @@
+@import 'assets/styles/mixins.scss';
+@import '../../../assets/styles/mixins.scss';
+@import url('https://fonts.googleapis.com/css?family=Mukta&display=swap');
+
+.login {
+  background-size: cover;
+  background-position: center center;
+  background-image: url(./KTM_RC200.jpg) !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.titleLogo {
+  font-size: -webkit-xxx-large !important;
+  color: red
+}
+
+.title {
+  margin: 0 auto;
+  max-width: rem(740);
+  text-align: center;
+  padding-left: rem(20);
+  padding-right: rem(20);
+  h1 {
+    font-weight: 900;
+    margin-bottom: rem(30);
+  }
+}
+
+.block {
+  padding: rem(40) rem(40) rem(80);
+  width: 100%;
+  align-self: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: $md-max-width) {
+    padding: rem(20);
+  }
+}
+
+.inner {
+  min-width: rem(300);
+  max-width: rem(800);
+  @media (max-width: $md-max-width) {
+    max-width: rem(600);
+  }
+  margin: 0 auto;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: nowrap;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: $white;
+  position: relative;
+}
+
+.form {
+  position: relative;
+  z-index: 2;
+  padding: rem(70) rem(70) rem(30);
+  flex-grow: 2;
+}
+
+.sideForm {
+  @media (max-width: $md-max-width) {
+    // padding: rem(30) rem(30) rem(10);
+    display: none;
+  }
+  @extend .full-centering;
+  position: relative;
+  z-index: 2;
+  color: $white;
+  background: $primary;
+  flex-grow: 1;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: rem(50) rem(40) rem(20);
+}

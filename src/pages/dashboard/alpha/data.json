@@ -1,0 +1,77 @@
+{
+  "tableData": [
+    {
+      "key": "1",
+      "id": "1",
+      "descripcion": [
+        "DAVIPAY100",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      ],
+      "descuento": "20",
+      "condiciones": {
+        "Limite de usuarios": 1,
+        "Inicio": "01/01/2019",
+        "Fin": "20/01/2019",
+        "Stock": "200",
+        "Presupuesto": "$2.000.000"
+      },
+      "comercio": [
+        { "tipo": "Comercio", "nombre": "Home Burgers" },
+        { "tipo": "Punto", "nombre": "Home Burgers: Punto A" }
+      ],
+      "segmento": "ENE-099",
+      "stock": "187 / 200",
+      "presupuesto": "$1.800.000 / $2.000.000"
+    },
+    {
+      "key": "2",
+      "id": "1",
+      "descripcion": [
+        "DAVIPAY100",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      ],
+      "descuento": "20",
+      "condiciones": {
+        "Limite de usuarios": 1,
+        "Inicio": "01/01/2019",
+        "Fin": "20/01/2019",
+        "Stock": "200",
+        "Presupuesto": "$2.000.000"
+      },
+      "comercio": [
+        { "Comercio": "Home Burgers" },
+        { "Punto": "Home Burgers A" },
+        { "Punto": "Home Burgers B" },
+        { "Punto": "Home Burgers C" }
+      ],
+      "segmento": "ENE-099",
+      "stock": "187 / 200",
+      "presupuesto": "$1.800.000 / $2.000.000"
+    },
+    {
+      "key": "3",
+      "id": "1",
+      "descripcion": [
+        "DAVIPAY100",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+      ],
+      "descuento": "20",
+      "condiciones": {
+        "Limite de usuarios": 1,
+        "Inicio": "01/01/2019",
+        "Fin": "20/01/2019",
+        "Stock": "200",
+        "Presupuesto": "$2.000.000"
+      },
+      "comercio": [
+        { "Comercio": "Home Burgers" },
+        { "Punto": "Home Burgers A" },
+        { "Punto": "Home Burgers B" },
+        { "Punto": "Home Burgers C" }
+      ],
+      "segmento": "ENE-099",
+      "stock": "187 / 200",
+      "presupuesto": "$1.800.000 / $2.000.000"
+    }
+  ]
+}
