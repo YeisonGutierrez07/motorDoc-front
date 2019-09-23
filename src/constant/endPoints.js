@@ -8,9 +8,16 @@ const AUTH = {
   // LOGIN: "https://a724d7ee.ngrok.io/login"
 }
 
+const COMPANIES = {
+  GET_ALL: `${HOST_SITE_ENDPOINTS}/companies/`,
+  CREATE: `${HOST_SITE_ENDPOINTS}/companies/create`,
+  CHANGE_STATUS: `${HOST_SITE_ENDPOINTS}/companies/changeStatus`,
+  DELETE: `${HOST_SITE_ENDPOINTS}/companies/deleteCompany/`,
+}
 
 export const ENDPOINTS = {
   AUTH,
+  COMPANIES
 }
 
 export default {
