@@ -27,11 +27,9 @@ export async function login(email, password) {
     });
     const dataSave = {
       token: response.data.data.token,
-      dataUser: response.data.data.user,
+      user: response.data.data.user,
       email,
     }
-    console.log(dataSave);
-    
     localStorage.setItem('user', JSON.stringify(dataSave))
     return response.data.data
   } catch (e) {
