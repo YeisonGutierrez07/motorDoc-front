@@ -47,6 +47,16 @@ const routes = [
     component: loadable(() => import('pages/dashboard/beta')),
     exact: true,
   },
+  
+  // Companies 
+  {
+    path: '/companies/dashboard',
+    component: loadable(() => import('pages/companies/dashboard')),
+  },
+  {
+    path: '/companies/form/:id',
+    component: loadable(() => import('pages/companies/cardsForm')),
+  },
 ]
 
 class Router extends React.Component {
