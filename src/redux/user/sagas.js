@@ -46,14 +46,14 @@ export function* LOAD_CURRENT_ACCOUNT(data) {
   })
   const response = yield call(currentAccount, payload)
   if (response.decoded) {
-    const { email, dataUser, token } = payload
+    const { user, token } = payload
 
     yield put({
       type: 'user/SET_STATE',
       payload: {
-        name: `${dataUser.name  } ${  dataUser.last_name}`,
-        email,
-        role: dataUser.role,
+        name: `${user.name  } ${  user.last_name}`,
+        email: user.email,
+        role: user.role,
         token,
         authorized: true,
       },
