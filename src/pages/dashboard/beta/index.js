@@ -8,7 +8,7 @@ class DashboardBeta extends React.Component {
     return (
       <>
         <Helmet title="Crear campaña" />
-        <h1>Beta</h1>
+        <h1>ESTE ES EL TITULO QUE SE MUESTRA AL INICIO</h1>
       </>
     )
   }
