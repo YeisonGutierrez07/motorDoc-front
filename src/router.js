@@ -15,6 +15,12 @@ const loadable = loader =>
   })
 
 const routes = [
+
+  // 404 
+  {
+    path: '/404',
+    component: loadable(() => import('pages/404.js')),
+  },
   // System Pages
   {
     path: '/user/login',
@@ -36,27 +42,35 @@ const routes = [
     component: loadable(() => import('pages/user/resetPassword')),
     exact: true,
   },
-
-  // Dashboards
-  {
-    path: '/dashboard/alpha',
-    component: loadable(() => import('pages/dashboard/alpha')),
-  },
-  {
-    path: '/dashboard/beta',
-    component: loadable(() => import('pages/dashboard/beta')),
-    exact: true,
-  },
   
-  // Companies 
+  // SUPERADMIN PAGES 
   {
-    path: '/companies/dashboard',
-    component: loadable(() => import('pages/companies/dashboard')),
+    path: '/superAdmin/companies',
+    component: loadable(() => import('pages/superAdminPages/companies/dashboard')),
   },
   {
-    path: '/companies/form/:id',
-    component: loadable(() => import('pages/companies/cardsForm')),
+    path: '/superAdmin/formCompanies/:id',
+    component: loadable(() => import('pages/superAdminPages/companies/cardsForm')),
   },
+
+  // COMPANY PAGES 
+   {
+    path: '/company/dashboard',
+    component: loadable(() => import('pages/companyPages/dashboard')),
+  },
+
+  // WORKSHOP PAGES 
+   {
+    path: '/workshopPages/dashboard',
+    component: loadable(() => import('pages/workshopPages/dashboard')),
+  },
+
+  // MECHANIC PAGES 
+  {
+    path: '/mechanicPages/dashboard',
+    component: loadable(() => import('pages/mechanicPages/dashboard')),
+  },
+
 ]
 
 class Router extends React.Component {
@@ -66,7 +80,7 @@ class Router extends React.Component {
       <ConnectedRouter history={history}>
         <IndexLayout>
           <Switch>
-            <Route exact path="/" render={() => <Redirect to="/dashboard/alpha" />} />
+            <Route exact path="/" render={() => <Redirect to="/404" />} />
             {routes.map(route => (
               <Route
                 path={route.path}
