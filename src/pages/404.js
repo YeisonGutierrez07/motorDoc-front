@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
 
 export default class Index extends PureComponent {
   render() {
@@ -30,12 +29,9 @@ export default class Index extends PureComponent {
               margin: '0 auto',
             }}
           >
-            <h1 className="font-size-36 mb-2">Page not found</h1>
-            <p className="mb-3">The page is deprecated, deleted, or does not exist at all</p>
+            <h1 className="font-size-36 mb-2">Página no encontrada</h1>
+            <p className="mb-3">La página no existe o usted no tiene permisos para acceder a ella.</p>
             <h1 className="font-size-80 mb-4 font-weight-bold">404 —</h1>
-            <Link to="/" className="btn">
-              &larr; Go back to the home page
-            </Link>
           </div>
         </div>
       </div>

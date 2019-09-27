@@ -25,13 +25,16 @@ export async function login(email, password) {
       email: email.trim(),
       password: password.trim(),
     });
-    const dataSave = {
-      token: response.data.data.token,
-      user: response.data.data.user,
-      email,
+    if (response.data.status === "200") {
+      const dataSave = {
+        token: response.data.data.token,
+        user: response.data.data.user,
+        email,
+      }
+      localStorage.setItem('user', JSON.stringify(dataSave))
+      return response.data.data
     }
-    localStorage.setItem('user', JSON.stringify(dataSave))
-    return response.data.data
+    return null
   } catch (e) {
     console.log(e);
     return null

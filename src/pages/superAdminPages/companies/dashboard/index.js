@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Authorize from 'components/LayoutComponents/Authorize'
 import { Helmet } from 'react-helmet'
 import { Row, Col, Input, Form, Button } from 'antd';
-import {getAllCompanies} from '../../../services/companies'
+import {getAllCompanies} from '../../../../services/companies'
 import CardCompany from './cardCompany'
 
 const { Search } = Input;
@@ -31,7 +31,7 @@ class BrandsDashboard extends Component {
     const { history } = this.props
 
     return (
-      <Authorize roles={['ADMIN', 'SUPERADMIN']} redirect to="/admin/orders">
+      <Authorize roles={['SUPERADMIN']} redirect to="/404">
         <Helmet title="Empresas" />
         <div className="card">
           <div className="card-body">
@@ -54,7 +54,7 @@ class BrandsDashboard extends Component {
                   </div>
                   <br />
                   <div align="right">
-                    <Button shape="round" type="primary" icon="plus" onClick={() => history.push(`/companies/form/0`)}>
+                    <Button shape="round" type="primary" icon="plus" onClick={() => history.push(`/superAdmin/formCompanies/0`)}>
                       Agregar Empresa
                     </Button>
                   </div>

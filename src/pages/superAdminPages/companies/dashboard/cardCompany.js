@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, Skeleton, Switch, Popconfirm } from 'antd';
-import {changeStatusService, deleteCompanyService} from '../../../services/companies'
+import {changeStatusService, deleteCompanyService} from '../../../../services/companies'
 
 export class CardCompany extends Component {
 
