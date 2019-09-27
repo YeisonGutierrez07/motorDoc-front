@@ -6,7 +6,7 @@ import { Form, Card, Button, Popconfirm } from 'antd';
 import FormUser from './formUser'
 import FormCompany from './formCompany'
 import TabTitle from './tabTitle'
-import {createCompany} from '../../../services/companies'
+import {createCompany} from '../../../../services/companies'
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -54,7 +54,7 @@ class CardsForm extends React.Component {
         companyData.image_company = imageCompany 
         createCompany(companyData)
         .then(() => {
-          history.push(`/companies/dashboard`)
+          history.push(`/superAdmin/companies`)
         })
       }
     })
@@ -106,7 +106,7 @@ class CardsForm extends React.Component {
           <Button.Group size="big">
             <Popconfirm
               title="¿Esta seguro de descartar?"
-              onConfirm={() => history.push(`/companies/dashboard`)}
+              onConfirm={() => history.push(`/superAdmin/companies`)}
               okText="Si"
               cancelText="No"
             >
@@ -124,7 +124,7 @@ class CardsForm extends React.Component {
         <Button.Group size="big">
           <Popconfirm
             title="¿Esta seguro de descartar?"
-            onConfirm={() => history.push(`/companies/dashboard`)}
+            onConfirm={() => history.push(`/superAdmin/companies`)}
             okText="Si"
             cancelText="No"
           >
@@ -148,7 +148,7 @@ class CardsForm extends React.Component {
     }
 
     return (
-      <Authorize roles={['SUPERADMIN']} redirect to="/dashboard/beta">
+      <Authorize roles={['SUPERADMIN']} redirect to="/404">
         <Helmet title="Crear Empresa" />
         <h2 align="center">Formulario de registro de empresas</h2>
         <Card
