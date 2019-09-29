@@ -15,9 +15,14 @@ const COMPANIES = {
   DELETE: `${HOST_SITE_ENDPOINTS}/companies/deleteCompany/`,
 }
 
+const MECHANIC = {
+  GET: `${HOST_SITE_ENDPOINTS}/mechanic/`,
+}
+
 export const ENDPOINTS = {
   AUTH,
-  COMPANIES
+  COMPANIES,
+  MECHANIC
 }
 
 export default {

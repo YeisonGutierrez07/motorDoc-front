@@ -37,8 +37,6 @@ const menuMECHANIC = [
 ]
 
 export function getLeftMenuData() {
-  console.log("AJAJAAJAJ");
-  
   return new Promise((resolve) => {
     setTimeout(() => {
       const state = store.getState()
