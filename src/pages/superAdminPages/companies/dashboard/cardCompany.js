@@ -41,7 +41,7 @@ export class CardCompany extends Component {
         align="center"
       >
         <Skeleton loading={false} avatar>
-          <img style={{ width: '80%' }} src={company.logo} alt="" />
+          <img width='500' height="300" src={company.logo} alt="" />
           <div className="utils__title">
             <br />
             <h4 style={{color:'red'}}>{company.business_name}</h4>

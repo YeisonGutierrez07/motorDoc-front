@@ -1,0 +1,42 @@
+{
+  "ordersGraph": {
+    "labels": ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+    "series": [[4, 7, 5, 3, 5, 8],[3, 5, 3, 2, 5, 7]]
+  },
+  "amountGraph": {
+    "labels": ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado"],
+    "series": [[3, 5, 2, 6, 5, 3], [2, 5, 2, 6, 3, 3]]
+  },
+  "lastClients": [{
+    "key": "1",
+    "name": "Veronica Costello",
+    "date": "05-09-2019",
+    "total": 37.02
+  }, {
+    "key": "2",
+    "name": "David Castro",
+    "date": "05-09-2019",
+    "total": 81.57
+  }, {
+    "key": "3",
+    "name": "Yeison Gutierrez",
+    "date": "05-10-2019",
+    "total": 66.01
+  }, {
+    "key": "4",
+    "name": "Camila Molina",
+    "date": "05-11-2019",
+    "total": 34.02
+  }, {
+    "key": "5",
+    "name": "David Cardozo",
+    "date": "05-12-2019",
+    "total": 81.57
+  },
+  {
+    "key": "5",
+    "name": "Juan Guerrero",
+    "date": "05-12-2019",
+    "total": 81.57
+  }]
+}
