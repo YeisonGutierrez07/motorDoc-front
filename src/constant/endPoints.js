@@ -13,15 +13,23 @@ const COMPANIES = {
   CREATE: `${HOST_SITE_ENDPOINTS}/companies/create`,
   CHANGE_STATUS: `${HOST_SITE_ENDPOINTS}/companies/changeStatus`,
   DELETE: `${HOST_SITE_ENDPOINTS}/companies/deleteCompany/`,
+  MY_COMPANY: `${HOST_SITE_ENDPOINTS}/companies/myCompany`,
+
+}
+
+const WORKSHOP = {
+  GET: `${HOST_SITE_ENDPOINTS}/workshop/`,
 }
 
 const MECHANIC = {
   GET: `${HOST_SITE_ENDPOINTS}/mechanic/`,
+  CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
+  MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/misMechanics`,
 }
-
 export const ENDPOINTS = {
   AUTH,
   COMPANIES,
+  WORKSHOP,
   MECHANIC
 }
 

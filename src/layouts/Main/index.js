@@ -6,7 +6,6 @@ import classNames from 'classnames'
 import TopBar from 'components/LayoutComponents/TopBar'
 import Menu from 'components/LayoutComponents/Menu'
 import Footer from 'components/LayoutComponents/Footer'
-import Breadcrumbs from 'components/LayoutComponents/Breadcrumbs'
 import Settings from 'components/LayoutComponents/Settings'
 
 const mapStateToProps = ({ settings }) => ({
@@ -47,7 +46,6 @@ class MainLayout extends React.PureComponent {
             <TopBar />
           </Layout.Header>
           <Layout.Content style={{ height: '100%', position: 'relative' }}>
-            <Breadcrumbs />
             <div className="utils__content">{children}</div>
           </Layout.Content>
           <Layout.Footer>

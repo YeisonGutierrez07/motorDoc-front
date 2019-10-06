@@ -25,6 +25,12 @@ const menuWORKSHOP = [
     url: '/workshopPages/dashboard',
     icon: 'icmn icmn-home',
   },
+  {
+    title: 'Mecanicos',
+    key: 'mecanicos',
+    url: '/workshopPages/listMechanics',
+    icon: 'icmn icmn-users',
+  },
 ]
 
 const menuMECHANIC = [
