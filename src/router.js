@@ -60,9 +60,17 @@ const routes = [
   },
 
   // WORKSHOP PAGES 
-   {
+  {
     path: '/workshopPages/dashboard',
     component: loadable(() => import('pages/workshopPages/dashboard')),
+  },
+  {
+    path: '/workshopPages/listMechanics',
+    component: loadable(() => import('pages/workshopPages/mechanicCrud/list')),
+  },
+  {
+    path: '/workshopPages/formMechanics/:id',
+    component: loadable(() => import('pages/workshopPages/mechanicCrud/Form')),
   },
 
   // MECHANIC PAGES 
