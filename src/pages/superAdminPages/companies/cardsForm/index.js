@@ -3,7 +3,8 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import Authorize from 'components/LayoutComponents/Authorize'
 import { Form, Card, Button, Popconfirm } from 'antd';
-import FormUser from './formUser'
+import RegisterUser from 'components/GobalComponents/Forms/registerUser'
+
 import FormCompany from './formCompany'
 import TabTitle from './tabTitle'
 import {createCompany} from '../../../../services/companies'
@@ -61,7 +62,6 @@ class CardsForm extends React.Component {
   }
 
   saveImage = base64 => {
-    console.log(base64);
     this.setState({
       profilePic: base64
     })
@@ -91,7 +91,7 @@ class CardsForm extends React.Component {
     ];
 
     const contentList = {
-      tab1: <FormUser formItemLayout={formItemLayout} form={form} saveImage={this.saveImage} />,
+      tab1: <RegisterUser title="Información del Administrador de la empresa" formItemLayout={formItemLayout} form={form} saveImage={this.saveImage} />,
       tab2: <FormCompany formItemLayout={formItemLayout} form={form} saveImageCompany={this.saveImageCompany} />,
     };
     

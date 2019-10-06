@@ -4,8 +4,7 @@ import { ENDPOINTS } from 'constant/endPoints'
 import { notification } from 'antd';
 
 export async function getAllCompanies(name) {
-  console.log(JSON.parse(localStorage.getItem('user')));
-  
+    
   return axios({
       method: 'GET',
       url: `${ENDPOINTS.COMPANIES.GET_ALL}?name=${name}`,     
@@ -95,3 +94,23 @@ export async function deleteCompanyService(id) {
         })
     })
 }
+
+export async function GetMyCompany() {
+    
+    return axios({
+        method: 'GET',
+        url: `${ENDPOINTS.COMPANIES.MY_COMPANY}`,     
+        headers: {
+        authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
+  
+    }).then(response => {
+        return response.data.data
+    })
+    .catch(() => {
+        notification.warning({
+            message: 'Error',
+            description: "Hubo un error consultando los datos.",
+        })
+    })
+  }
