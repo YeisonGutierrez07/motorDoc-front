@@ -114,3 +114,47 @@ export async function GetMyCompany() {
         })
     })
   }
+
+
+export async function getMisWorkShopService() {
+    
+    return axios({
+        method: 'GET',
+        url: `${ENDPOINTS.COMPANIES.MIS_WORKSHOP}`,     
+        headers: {
+        authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
+  
+    }).then(response => {
+        return response.data.data
+    })
+    .catch(() => {
+        notification.warning({
+            message: 'Error',
+            description: "Hubo un error consultando los datos.",
+        })
+    })
+  }
+
+  export async function createWorkShopService(data) {
+    return axios({
+        method: 'POST',
+        url: `${ENDPOINTS.MECHANIC.CREATE}`, 
+        data,    
+        headers: {
+        authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
+    }).then(response => {
+        notification.success({
+            message: 'Exito',
+            description: "Se ha creado el nuevo mecanico con exito.",
+        })
+        return response.data.data
+    })
+    .catch(() => {
+        notification.warning({
+            message: 'Error',
+            description: "Hubo un error consultando los datos.",
+        })
+    })
+  }

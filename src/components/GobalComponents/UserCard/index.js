@@ -26,7 +26,7 @@ class UserCard extends React.Component {
         <div className="text-center">
           <div className="btn-group text-center">
             <Radio.Group size="small">
-              <Radio.Button value="default">Eliminar</Radio.Button>
+              <Radio.Button value="default">Invalidar</Radio.Button>
             </Radio.Group>
           </div>
         </div>
