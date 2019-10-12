@@ -2,21 +2,22 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import Authorize from 'components/LayoutComponents/Authorize'
 import { Row, Col, Tabs, Table, Select, Spin, Alert } from 'antd';
-import { connect } from 'react-redux'
 import {getWorkshopService} from '../../../services/workshops'
 import {ChartistGraphComponent} from '../../../components/GobalComponents/ChartistGraph'
+import {getMisMechanicsService} from '../../../services/mechanic'
+
 import data from './data.json'
 
 const {Option} = Select
 const {TabPane} = Tabs
-@connect(({ user }) => ({ user }))
 class DashboardWorkshp extends React.Component {
 
   state = {
     ordersGraph: data.ordersGraph,
     amountGraph: data.amountGraph,
     lastClients: data.lastClients,
-    company: {},
+    workShop: {},
+    listMechanics:[]
   }
 
   componentDidMount() {
@@ -25,16 +26,24 @@ class DashboardWorkshp extends React.Component {
       console.log("response: ", response);
       
       this.setState({
-        company: response
+        workShop: response
+      })
+    })
+    this.getMechanics()
+  }
+
+  getMechanics = () =>{
+    getMisMechanicsService()
+    .then(listMechanics => {
+      this.setState({
+        listMechanics
       })
     })
   }
 
   render() {
-    const {company, ordersGraph, amountGraph, lastClients} = this.state
-    console.log(company);
+    const {workShop, ordersGraph, amountGraph, lastClients, listMechanics} = this.state
     
-    const {user} = this.props
     const columns = [
       {
         title: 'Nombre',
@@ -66,7 +75,7 @@ class DashboardWorkshp extends React.Component {
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="utils__title">
-                          <h2 style={{color:'red'}}><b>Bienvenido a su taller:</b> {user.name}</h2>
+                          <h2 style={{color:'red'}}><b>Bienvenido a su taller:</b> {workShop.name}</h2>
                           <br />
                         </div>
                       </div>
@@ -117,9 +126,9 @@ class DashboardWorkshp extends React.Component {
                         placeholder="Seleccione"
                         optionFilterProp="children"
                       >
-                        <Option value="jack">Jack</Option>
-                        <Option value="lucy">Lucy</Option>
-                        <Option value="tom">Tom</Option>
+                        {Object.keys(listMechanics).map(c => (
+                          <Option key={listMechanics[c].id} value={listMechanics[c].id}>{listMechanics[c].user.name}</Option> 
+                        ))}
                       </Select>
                     </div>
                     <ChartistGraphComponent title="Grafica por mecanico" data={amountGraph} />
