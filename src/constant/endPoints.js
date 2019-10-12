@@ -14,7 +14,7 @@ const COMPANIES = {
   CHANGE_STATUS: `${HOST_SITE_ENDPOINTS}/companies/changeStatus`,
   DELETE: `${HOST_SITE_ENDPOINTS}/companies/deleteCompany/`,
   MY_COMPANY: `${HOST_SITE_ENDPOINTS}/companies/myCompany`,
-
+  MIS_WORKSHOP: `${HOST_SITE_ENDPOINTS}/companies/misWorkShop`,
 }
 
 const WORKSHOP = {

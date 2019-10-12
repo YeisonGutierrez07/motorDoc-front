@@ -16,6 +16,12 @@ const menuCOMPANY = [
     url: '/company/dashboard',
     icon: 'icmn icmn-home',
   },
+  {
+    title: 'Talleres',
+    key: 'formTaller',
+    url: '/company/list',
+    icon: 'icmn icmn-users',
+  },
 ]
 
 const menuWORKSHOP = [

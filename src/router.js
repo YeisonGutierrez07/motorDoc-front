@@ -58,6 +58,14 @@ const routes = [
     path: '/company/dashboard',
     component: loadable(() => import('pages/companyPages/dashboard')),
   },
+  {
+    path: '/company/list',
+    component: loadable(() => import('pages/companyPages/companyCrud/list')),
+  },
+  {
+    path: '/company/form/:id',
+    component: loadable(() => import('pages/companyPages/companyCrud/Form')),
+  },
 
   // WORKSHOP PAGES 
   {
