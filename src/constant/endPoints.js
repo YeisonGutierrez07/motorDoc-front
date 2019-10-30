@@ -1,12 +1,12 @@
-import { HOST_SITE_ENDPOINTS } from './base'
+import { HOST_SITE_ENDPOINTS } from "./base";
 
 const AUTH = {
   LOGIN: `${HOST_SITE_ENDPOINTS}/login`,
   REQUEST_RESET_PASSWORD: `${HOST_SITE_ENDPOINTS}/user/RequestResetPassword`,
   RESET_PASSWORD: `${HOST_SITE_ENDPOINTS}/user/ResetPassword`,
-  USERS: `${HOST_SITE_ENDPOINTS}/user/listUsers/`,
+  USERS: `${HOST_SITE_ENDPOINTS}/user/listUsers/`
   // LOGIN: "https://a724d7ee.ngrok.io/login"
-}
+};
 
 const COMPANIES = {
   GET_ALL: `${HOST_SITE_ENDPOINTS}/companies/`,
@@ -14,25 +14,26 @@ const COMPANIES = {
   CHANGE_STATUS: `${HOST_SITE_ENDPOINTS}/companies/changeStatus`,
   DELETE: `${HOST_SITE_ENDPOINTS}/companies/deleteCompany/`,
   MY_COMPANY: `${HOST_SITE_ENDPOINTS}/companies/myCompany`,
-  MIS_WORKSHOP: `${HOST_SITE_ENDPOINTS}/companies/misWorkShop`,
-}
+  MIS_WORKSHOP: `${HOST_SITE_ENDPOINTS}/companies/myWorkShop`
+};
 
 const WORKSHOP = {
   GET: `${HOST_SITE_ENDPOINTS}/workshop/`,
-}
+  CREATE: `${HOST_SITE_ENDPOINTS}/workshop/create`
+};
 
 const MECHANIC = {
   GET: `${HOST_SITE_ENDPOINTS}/mechanic/`,
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
-  MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/misMechanics`,
-}
+  MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`
+};
 export const ENDPOINTS = {
   AUTH,
   COMPANIES,
   WORKSHOP,
   MECHANIC
-}
+};
 
 export default {
-  ...ENDPOINTS,
-}
+  ...ENDPOINTS
+};
