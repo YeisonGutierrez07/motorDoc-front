@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import { Card, Button, Modal, Row, Col, Collapse, Spin } from 'antd';
+import React, { Component } from "react";
+import { Card, Button, Modal, Row, Col, Collapse, Spin } from "antd";
 
 const { Panel } = Collapse;
 
 export class MoreInfoCard extends Component {
-
-  state={
-    visible:false,
-  }
+  state = {
+    visible: false
+  };
 
   optionModal = status => {
     this.setState({
-      visible:status,
-    })
-  }
+      visible: status
+    });
+  };
 
-  getInfoModal = (dataShow) => {
+  getInfoModal = dataShow => {
     if (!dataShow.user) {
-      return <Spin size="small" />
+      return <Spin size="small" />;
     }
     return (
       <>
@@ -25,7 +24,7 @@ export class MoreInfoCard extends Component {
           <b>Gerente:</b>
         </Col>
         <Col md={18} xs={24}>
-          {`${dataShow.user.name  } ${ dataShow.user.last_name}`}
+          {`${dataShow.user.name} ${dataShow.user.last_name}`}
         </Col>
         <Col md={6} xs={24}>
           <b>Correo:</b>
@@ -46,13 +45,13 @@ export class MoreInfoCard extends Component {
           {dataShow.user.address}
         </Col>
       </>
-    )
-  }
+    );
+  };
 
   additionalInformation = () => {
-    const {modalData, type} = this.props
+    const { modalData, type } = this.props;
     if (!modalData.user) {
-      return <Spin size="small" />
+      return <Spin size="small" />;
     }
     if (type === 1) {
       return (
@@ -60,7 +59,7 @@ export class MoreInfoCard extends Component {
           {this.getInfoModal(modalData)}
           <Col md={24} xs={24}>
             <br />
-            <h4 style={{color:'red'}}>Todos los talleres:</h4>
+            <h4 style={{ color: "red" }}>Todos los talleres:</h4>
             <br />
             <Collapse>
               {modalData.workshops.map(dataWorkshop => (
@@ -71,34 +70,44 @@ export class MoreInfoCard extends Component {
             </Collapse>
           </Col>
         </Row>
-      )
-    } if (type === 2) {
-      return (
-        <Row gutter={20}>
-          {this.getInfoModal(modalData)}
-        </Row>
-      )
+      );
     }
-    return null
-  }
+    if (type === 2) {
+      return <Row gutter={20}>{this.getInfoModal(modalData)}</Row>;
+    }
+    return null;
+  };
 
   render() {
-    const {moreData} = this.props
-    const {visible} = this.state
+    const { moreData, title } = this.props;
+    const { visible } = this.state;
     return (
       <>
         <Modal
-          title={<h4 style={{color:'red'}}>Información Adicional</h4>}
+          title={<h4 style={{ color: "red" }}>Información Adicional</h4>}
           visible={visible}
           onCancel={() => this.optionModal(false)}
           footer={null}
         >
           {this.additionalInformation()}
         </Modal>
-        <Card size="small" title="Información de mi empresa" extra={<Button type="link" className="gray" onClick={() => this.optionModal(true)}><u>Saber Mas</u></Button>} style={{ width: '100%' }}>
+        <Card
+          size="small"
+          title={title}
+          extra={
+            <Button
+              type="link"
+              className="gray"
+              onClick={() => this.optionModal(true)}
+            >
+              <u>Saber Mas</u>
+            </Button>
+          }
+          style={{ width: "100%" }}
+        >
           <div align="center">
-            <img width='500' height="300" src={moreData.logo} alt="Imagen" />
-            <h4 style={{color:'red'}}>{moreData.name}</h4>
+            <img width="500" height="300" src={moreData.logo} alt="Imagen" />
+            <h4 style={{ color: "red" }}>{moreData.name}</h4>
             <p>{moreData.more}</p>
           </div>
         </Card>
