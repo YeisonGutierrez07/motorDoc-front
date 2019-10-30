@@ -5,7 +5,7 @@ import Authorize from "components/LayoutComponents/Authorize";
 import { Form, Card, Button, Popconfirm } from "antd";
 import RegisterUser from "components/GobalComponents/Forms/registerUser";
 import TabTitle from "components/GobalComponents/tabTitle";
-// import {createWorkShopService} from '../../../../services/companies'
+import { createWorkshopService } from "../../../../services/workshops";
 import FormWorkShop from "./formWorkShop";
 
 const formItemLayout = {
@@ -22,19 +22,15 @@ class CardsForm extends React.Component {
 
   handleSubmit = () => {
     const { workShopData, imageWorkshop } = this.state;
-    const { form } = this.props;
+    const { form, history } = this.props;
     form.validateFields((err, values) => {
-      console.log(values);
-
       if (!err) {
         workShopData.address_workshop = values.addressWorkshop;
         workShopData.name_workshop = values.nameWorkshop;
         workShopData.imageWorkshop = imageWorkshop;
-        // createCompany(workShopData)
-        // .then(() => {
-        //   history.push(`/superAdmin/companies`)
-        // })
-        console.log(workShopData);
+        createWorkshopService(workShopData).then(() => {
+          history.push(`/superAdmin/companies`);
+        });
       }
     });
   };
@@ -142,7 +138,7 @@ class CardsForm extends React.Component {
         <Button.Group size="big">
           <Popconfirm
             title="¿Esta seguro de descartar?"
-            onConfirm={() => history.push(`/superAdmin/companies`)}
+            onConfirm={() => history.push(`/company/list`)}
             okText="Si"
             cancelText="No"
           >
