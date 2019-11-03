@@ -1,94 +1,111 @@
-import { store } from 'index'
+import { store } from "index";
 
 const menuSUPERADMIN = [
   {
-    title: 'Empresas',
-    key: 'companies',
-    url: '/superAdmin/companies',
-    icon: 'icmn icmn-home',
-  },
-]
+    title: "Empresas",
+    key: "companies",
+    url: "/superAdmin/companies",
+    icon: "icmn icmn-home"
+  }
+];
 
 const menuCOMPANY = [
   {
-    title: 'Principal',
-    key: 'companies',
-    url: '/company/dashboard',
-    icon: 'icmn icmn-home',
+    title: "Principal",
+    key: "companies",
+    url: "/company/dashboard",
+    icon: "icmn icmn-home"
   },
   {
-    title: 'Talleres',
-    key: 'formTaller',
-    url: '/company/list',
-    icon: 'icmn icmn-users',
-  },
-]
+    title: "Talleres",
+    key: "formTaller",
+    url: "/company/list",
+    icon: "icmn icmn-users"
+  }
+];
 
 const menuWORKSHOP = [
   {
-    title: 'Principal',
-    key: 'companies',
-    url: '/workshopPages/dashboard',
-    icon: 'icmn icmn-home',
+    title: "Principal",
+    key: "companies",
+    url: "/workshopPages/dashboard",
+    icon: "icmn icmn-home"
   },
   {
-    title: 'Mecanicos',
-    key: 'mecanicos',
-    url: '/workshopPages/listMechanics',
-    icon: 'icmn icmn-users',
-  },
-]
+    title: "Mecanicos",
+    key: "mecanicos",
+    url: "/workshopPages/listMechanics",
+    icon: "icmn icmn-users"
+  }
+];
 
 const menuMECHANIC = [
   {
-    title: 'Principal',
-    key: 'companies',
-    url: '/mechanicPages/dashboard',
-    icon: 'icmn icmn-home',
-  },
-]
+    title: "Principal",
+    key: "dashoboard",
+    url: "/mechanicPages/dashboard",
+    icon: "icmn icmn-home"
+  }
+];
+
+const menuCLIENT = [
+  {
+    title: "Principal",
+    key: "dashoboard",
+    url: "/clientsPages/dashboard",
+    icon: "icmn icmn-home"
+  }
+];
 
 export function getLeftMenuData() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      const state = store.getState()
-      switch(state.user.role){
-        case "SUPERADMIN": 
+      const state = store.getState();
+      switch (state.user.role) {
+        case "SUPERADMIN":
           resolve(menuSUPERADMIN);
           break;
-        case "COMPANY": 
+        case "COMPANY":
           resolve(menuCOMPANY);
           break;
-        case "WORKSHOP": 
+        case "WORKSHOP":
           resolve(menuWORKSHOP);
           break;
-        case "MECHANIC": 
+        case "MECHANIC":
           resolve(menuMECHANIC);
           break;
-        default: resolve([]);
+        case "CLIENT":
+          resolve(menuCLIENT);
+          break;
+        default:
+          resolve([]);
       }
     }, 10);
-  })
+  });
 }
 export async function getTopMenuData() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
-      const state = store.getState()
-      switch(state.user.role){
-        case "SUPERADMIN": 
+      const state = store.getState();
+      switch (state.user.role) {
+        case "SUPERADMIN":
           resolve(menuSUPERADMIN);
           break;
-        case "COMPANY": 
+        case "COMPANY":
           resolve(menuCOMPANY);
           break;
-        case "WORKSHOP": 
+        case "WORKSHOP":
           resolve(menuWORKSHOP);
           break;
-        case "MECHANIC": 
+        case "MECHANIC":
           resolve(menuMECHANIC);
           break;
-        default: resolve([]);
+        case "CLIENT":
+          resolve(menuCLIENT);
+          break;
+        default:
+          resolve([]);
       }
     }, 10);
-  })
+  });
 }

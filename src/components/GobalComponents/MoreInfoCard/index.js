@@ -36,7 +36,7 @@ export class MoreInfoCard extends Component {
           <b>Telefono:</b>
         </Col>
         <Col md={18} xs={24}>
-          {dataShow.user.mobilephone}
+          {dataShow.user.mobile_phone}
         </Col>
         <Col md={6} xs={24}>
           <b>Sede principal:</b>

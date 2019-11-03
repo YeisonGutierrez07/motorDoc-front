@@ -1,20 +1,20 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import { Menu, Dropdown, Avatar, Badge } from 'antd'
-import styles from './style.module.scss'
+import React from "react";
+import { connect } from "react-redux";
+import { Menu, Dropdown, Avatar, Badge } from "antd";
+import styles from "./style.module.scss";
 
 @connect(({ user }) => ({ user }))
 class ProfileMenu extends React.Component {
   state = {
-    count: 0,
-  }
+    count: 0
+  };
 
   logout = () => {
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch({
-      type: 'user/LOGOUT',
-    })
-  }
+      type: "user/LOGOUT"
+    });
+  };
 
   addCount = () => {
     /* 
@@ -24,22 +24,22 @@ class ProfileMenu extends React.Component {
       count,
     })
     */
-  }
+  };
 
   render() {
-    const { user } = this.props
-    const { count } = this.state
+    const { user } = this.props;
+    const { count } = this.state;
     const menu = (
       <Menu selectable={false}>
         <Menu.Item>
-          <strong>Hola: {user.name || 'Anonymous'}</strong>
+          <strong>Hola: {user.name || "Anonymous"}</strong>
           <br />
           <strong>Email:</strong>
           {user.email}
         </Menu.Item>
         <Menu.Divider />
         <Menu.Item>
-          <a href="#">
+          <a href="/#/globals/resetPassword">
             <i className={`${styles.menuIcon} icmn-lock`} />
             Cambiar contraseña
           </a>
@@ -52,17 +52,26 @@ class ProfileMenu extends React.Component {
           </a>
         </Menu.Item>
       </Menu>
-    )
+    );
     return (
-      <Dropdown overlay={menu} trigger={['click']} onVisibleChange={this.addCount}>
+      <Dropdown
+        overlay={menu}
+        trigger={["click"]}
+        onVisibleChange={this.addCount}
+      >
         <div className={styles.dropdown}>
           <Badge count={count}>
-            <Avatar className={styles.avatar} shape="square" size="large" icon="user" />
+            <Avatar
+              className={styles.avatar}
+              shape="square"
+              size="large"
+              icon="user"
+            />
           </Badge>
         </div>
       </Dropdown>
-    )
+    );
   }
 }
 
-export default ProfileMenu
+export default ProfileMenu;

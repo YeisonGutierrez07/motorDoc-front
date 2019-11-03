@@ -13,8 +13,6 @@ export class list extends Component {
 
   componentDidMount() {
     getMisWorkShopService().then(listMechanics => {
-      console.log(listMechanics);
-
       this.setState({
         listMechanics
       });

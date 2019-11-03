@@ -1,31 +1,31 @@
-import React, { Component } from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
-import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import styles from './style.module.scss'
+import React, { Component } from "react";
+import { Form, Input, Button, Checkbox } from "antd";
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import styles from "./style.module.scss";
 
 @Form.create()
 @connect(({ user }) => ({ user }))
 class Login extends Component {
   onSubmit = event => {
-    event.preventDefault()
-    const { form, dispatch } = this.props
+    event.preventDefault();
+    const { form, dispatch } = this.props;
     form.validateFields((error, values) => {
       if (!error) {
         dispatch({
-          type: 'user/LOGIN',
-          payload: values,
-        })
+          type: "user/LOGIN",
+          payload: values
+        });
       }
-    })
-  }
+    });
+  };
 
   render() {
     const {
       form,
-      user: { loading },
-    } = this.props
+      user: { loading }
+    } = this.props;
     return (
       <div>
         <Helmet title="Login" />
@@ -42,7 +42,7 @@ class Login extends Component {
                             src="resources/imagesMD/logo_claro.png"
                             className="img-fluid"
                             style={{
-                              width: '70%',
+                              width: "70%"
                             }}
                             alt="DaviPay"
                           />
@@ -56,26 +56,43 @@ class Login extends Component {
                         onSubmit={this.onSubmit}
                       >
                         <Form.Item label="Correo electrónico">
-                          {form.getFieldDecorator('email', {
+                          {form.getFieldDecorator("email", {
                             // initialValue: 'admin@mediatec.org',
                             rules: [
-                              { required: true, message: 'Porfavor ingrese su correo electrónico' },
-                            ],
+                              {
+                                required: true,
+                                message:
+                                  "Porfavor ingrese su correo electrónico"
+                              }
+                            ]
                           })(<Input size="default" />)}
                         </Form.Item>
                         <Form.Item label="Contraseña">
-                          {form.getFieldDecorator('password', {
+                          {form.getFieldDecorator("password", {
                             // initialValue: 'cleanui',
-                            rules: [{ required: true, message: 'Porfavor ingrese su contraseña' }],
-                          })(<Input.Password placeholder="Porfavor ingrese su contraseña" />)}
+                            rules: [
+                              {
+                                required: true,
+                                message: "Porfavor ingrese su contraseña"
+                              }
+                            ]
+                          })(
+                            <Input.Password placeholder="Porfavor ingrese su contraseña" />
+                          )}
                         </Form.Item>
                         <Form.Item>
-                          {form.getFieldDecorator('remember', {
-                            valuePropName: 'checked',
+                          {form.getFieldDecorator("remember", {
+                            valuePropName: "checked"
                             // initialValue: true,
                           })(<Checkbox>Recordarme</Checkbox>)}
-                          <Link to="/user/forgot" className="utils__link--underlined pull-right">
+                          {/* <Link to="/user/forgot" className="utils__link--underlined pull-right">
                             ¿Olvidó su contraseña?
+                          </Link> */}
+                          <Link
+                            to="/user/register"
+                            className="utils__link--underlined pull-right"
+                          >
+                            ¿Desea crear una cuenta?
                           </Link>
                         </Form.Item>
                         <Button
@@ -90,33 +107,39 @@ class Login extends Component {
                       <div>
                         <small
                           style={{
-                            display: 'inline-block',
-                            lineHeight: 'normal',
-                            textAlign: 'justify',
-                            color: '#B6B5BB',
+                            display: "inline-block",
+                            lineHeight: "normal",
+                            textAlign: "justify",
+                            color: "#B6B5BB"
                           }}
                         >
-                          Mostrando 1 a Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                          do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                          minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                          ea commodo consequat. 10 de 634 puntos de venta
+                          Mostrando 1 a Lorem ipsum dolor sit amet, consectetur
+                          adipiscing elit, sed do eiusmod tempor incididunt ut
+                          labore et dolore magna aliqua. Ut enim ad minim
+                          veniam, quis nostrud exercitation ullamco laboris nisi
+                          ut aliquip ex ea commodo consequat. 10 de 634 puntos
+                          de venta
                         </small>
                       </div>
                     </div>
                   </div>
                   <div className={`${styles.sideForm}`}>
-                    <div style={{ width: '100%' }} className="mb-5">
-                      <strong className="text-left" style={{ fontSize: '1.35rem' }}>
+                    <div style={{ width: "100%" }} className="mb-5">
+                      <strong
+                        className="text-left"
+                        style={{ fontSize: "1.35rem" }}
+                      >
                         Bienvenido a MotorDoc
                       </strong>
                     </div>
                     <div className="mb-4 ludwig ludwig--info">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                      incididunt ut labore et dolore magna aliqua.
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua.
                     </div>
                     <div className="ludwig ludwig--info">
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                      aliquip ex ea commodo consequat.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                      laboris nisi ut aliquip ex ea commodo consequat.
                     </div>
                   </div>
                 </div>
@@ -125,8 +148,8 @@ class Login extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default Login
+export default Login;

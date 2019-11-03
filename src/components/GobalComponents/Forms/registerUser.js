@@ -76,7 +76,7 @@ export class RegisterUser extends Component {
             </Col>
             <Col md={12} xs={24}>
               <FormItem {...formItemLayout} label="Celular: ">
-                {form.getFieldDecorator("mobilePhone", {
+                {form.getFieldDecorator("mobile_phone", {
                   rules: [
                     {
                       required: true,

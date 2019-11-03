@@ -31,7 +31,7 @@ class CardsForm extends React.Component {
         companyData.credential = values.credential;
         companyData.email = values.email;
         companyData.last_name = values.lastName;
-        companyData.mobile_phone = values.mobilePhone;
+        companyData.mobile_phone = values.mobile_phone;
         companyData.name = values.name;
         companyData.profile_pic = profilePic;
 
