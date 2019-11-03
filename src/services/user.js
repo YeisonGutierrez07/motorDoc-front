@@ -1,114 +1,123 @@
-import { notification } from 'antd'
-import { ENDPOINTS } from 'constant/endPoints'
+import { notification } from "antd";
+import { ENDPOINTS } from "constant/endPoints";
 // import jwt from 'jsonwebtoken'
-import _ from 'lodash'
-import axios from 'axios'
-import { store } from 'index'
+import _ from "lodash";
+import axios from "axios";
+import { store } from "index";
 // import { JWT_SECRET } from 'constant/base'
 
 export const getAuth = () => {
-  const state = store.getState()
+  const state = store.getState();
   const response = {
-    'Content-Type': 'application/json',
-  }
+    "Content-Type": "application/json"
+  };
   if (state.user.token) {
-    response.Authorization = `Bearer ${state.user.token.token.token}`
+    response.Authorization = `Bearer ${state.user.token.token.token}`;
   }
   return {
-    ...response,
-  }
-}
+    ...response
+  };
+};
 
 export async function login(email, password) {
   try {
     const response = await axios.post(`${ENDPOINTS.AUTH.LOGIN}`, {
       email: email.trim(),
-      password: password.trim(),
+      password: password.trim()
     });
     if (response.data.status === "200") {
       const dataSave = {
         token: response.data.data.token,
         user: response.data.data.user,
-        email,
-      }
-      localStorage.setItem('user', JSON.stringify(dataSave))
-      return response.data.data
+        email
+      };
+      localStorage.setItem("user", JSON.stringify(dataSave));
+      return response.data.data;
     }
-    return null
+    return null;
   } catch (e) {
     console.log(e);
-    return null
+    return null;
   }
 }
 
-export function requestResetPassword(email) {
+export function createNewUser(data) {
   return new Promise((resolve, reject) => {
-    const bodyFormData = new FormData()
-    bodyFormData.set('email', email)
-
     return axios({
-      method: 'post',
-      url: `${ENDPOINTS.AUTH.REQUEST_RESET_PASSWORD}`,
-      data: bodyFormData,
-      config: { headers: { 'Content-Type': 'multipart/form-data' } },
+      method: "POST",
+      url: `${ENDPOINTS.AUTH.REGISTER}`,
+      data
     })
       .then(response => {
         notification.success({
-          message: 'Exito',
-          description: 'Solictud de recuperacion de correo enviada',
-        })
-        resolve(response)
+          message: "Exito",
+          description:
+            "Se Creo su cuenta con exito, ya puedes usar todos nuestros servicios."
+        });
+        resolve(response);
       })
       .catch(() => {
         notification.error({
-          message: 'Error',
-          description: 'No se ha podido enviar la solicitud.',
-        })
-        reject()
-      })
-  })
+          message: "Error",
+          description: "No se ha podido enviar la solicitud."
+        });
+        reject();
+      });
+  });
 }
 
-export function resetPassword(bodyFormData) {
+export function resetPasswordService(data) {
   return new Promise((resolve, reject) => {
     return axios({
-      method: 'post',
+      method: "PUT",
       url: `${ENDPOINTS.AUTH.RESET_PASSWORD}`,
-      data: bodyFormData,
-      config: { headers: { 'Content-Type': 'multipart/form-data' } },
+      data,
+      headers: {
+        authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`
+      }
     })
       .then(response => {
-        notification.success({
-          message: 'Exito',
-          description: 'Se cambio la contraseña con exito',
-        })
-        resolve(response)
+        if (response.status === 200) {
+          notification.success({
+            message: "Exito",
+            description: "Se cambio la contraseña con exito"
+          });
+          resolve(response);
+        } else {
+          notification.warning({
+            message: "Error",
+            description: response.data.message
+          });
+          reject();
+        }
       })
       .catch(() => {
         notification.error({
-          message: 'Error',
-          description: 'No se podido enviar la solicitud.',
-        })
-        reject()
-      })
-  })
+          message: "Error",
+          description: "No se podido enviar la solicitud."
+        });
+        reject();
+      });
+  });
 }
 
 export async function currentAccount({ token, ...data }) {
   let decoded = {
     decoded: null,
-    token: null,
-  }
+    token: null
+  };
   if (!_.isEmpty(token)) {
     decoded = {
       decoded: true, // jwt.verify(token, JWT_SECRET),
       token: {
         token,
-        ...data,
-      },
-    }
+        ...data
+      }
+    };
   }
-  return decoded
+  return decoded;
 }
 
 export async function logout() {
@@ -117,5 +126,5 @@ export async function logout() {
     .signOut()
     .then(() => true)
     */
-  return true
+  return true;
 }

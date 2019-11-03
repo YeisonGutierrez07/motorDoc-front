@@ -1,0 +1,44 @@
+@import "assets/styles/mixins.scss";
+
+.login {
+  background-size: cover;
+  background-color: $gray-lighten-more;
+  background-position: center center;
+}
+
+.titleLogo {
+  font-size: -webkit-xxx-large !important;
+  color: red;
+}
+
+.block {
+  padding: rem(40) rem(40) rem(80);
+  width: 100%;
+  align-self: center;
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: $md-max-width) {
+    padding: rem(20);
+  }
+}
+
+.inner {
+  min-width: rem(300);
+  max-width: rem(500);
+  @media (max-width: $md-max-width) {
+    max-width: rem(600);
+  }
+  padding: rem(70) rem(70) rem(70);
+  margin: 0 auto;
+
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: $white;
+  position: relative;
+}
+
+.form {
+  position: relative;
+  z-index: 2;
+}

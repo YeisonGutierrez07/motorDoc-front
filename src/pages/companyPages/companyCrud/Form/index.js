@@ -46,14 +46,12 @@ class CardsForm extends React.Component {
     const { form } = this.props;
 
     form.validateFields((err, values) => {
-      console.log(values);
-
       if (!err) {
         workShopData.address = values.address;
         workShopData.credential = values.credential;
         workShopData.email = values.email;
         workShopData.last_name = values.lastName;
-        workShopData.mobile_phone = values.mobilePhone;
+        workShopData.mobile_phone = values.mobile_phone;
         workShopData.name = values.name;
         workShopData.profile_pic = profilePic;
 

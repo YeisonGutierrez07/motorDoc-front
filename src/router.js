@@ -1,97 +1,113 @@
-import React from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
-import { ConnectedRouter } from 'connected-react-router'
-import Loadable from 'react-loadable'
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+import Loadable from "react-loadable";
 
-import Loader from 'components/LayoutComponents/Loader'
-import IndexLayout from 'layouts'
-import NotFoundPage from 'pages/404'
+import Loader from "components/LayoutComponents/Loader";
+import IndexLayout from "layouts";
+import NotFoundPage from "pages/404";
 
 const loadable = loader =>
   Loadable({
     loader,
     delay: false,
-    loading: () => <Loader />,
-  })
+    loading: () => <Loader />
+  });
 
 const routes = [
-
-  // 404 
+  // 404
   {
-    path: '/404',
-    component: loadable(() => import('pages/404.js')),
+    path: "/404",
+    component: loadable(() => import("pages/404.js"))
   },
   // System Pages
   {
-    path: '/user/login',
-    component: loadable(() => import('pages/user/login')),
-    exact: true,
+    path: "/user/register",
+    component: loadable(() => import("pages/user/createUser")),
+    exact: true
   },
   {
-    path: '/logout',
-    component: loadable(() => import('pages/user/logout')),
-    exact: true,
+    path: "/user/login",
+    component: loadable(() => import("pages/user/login")),
+    exact: true
   },
   {
-    path: '/user/forgot',
-    component: loadable(() => import('pages/user/forgot')),
-    exact: true,
+    path: "/logout",
+    component: loadable(() => import("pages/user/logout")),
+    exact: true
   },
   {
-    path: '/user/resetPassword/:token',
-    component: loadable(() => import('pages/user/resetPassword')),
-    exact: true,
-  },
-  
-  // SUPERADMIN PAGES 
-  {
-    path: '/superAdmin/companies',
-    component: loadable(() => import('pages/superAdminPages/companies/dashboard')),
+    path: "/user/forgot",
+    component: loadable(() => import("pages/user/forgot")),
+    exact: true
   },
   {
-    path: '/superAdmin/formCompanies/:id',
-    component: loadable(() => import('pages/superAdminPages/companies/cardsForm')),
+    path: "/globals/resetPassword",
+    component: loadable(() => import("pages/globalPages/resetPassword"))
   },
 
-  // COMPANY PAGES 
-   {
-    path: '/company/dashboard',
-    component: loadable(() => import('pages/companyPages/dashboard')),
+  // SUPERADMIN PAGES
+  {
+    path: "/superAdmin/companies",
+    component: loadable(() =>
+      import("pages/superAdminPages/companies/dashboard")
+    )
   },
   {
-    path: '/company/list',
-    component: loadable(() => import('pages/companyPages/companyCrud/list')),
-  },
-  {
-    path: '/company/form/:id',
-    component: loadable(() => import('pages/companyPages/companyCrud/Form')),
+    path: "/superAdmin/formCompanies/:id",
+    component: loadable(() =>
+      import("pages/superAdminPages/companies/cardsForm")
+    )
   },
 
-  // WORKSHOP PAGES 
+  // COMPANY PAGES
   {
-    path: '/workshopPages/dashboard',
-    component: loadable(() => import('pages/workshopPages/dashboard')),
+    path: "/company/dashboard",
+    component: loadable(() => import("pages/companyPages/dashboard"))
   },
   {
-    path: '/workshopPages/listMechanics',
-    component: loadable(() => import('pages/workshopPages/mechanicCrud/list')),
+    path: "/company/list",
+    component: loadable(() => import("pages/companyPages/companyCrud/list"))
   },
   {
-    path: '/workshopPages/formMechanics/:id',
-    component: loadable(() => import('pages/workshopPages/mechanicCrud/Form')),
-  },
-
-  // MECHANIC PAGES 
-  {
-    path: '/mechanicPages/dashboard',
-    component: loadable(() => import('pages/mechanicPages/dashboard')),
+    path: "/company/form/:id",
+    component: loadable(() => import("pages/companyPages/companyCrud/Form"))
   },
 
-]
+  // WORKSHOP PAGES
+  {
+    path: "/workshopPages/dashboard",
+    component: loadable(() => import("pages/workshopPages/dashboard"))
+  },
+  {
+    path: "/workshopPages/listMechanics",
+    component: loadable(() => import("pages/workshopPages/mechanicCrud/list"))
+  },
+  {
+    path: "/workshopPages/formMechanics/:id",
+    component: loadable(() => import("pages/workshopPages/mechanicCrud/Form"))
+  },
+
+  // MECHANIC PAGES
+  {
+    path: "/mechanicPages/dashboard",
+    component: loadable(() => import("pages/mechanicPages/dashboard"))
+  },
+
+  // CLIENT PAGES
+  {
+    path: "/clientsPages/dashboard",
+    component: loadable(() => import("pages/clientsPages/dashboard"))
+  },
+  {
+    path: "/clientsPages/workshpsList",
+    component: loadable(() => import("pages/clientsPages/workshpsList"))
+  }
+];
 
 class Router extends React.Component {
   render() {
-    const { history } = this.props
+    const { history } = this.props;
     return (
       <ConnectedRouter history={history}>
         <IndexLayout>
@@ -109,8 +125,8 @@ class Router extends React.Component {
           </Switch>
         </IndexLayout>
       </ConnectedRouter>
-    )
+    );
   }
 }
 
-export default Router
+export default Router;
