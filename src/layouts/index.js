@@ -1,29 +1,29 @@
-import React, { Fragment } from 'react'
-import { withRouter, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
-import NProgress from 'nprogress'
-import { Helmet } from 'react-helmet'
-import Loader from 'components/LayoutComponents/Loader'
-import PublicLayout from './Public'
-import LoginLayout from './Login'
-import MainLayout from './Main'
+import React, { Fragment } from "react";
+import { withRouter, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import NProgress from "nprogress";
+import { Helmet } from "react-helmet";
+import Loader from "components/LayoutComponents/Loader";
+import PublicLayout from "./Public";
+import LoginLayout from "./Login";
+import MainLayout from "./Main";
 
 const Layouts = {
   public: PublicLayout,
   login: LoginLayout,
-  main: MainLayout,
-}
+  main: MainLayout
+};
 
 @withRouter
 @connect(({ user }) => ({ user }))
 class IndexLayout extends React.PureComponent {
-  previousPath = ''
+  previousPath = "";
 
   componentDidUpdate(prevProps) {
-    const { location } = this.props
-    const { prevLocation } = prevProps
+    const { location } = this.props;
+    const { prevLocation } = prevProps;
     if (location !== prevLocation) {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     }
   }
 
@@ -31,67 +31,72 @@ class IndexLayout extends React.PureComponent {
     const {
       children,
       location: { pathname, search },
-      user,
-    } = this.props
+      user
+    } = this.props;
 
     // NProgress Management
-    const currentPath = pathname + search
+    const currentPath = pathname + search;
     if (currentPath !== this.previousPath) {
-      NProgress.start()
+      NProgress.start();
     }
 
     setTimeout(() => {
-      NProgress.done()
-      this.previousPath = currentPath
-    }, 300)
+      NProgress.done();
+      this.previousPath = currentPath;
+    }, 300);
 
     // Layout Rendering
     const getLayout = () => {
-      if (pathname === '/') {
-        return 'public'
+      if (pathname === "/") {
+        return "public";
       }
       if (/^\/user(?=\/|$)/i.test(pathname)) {
-        return 'login'
+        return "login";
       }
-      return 'main'
-    }
+      return "main";
+    };
 
-    const Container = Layouts[getLayout()]
-    const isUserAuthorized = user.authorized
-    const isUserLoading = user.loading
-    const isLoginLayout = getLayout() === 'login'
+    const Container = Layouts[getLayout()];
+    const isUserAuthorized = user.authorized;
+    const isUserLoading = user.loading;
+    const isLoginLayout = getLayout() === "login";
 
     const BootstrappedLayout = () => {
       // show loader when user in check authorization process, not authorized yet and not on login pages
       if (isUserLoading && !isUserAuthorized && !isLoginLayout) {
-        return <Loader />
+        return <Loader />;
       }
       // redirect to login page if current is not login page and user not authorized
       if (!isLoginLayout && !isUserAuthorized) {
-        return <Redirect to="/user/login" />
-        
+        return <Redirect to="/user/login" />;
       }
       // redirect to main dashboard when user on login page and authorized
       if (isLoginLayout && isUserAuthorized) {
-        switch(user.role){
-          case "SUPERADMIN": return <Redirect to="/superAdmin/companies" />;
-          case "COMPANY": return <Redirect to="/company/dashboard" />;
-          case "WORKSHOP": return <Redirect to="/workshopPages/dashboard" />;
-          case "MECHANIC": return <Redirect to="/mechanicPages/dashboard" />;
-          default: ;
+        switch (user.role) {
+          case "SUPERADMIN":
+            return <Redirect to="/superAdmin/companies" />;
+          case "COMPANY":
+            return <Redirect to="/company/dashboard" />;
+          case "WORKSHOP":
+            return <Redirect to="/workshopPages/dashboard" />;
+          case "MECHANIC":
+            return <Redirect to="/mechanicPages/dashboard" />;
+          case "CLIENT":
+            return <Redirect to="/clientsPages/dashboard" />;
+          default:
         }
       }
       // in other case render previously set layout
-      return <Container>{children}</Container>
-    }
+      return <Container>{children}</Container>;
+    };
 
     return (
       <Fragment>
         <Helmet titleTemplate="MotorDoc | %s" title="MotorDoc" />
         {BootstrappedLayout()}
       </Fragment>
-    )
+    );
   }
 }
 
-export default IndexLayout
+export default IndexLayout;
