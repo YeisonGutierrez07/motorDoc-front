@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Menu, Dropdown, Avatar, Badge } from "antd";
+import { Menu, Dropdown } from "antd";
+import Avatar from "../../../GobalComponents/Avatar";
+
 import styles from "./style.module.scss";
 
 @connect(({ user }) => ({ user }))
 class ProfileMenu extends React.Component {
-  state = {
-    count: 0
-  };
-
   logout = () => {
     const { dispatch } = this.props;
     dispatch({
@@ -16,19 +14,8 @@ class ProfileMenu extends React.Component {
     });
   };
 
-  addCount = () => {
-    /* 
-    let { count } = this.state
-    count += 1
-    this.setState({
-      count,
-    })
-    */
-  };
-
   render() {
     const { user } = this.props;
-    const { count } = this.state;
     const menu = (
       <Menu selectable={false}>
         <Menu.Item>
@@ -60,14 +47,14 @@ class ProfileMenu extends React.Component {
         onVisibleChange={this.addCount}
       >
         <div className={styles.dropdown}>
-          <Badge count={count}>
+          <div className="avatarPhoto">
             <Avatar
-              className={styles.avatar}
-              shape="square"
-              size="large"
-              icon="user"
+              src={user.avatar}
+              size="50"
+              border="true"
+              borderColor="#fff"
             />
-          </Badge>
+          </div>
         </div>
       </Dropdown>
     );

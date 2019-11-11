@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input, Form, Upload, Icon } from "antd";
 
+const { TextArea } = Input;
 const { Dragger } = Upload;
 const FormItem = Form.Item;
 
@@ -32,16 +33,6 @@ export class FormWorkShop extends Component {
             Ingrese la siguiente infomación
           </div>
           <br />
-          <FormItem {...formItemLayout} label="Dirrecion del taller: ">
-            {form.getFieldDecorator("addressWorkshop", {
-              rules: [
-                {
-                  required: true,
-                  message: "¡Por favor ingrese la dirección del taller!"
-                }
-              ]
-            })(<Input />)}
-          </FormItem>
           <FormItem {...formItemLayout} label="Nombre: ">
             {form.getFieldDecorator("nameWorkshop", {
               rules: [
@@ -52,6 +43,28 @@ export class FormWorkShop extends Component {
               ]
             })(<Input />)}
           </FormItem>
+          <FormItem {...formItemLayout} label="Descripción: ">
+            {form.getFieldDecorator("description", {
+              rules: [
+                {
+                  required: true,
+                  message:
+                    "¡Por favor ingrese una breve descripción del taller!"
+                }
+              ]
+            })(<TextArea rows={4} />)}
+          </FormItem>
+          <FormItem {...formItemLayout} label="Dirrecion del taller: ">
+            {form.getFieldDecorator("addressWorkshop", {
+              rules: [
+                {
+                  required: true,
+                  message: "¡Por favor ingrese la dirección del taller!"
+                }
+              ]
+            })(<Input />)}
+          </FormItem>
+
           <FormItem {...formItemLayout} label="Logo: ">
             {form.getFieldDecorator("logo", {
               rules: [
