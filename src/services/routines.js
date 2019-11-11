@@ -3,10 +3,10 @@ import axios from "axios";
 import { ENDPOINTS } from "constant/endPoints";
 import { notification } from "antd";
 
-export async function getWorkshopService() {
+export async function getAllRoutines() {
   return axios({
     method: "GET",
-    url: `${ENDPOINTS.WORKSHOP.GET}`,
+    url: `${ENDPOINTS.ROUTINES.GET}`,
     headers: {
       authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
     }
@@ -22,10 +22,10 @@ export async function getWorkshopService() {
     });
 }
 
-export async function getAllWorkshopService(search) {
+export async function getAllRoutinesByWorkShop() {
   return axios({
     method: "GET",
-    url: `${ENDPOINTS.WORKSHOP.GET_ALL}?search=${search}`,
+    url: `${ENDPOINTS.ROUTINES.GET_BY_WORKSHOP}`,
     headers: {
       authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
     }
@@ -41,20 +41,16 @@ export async function getAllWorkshopService(search) {
     });
 }
 
-export async function createWorkshopService(data) {
+export async function addRoutineToWorkShop(data) {
   return axios({
     method: "POST",
-    url: `${ENDPOINTS.WORKSHOP.CREATE}`,
+    url: `${ENDPOINTS.ROUTINES.ADD_ROUTINE}`,
     data,
     headers: {
       authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
     }
   })
     .then(response => {
-      notification.success({
-        message: "Exito",
-        description: "Se creo un nuevo taller para su empresa."
-      });
       return response.data.data;
     })
     .catch(() => {

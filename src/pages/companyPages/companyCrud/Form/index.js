@@ -6,7 +6,9 @@ import { Form, Card, Button, Popconfirm } from "antd";
 import RegisterUser from "components/GobalComponents/Forms/registerUser";
 import TabTitle from "components/GobalComponents/tabTitle";
 import { createWorkshopService } from "../../../../services/workshops";
+import { referenciaFirebase } from "../../../../services/firebase";
 import FormWorkShop from "./formWorkShop";
+import SimpleMap from "./googleMaps";
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -17,19 +19,46 @@ class CardsForm extends React.Component {
   state = {
     activeKeyCard: "tab1",
     validTab1: false,
-    workShopData: {}
+    validTab2: false,
+    workShopData: {},
+    ltyLg: {}
   };
 
   handleSubmit = () => {
+    const { workShopData, ltyLg } = this.state;
+    const { history } = this.props;
+    workShopData.latitude = ltyLg.latitude;
+    workShopData.longitude = ltyLg.longitude;
+    createWorkshopService(workShopData).then(response => {
+      referenciaFirebase.ref(`workshops/`).push({
+        id_user: response.id,
+        name: workShopData.name_workshop,
+        photo: workShopData.imageWorkshop
+      });
+      history.push(`/company/list`);
+    });
+  };
+
+  saveltylg = data => {
+    this.setState({
+      ltyLg: data
+    });
+  };
+
+  valdForm2 = () => {
     const { workShopData, imageWorkshop } = this.state;
-    const { form, history } = this.props;
+    const { form } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         workShopData.address_workshop = values.addressWorkshop;
         workShopData.name_workshop = values.nameWorkshop;
+        workShopData.description = values.description;
         workShopData.imageWorkshop = imageWorkshop;
-        createWorkshopService(workShopData).then(() => {
-          history.push(`/superAdmin/companies`);
+
+        this.setState({
+          activeKeyCard: "tab3",
+          validTab2: true,
+          workShopData
         });
       }
     });
@@ -72,7 +101,7 @@ class CardsForm extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { activeKeyCard, validTab1 } = this.state;
+    const { activeKeyCard, validTab1, validTab2 } = this.state;
 
     const tabList = [
       {
@@ -84,8 +113,13 @@ class CardsForm extends React.Component {
       },
       {
         key: "tab2",
-        tab: <TabTitle title="Información del taller" check={false} />,
+        tab: <TabTitle title="Información del taller" check={validTab2} />,
         disabled: !validTab1
+      },
+      {
+        key: "tab3",
+        tab: <TabTitle title="Buscar en el mapa" check={false} />,
+        disabled: !validTab2
       }
     ];
 
@@ -104,7 +138,8 @@ class CardsForm extends React.Component {
           form={form}
           saveImageWorkshop={this.saveImageWorkshop}
         />
-      )
+      ),
+      tab3: <SimpleMap saveltylg={this.saveltylg} />
     };
 
     const onTabChange = key => {
@@ -113,7 +148,7 @@ class CardsForm extends React.Component {
 
     const getOptionsButtons = () => {
       const { history } = this.props;
-      if (activeKeyCard === "tab1") {
+      if (activeKeyCard === "tab1" || activeKeyCard === "tab2") {
         return (
           <Button.Group size="big">
             <Popconfirm
@@ -126,7 +161,12 @@ class CardsForm extends React.Component {
                 <u>Descartar</u>
               </Button>
             </Popconfirm>
-            <Button type="primary" onClick={() => this.valdForm()}>
+            <Button
+              type="primary"
+              onClick={() =>
+                activeKeyCard === "tab1" ? this.valdForm() : this.valdForm2()
+              }
+            >
               Continuar
             </Button>
           </Button.Group>
@@ -160,7 +200,9 @@ class CardsForm extends React.Component {
     return (
       <Authorize roles={["COMPANY"]} redirect to="/404">
         <Helmet title="Crear Empresa" />
-        <h2 align="center">Formulario de registro de talleres</h2>
+        <h1 align="center" style={{ color: "red" }}>
+          Formulario de registro de talleres
+        </h1>
         <Card
           style={{ width: "100%" }}
           tabList={tabList}

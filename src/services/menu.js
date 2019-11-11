@@ -36,6 +36,18 @@ const menuWORKSHOP = [
     key: "mecanicos",
     url: "/workshopPages/listMechanics",
     icon: "icmn icmn-users"
+  },
+  {
+    title: "Rutinas",
+    key: "Rutinas",
+    url: "/workshopPages/createRoutine",
+    icon: "icmn icmn-cogs"
+  },
+  {
+    title: "Chat",
+    key: "chat",
+    url: "/globals/MessagingWorkshop",
+    icon: "icmn icmn-bubbles"
   }
 ];
 
@@ -54,6 +66,35 @@ const menuCLIENT = [
     key: "dashoboard",
     url: "/clientsPages/dashboard",
     icon: "icmn icmn-home"
+  },
+  {
+    title: "Talleres",
+    key: "pages",
+    icon: "icmn icmn-stack",
+    children: [
+      {
+        title: "Mis talleres",
+        key: "MisTalleres",
+        url: "/dashboard/alpha",
+        pro: true
+      },
+      {
+        title: "Buscar taller",
+        key: "workshpsList",
+        url: "/clientsPages/workshpsList"
+      },
+      {
+        title: "Ver mapa de talleres",
+        key: "mapWorkShops",
+        url: "/clientsPages/mapWorkShops"
+      }
+    ]
+  },
+  {
+    title: "Chat",
+    key: "chat",
+    url: "/globals/MessagingChat",
+    icon: "icmn icmn-bubbles"
   }
 ];
 
