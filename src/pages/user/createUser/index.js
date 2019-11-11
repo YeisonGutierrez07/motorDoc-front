@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import RegisterUser from "components/GobalComponents/Forms/registerUser";
 import styles from "./style.module.scss";
 import { createNewUser } from "../../../services/user";
+import { referenciaFirebase } from "../../../services/firebase";
 
 const FormItem = Form.Item;
 
@@ -45,7 +46,12 @@ class CreateUser extends Component {
       if (!error) {
         user.password = values.newPassword;
         user.role = "CLIENT";
-        createNewUser(user).then(() => {
+        createNewUser(user).then(response => {
+          referenciaFirebase.ref(`clients/`).push({
+            id_user: response.id,
+            name: user.name,
+            photo: user.profile_pic
+          });
           history.push("/user/login");
         });
       }

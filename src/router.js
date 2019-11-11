@@ -45,6 +45,14 @@ const routes = [
     path: "/globals/resetPassword",
     component: loadable(() => import("pages/globalPages/resetPassword"))
   },
+  {
+    path: "/globals/MessagingChat",
+    component: loadable(() => import("pages/globalPages/MessagingChat"))
+  },
+  {
+    path: "/globals/MessagingWorkshop",
+    component: loadable(() => import("pages/globalPages/MessagingWorkshop"))
+  },
 
   // SUPERADMIN PAGES
   {
@@ -87,6 +95,10 @@ const routes = [
     path: "/workshopPages/formMechanics/:id",
     component: loadable(() => import("pages/workshopPages/mechanicCrud/Form"))
   },
+  {
+    path: "/workshopPages/createRoutine",
+    component: loadable(() => import("pages/workshopPages/routines"))
+  },
 
   // MECHANIC PAGES
   {
@@ -102,6 +114,18 @@ const routes = [
   {
     path: "/clientsPages/workshpsList",
     component: loadable(() => import("pages/clientsPages/workshpsList"))
+  },
+  {
+    path: "/clientsPages/mapWorkShops",
+    component: loadable(() =>
+      import("pages/clientsPages/workshpsList/mapAllWorkshop")
+    )
+  },
+  {
+    path: "/clientsPages/routeToWorkShop/:latitude/:longitude",
+    component: loadable(() =>
+      import("pages/clientsPages/workshpsList/routeToWorkShop")
+    )
   }
 ];
 

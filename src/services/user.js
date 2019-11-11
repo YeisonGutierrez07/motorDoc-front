@@ -54,7 +54,7 @@ export function createNewUser(data) {
           description:
             "Se Creo su cuenta con exito, ya puedes usar todos nuestros servicios."
         });
-        resolve(response);
+        resolve(response.data.data);
       })
       .catch(() => {
         notification.error({

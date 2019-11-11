@@ -20,6 +20,7 @@ const COMPANIES = {
 
 const WORKSHOP = {
   GET: `${HOST_SITE_ENDPOINTS}/workshop/`,
+  GET_ALL: `${HOST_SITE_ENDPOINTS}/workshop/all`,
   CREATE: `${HOST_SITE_ENDPOINTS}/workshop/create`
 };
 
@@ -28,11 +29,19 @@ const MECHANIC = {
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
   MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`
 };
+
+const ROUTINES = {
+  GET: `${HOST_SITE_ENDPOINTS}/routines`,
+  GET_BY_WORKSHOP: `${HOST_SITE_ENDPOINTS}/routines/byWorkshop`,
+  ADD_ROUTINE: `${HOST_SITE_ENDPOINTS}/routines/addRoutineByWorkshop`
+};
+
 export const ENDPOINTS = {
   AUTH,
   COMPANIES,
   WORKSHOP,
-  MECHANIC
+  MECHANIC,
+  ROUTINES
 };
 
 export default {
