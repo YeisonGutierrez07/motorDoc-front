@@ -36,8 +36,7 @@ export async function login(email, password) {
     }
     return null;
   } catch (e) {
-    console.log(e);
-    return null;
+    return e;
   }
 }
 

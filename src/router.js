@@ -116,6 +116,12 @@ const routes = [
     component: loadable(() => import("pages/clientsPages/workshpsList"))
   },
   {
+    path: "/clientsPages/misWorkshpsList",
+    component: loadable(() =>
+      import("pages/clientsPages/workshpsList/misWorkShops")
+    )
+  },
+  {
     path: "/clientsPages/mapWorkShops",
     component: loadable(() =>
       import("pages/clientsPages/workshpsList/mapAllWorkshop")
@@ -126,6 +132,18 @@ const routes = [
     component: loadable(() =>
       import("pages/clientsPages/workshpsList/routeToWorkShop")
     )
+  },
+  {
+    path: "/clientsPages/appointmentCalendar",
+    component: loadable(() => import("pages/clientsPages/appointmentCalendar"))
+  },
+  {
+    path: "/clientsPages/appointmentCreate/:idWorkShop",
+    component: loadable(() => import("pages/clientsPages/appointmentCreate"))
+  },
+  {
+    path: "/clientsPages/vehicles",
+    component: loadable(() => import("pages/clientsPages/vehicles"))
   }
 ];
 

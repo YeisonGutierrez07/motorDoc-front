@@ -1,4 +1,4 @@
-@import 'assets/styles/mixins.scss';
+@import "assets/styles/mixins.scss";
 
 .avatar {
   width: rem(35);
@@ -9,9 +9,11 @@
   overflow: hidden;
   border-radius: 500px;
   img {
+    position: relative;
     width: 100%;
     max-width: 100%;
     height: auto;
+    top: -12px;
   }
 
   &--20 {

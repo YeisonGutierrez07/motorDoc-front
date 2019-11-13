@@ -75,7 +75,7 @@ const Message = props => {
         ) : (
           <>
             <div className="messaging__item-avatar">
-              <Avatar src={message.photo} size="50" border="false" />
+              <Avatar src={message.photo_workShop} size="50" border="false" />
             </div>
             <div
               className="messaging__item-content"
@@ -91,7 +91,7 @@ const Message = props => {
       ) : (
         <>
           <div className="messaging__item-avatar">
-            <Avatar src={message.photo_workShop} size="50" border="false" />
+            <Avatar src={message.photo} size="50" border="false" />
           </div>
           <div className="messaging__item-content">
             <p>{content}</p>

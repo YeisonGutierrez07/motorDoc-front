@@ -36,6 +36,7 @@ class DashboardMechanic extends React.Component {
       amountGraph,
       lastClients
     } = this.state;
+
     const { user } = this.props;
     const columns = [
       {

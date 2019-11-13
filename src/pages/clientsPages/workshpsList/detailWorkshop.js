@@ -17,15 +17,23 @@ export default class DetailWorkshop extends Component {
             <p>{info.description}</p>
           </div>
           <div className="col-2" align="center">
-            <Button type="primary">
+            <Button
+              type="primary"
+              onClick={() => history.push(`/globals/MessagingChat`)}
+            >
               <Icon type="wechat" />
               Iniciar Chat
             </Button>
             <br />
             <br />
-            <Button type="primary">
-              <Icon type="book" />
-              Crear Cita
+            <Button
+              type="primary"
+              onClick={() =>
+                history.push(`/clientsPages/appointmentCreate/${info.id}`)
+              }
+            >
+              <Icon type="calendar" />
+              Agendar cita
             </Button>
             <br />
             <br />
