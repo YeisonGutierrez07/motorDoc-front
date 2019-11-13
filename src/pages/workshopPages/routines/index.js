@@ -30,7 +30,8 @@ class ViewRoutines extends React.Component {
     routinesTable: [],
     visible: false,
     estimatedTime: null,
-    selectRoutine: null
+    selectRoutine: null,
+    estimatedCost: null
   };
 
   componentDidMount() {
@@ -101,8 +102,10 @@ class ViewRoutines extends React.Component {
       visible,
       routinesTable,
       estimatedTime,
-      selectRoutine
+      selectRoutine,
+      estimatedCost
     } = this.state;
+
     const columns = [
       {
         title: "Nombre de la rutina",
@@ -114,13 +117,20 @@ class ViewRoutines extends React.Component {
         dataIndex: "estimated_time",
         render: time => `${time} Horas`,
         key: "estimated_time"
+      },
+      {
+        title: "Costo estimado",
+        dataIndex: "estimated_cost",
+        render: time => `$ ${time}`,
+        key: "estimated_time"
       }
     ];
     const addRoutine = () => {
       const { newRoutines } = this.state;
       const newRoutinesObj = {
         routine_id: selectRoutine,
-        estimated_time: estimatedTime
+        estimated_time: estimatedTime,
+        estimated_cost: estimatedCost
       };
       if (!selectRoutine || !estimatedTime) {
         notification.error({
@@ -142,7 +152,8 @@ class ViewRoutines extends React.Component {
         newRoutines,
         routinesTable,
         selectRoutine: null,
-        estimatedTime: null
+        estimatedTime: null,
+        estimatedCost: null
       });
     };
 
@@ -155,6 +166,12 @@ class ViewRoutines extends React.Component {
     const onChangeHours = val => {
       this.setState({
         estimatedTime: val.toString()
+      });
+    };
+
+    const onChangeCost = val => {
+      this.setState({
+        estimatedCost: val.toString()
       });
     };
 
@@ -213,6 +230,15 @@ class ViewRoutines extends React.Component {
               min={1}
               onChange={onChangeHours}
               value={estimatedTime}
+              style={{ width: "100%" }}
+            />
+            <br />
+            <br />
+            <b>Valor</b>(en dinero)<b>:</b>
+            <InputNumber
+              min={1}
+              onChange={onChangeCost}
+              value={estimatedCost}
               style={{ width: "100%" }}
             />
             <br />

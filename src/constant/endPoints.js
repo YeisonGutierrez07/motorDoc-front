@@ -20,6 +20,7 @@ const COMPANIES = {
 
 const WORKSHOP = {
   GET: `${HOST_SITE_ENDPOINTS}/workshop/`,
+  GET_BY_ID: `${HOST_SITE_ENDPOINTS}/workshop/search/`,
   GET_ALL: `${HOST_SITE_ENDPOINTS}/workshop/all`,
   CREATE: `${HOST_SITE_ENDPOINTS}/workshop/create`
 };
@@ -33,7 +34,17 @@ const MECHANIC = {
 const ROUTINES = {
   GET: `${HOST_SITE_ENDPOINTS}/routines`,
   GET_BY_WORKSHOP: `${HOST_SITE_ENDPOINTS}/routines/byWorkshop`,
+  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS}/routines/byWorkshopID`,
   ADD_ROUTINE: `${HOST_SITE_ENDPOINTS}/routines/addRoutineByWorkshop`
+};
+
+const BRANDS = {
+  GET_ALL: `${HOST_SITE_ENDPOINTS}/brands`
+};
+
+const VEHICLES = {
+  GET_ALL: `${HOST_SITE_ENDPOINTS}/vehicles`,
+  CREATE: `${HOST_SITE_ENDPOINTS}/vehicles`
 };
 
 export const ENDPOINTS = {
@@ -41,7 +52,9 @@ export const ENDPOINTS = {
   COMPANIES,
   WORKSHOP,
   MECHANIC,
-  ROUTINES
+  ROUTINES,
+  BRANDS,
+  VEHICLES
 };
 
 export default {

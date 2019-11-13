@@ -57,6 +57,24 @@ const menuMECHANIC = [
     key: "dashoboard",
     url: "/mechanicPages/dashboard",
     icon: "icmn icmn-home"
+  },
+  {
+    title: "Mis Citas Atendidas",
+    key: "dashoboard",
+    url: "/mechanicPages/dashboard",
+    icon: "icmn icmn-home"
+  },
+  {
+    title: "Mis Citas del Dia",
+    key: "dashoboard",
+    url: "/mechanicPages/dashboard",
+    icon: "icmn icmn-home"
+  },
+  {
+    title: "Todas las citas",
+    key: "dashoboard",
+    url: "/mechanicPages/dashboard",
+    icon: "icmn icmn-home"
   }
 ];
 
@@ -75,7 +93,7 @@ const menuCLIENT = [
       {
         title: "Mis talleres",
         key: "MisTalleres",
-        url: "/dashboard/alpha",
+        url: "/clientsPages/misWorkshpsList",
         pro: true
       },
       {
@@ -95,6 +113,18 @@ const menuCLIENT = [
     key: "chat",
     url: "/globals/MessagingChat",
     icon: "icmn icmn-bubbles"
+  },
+  {
+    title: "Citas",
+    key: "citas",
+    url: "/clientsPages/appointmentCalendar",
+    icon: "icmn icmn-calendar"
+  },
+  {
+    title: "Mis vehiculos",
+    key: "vehicles",
+    url: "/clientsPages/vehicles",
+    icon: "icmn icmn-steam"
   }
 ];
 
