@@ -143,7 +143,8 @@ class ViewRoutines extends React.Component {
       const routineData = routines.filter(r => r.id === selectRoutine)[0];
       const routinesTableObj = {
         routine: routineData,
-        estimated_time: estimatedTime
+        estimated_time: estimatedTime,
+        estimated_cost: estimatedCost
       };
       newRoutines.push(newRoutinesObj);
       routinesTable.push(routinesTableObj);

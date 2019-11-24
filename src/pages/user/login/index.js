@@ -104,23 +104,6 @@ class Login extends Component {
                           Ingresar
                         </Button>
                       </Form>
-                      <div>
-                        <small
-                          style={{
-                            display: "inline-block",
-                            lineHeight: "normal",
-                            textAlign: "justify",
-                            color: "#B6B5BB"
-                          }}
-                        >
-                          Mostrando 1 a Lorem ipsum dolor sit amet, consectetur
-                          adipiscing elit, sed do eiusmod tempor incididunt ut
-                          labore et dolore magna aliqua. Ut enim ad minim
-                          veniam, quis nostrud exercitation ullamco laboris nisi
-                          ut aliquip ex ea commodo consequat. 10 de 634 puntos
-                          de venta
-                        </small>
-                      </div>
                     </div>
                   </div>
                   <div className={`${styles.sideForm}`}>
@@ -133,13 +116,13 @@ class Login extends Component {
                       </strong>
                     </div>
                     <div className="mb-4 ludwig ludwig--info">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
+                      Crea una nueva cuenta en motorDoc, te ayuda a llevar un
+                      mejor control de sus vehiculos sin perder tiempo en
+                      talleres y en espera
                     </div>
                     <div className="ludwig ludwig--info">
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                      laboris nisi ut aliquip ex ea commodo consequat.
+                      en motorDoc encontraras los mejores talleres calificados
+                      de la ciudad y a un somple click.
                     </div>
                   </div>
                 </div>
