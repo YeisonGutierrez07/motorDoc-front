@@ -5,6 +5,7 @@ import {
   DirectionsRenderer
 } from "react-google-maps";
 import { GoogleApiWrapper } from "google-maps-react";
+import { API_KEY_GOOGLE_MAPS } from "constant/base";
 import { Spin } from "antd";
 
 class Map extends Component {
@@ -87,5 +88,5 @@ class Map extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ""
+  apiKey: API_KEY_GOOGLE_MAPS
 })(Map);

@@ -211,11 +211,6 @@ class CreateUser extends Component {
             <div className="col-xl-12">
               <div className={styles.inner}>
                 <div className={styles.form}>
-                  <p className={styles.titleLogo}>MotorDoc</p>
-                  <h4 className="text-uppercase">
-                    <strong>Crear Cuenta</strong>
-                  </h4>
-                  <br />
                   <section>
                     <div className="card">
                       <div className="card-body">

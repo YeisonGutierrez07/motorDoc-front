@@ -57,7 +57,6 @@ class Login extends Component {
                       >
                         <Form.Item label="Correo electrónico">
                           {form.getFieldDecorator("email", {
-                            // initialValue: 'admin@mediatec.org',
                             rules: [
                               {
                                 required: true,
@@ -69,7 +68,6 @@ class Login extends Component {
                         </Form.Item>
                         <Form.Item label="Contraseña">
                           {form.getFieldDecorator("password", {
-                            // initialValue: 'cleanui',
                             rules: [
                               {
                                 required: true,
