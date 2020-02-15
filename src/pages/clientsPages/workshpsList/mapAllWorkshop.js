@@ -3,6 +3,7 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from "google-maps-react";
 import Authorize from "components/LayoutComponents/Authorize";
 import { Helmet } from "react-helmet";
 import { Row, Col } from "antd";
+import { API_KEY_GOOGLE_MAPS } from "constant/base";
 import { getAllWorkshopService } from "../../../services/workshops";
 
 const mapStyles = {
@@ -126,5 +127,5 @@ class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ""
+  apiKey: API_KEY_GOOGLE_MAPS
 })(MapContainer);
