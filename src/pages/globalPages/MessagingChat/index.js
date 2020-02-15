@@ -306,7 +306,7 @@ class MessagingChat extends React.Component {
               <div className="pull-right">
                 <Dropdown overlay={actionsMenu}>
                   <Button style={{ marginLeft: 4 }}>
-                    Actions <Icon type="setting" />
+                    Acciones <Icon type="setting" />
                   </Button>
                 </Dropdown>
               </div>
@@ -327,7 +327,7 @@ class MessagingChat extends React.Component {
               <form className="form-group mt-4 mb-3">
                 <textarea
                   className="form-control adjustable-textarea"
-                  placeholder="Type message..."
+                  placeholder="Escribe tu mensaje..."
                   value={newMessage}
                   onChange={this.changeMessagge}
                 />
@@ -355,7 +355,7 @@ class MessagingChat extends React.Component {
             <div className="pull-right">
               <Dropdown overlay={actionsMenu}>
                 <Button style={{ marginLeft: 4 }}>
-                  Actions <Icon type="setting" />
+                  Acciones <Icon type="setting" />
                 </Button>
               </Dropdown>
             </div>
