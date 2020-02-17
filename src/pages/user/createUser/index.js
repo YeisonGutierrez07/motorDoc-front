@@ -16,25 +16,32 @@ class CreateUser extends Component {
   state = {
     profilePic: "",
     user: {},
-    valuesOK: false
+    valuesOK: false,
+    loadingContinue: false,
+    loadingFinish: false
   };
 
   saveData = () => {
     const { form } = this.props;
     const { profilePic, user } = this.state;
+
     form.validateFields((error, values) => {
       if (!error) {
-        user.address = values.address;
-        user.credential = values.credential;
-        user.email = values.email;
-        user.last_name = values.lastName;
-        user.mobile_phone = values.mobile_phone;
-        user.name = values.name;
-        user.profile_pic = profilePic;
-        this.setState({
-          valuesOK: true,
-          user
-        });
+        this.setState({ loadingContinue: true });
+        setTimeout(() => {
+          user.address = values.address;
+          user.credential = values.credential;
+          user.email = values.email;
+          user.last_name = values.lastName;
+          user.mobile_phone = values.mobile_phone;
+          user.name = values.name;
+          user.profile_pic = profilePic;
+          this.setState({
+            loadingContinue: false,
+            valuesOK: true,
+            user
+          });
+        }, 500);
       }
     });
   };
@@ -42,18 +49,28 @@ class CreateUser extends Component {
   sendToServer = () => {
     const { form, history } = this.props;
     const { user } = this.state;
+
+    this.setState({ loadingFinish: true });
+
     form.validateFields((error, values) => {
       if (!error) {
-        user.password = values.newPassword;
-        user.role = "CLIENT";
-        createNewUser(user).then(response => {
-          referenciaFirebase.ref(`clients/`).push({
-            id_user: response.id,
-            name: user.name,
-            photo: user.profile_pic
+        setTimeout(() => {
+          user.password = values.newPassword;
+          user.role = "CLIENT";
+          createNewUser(user).then(response => {
+            if (response.status === "200") {
+              referenciaFirebase.ref(`clients/`).push({
+                id_user: response.data.id,
+                name: user.name,
+                photo: user.profile_pic
+              });
+              history.push("/user/login");
+              this.setState({ loadingFinish: false });
+            } else {
+              this.setState({ valuesOK: false });
+            }
           });
-          history.push("/user/login");
-        });
+        }, 500);
       }
     });
   };
@@ -84,7 +101,7 @@ class CreateUser extends Component {
 
   render() {
     const { form } = this.props;
-    const { valuesOK } = this.state;
+    const { valuesOK, loadingContinue, loadingFinish } = this.state;
     const pedirContraseña = () => {
       if (valuesOK) {
         return (
@@ -106,7 +123,7 @@ class CreateUser extends Component {
                       }
                     ]
                   })(
-                    <Input
+                    <Input.Password
                       size="default"
                       prefix={
                         <Icon
@@ -130,7 +147,7 @@ class CreateUser extends Component {
                       { validator: this.compareToFirstPassword }
                     ]
                   })(
-                    <Input
+                    <Input.Password
                       size="default"
                       prefix={
                         <Icon
@@ -181,8 +198,8 @@ class CreateUser extends Component {
               okText="Si"
               cancelText="No"
             >
-              <Button type="primary">
-                {valuesOK ? "Registrarse" : "Continuar"}
+              <Button type="primary" loading={loadingFinish}>
+                Registrarse
               </Button>
             </Popconfirm>
           </>
@@ -190,14 +207,18 @@ class CreateUser extends Component {
       }
       return (
         <div align="center">
+          <Link to="/user/login" className="utils__link--underlined">
+            Regresar a login
+          </Link>
+          &nbsp;&nbsp;&nbsp;&nbsp;
           <Popconfirm
             title="¿Esta seguro de que los datos son reales?"
             onConfirm={() => this.saveData()}
             okText="Si"
             cancelText="No"
           >
-            <Button type="primary">
-              {valuesOK ? "Registrarse" : "Continuar"}
+            <Button type="primary" loading={loadingContinue}>
+              Continuar
             </Button>
           </Popconfirm>
         </div>
@@ -219,10 +240,6 @@ class CreateUser extends Component {
                       </div>
                     </div>
                   </section>
-                  <br />
-                  <Link to="/user/login" className="utils__link--underlined">
-                    Regresar a login
-                  </Link>
                 </div>
               </div>
             </div>
