@@ -70,7 +70,7 @@ class MapContainer extends Component {
                     <div style={mapStyles}>
                       <Map
                         google={google}
-                        zoom={18}
+                        zoom={11}
                         style={mapStyles}
                         initialCenter={{
                           lat: objeRequest.latitude,
