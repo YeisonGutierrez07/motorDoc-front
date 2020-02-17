@@ -19,6 +19,7 @@ import moment from "moment";
 import { searchWorkShopService } from "../../../services/workshops";
 import { GetAllVehicles } from "../../../services/vehicles";
 import { getAllRoutinesByWorkShopID } from "../../../services/routines";
+import ModalCreateAppointment from "./formModal";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -84,15 +85,20 @@ export default class appointmentCalendar extends Component {
     routines: [],
     timeString: "",
     routinesTimeEstimed: "",
-    routinesCostTime: ""
+    routinesCostTime: "",
+    createAppointment: false,
+    workShopID: 0
   };
 
   componentDidMount() {
     const { match } = this.props;
+
+    this.setState({ workShopID: match.params.idWorkShop });
     searchWorkShopService(match.params.idWorkShop).then(response =>
       this.setState({ workShopData: response })
     );
     GetAllVehicles().then(vehicles => this.setState({ vehicles }));
+
     getAllRoutinesByWorkShopID(match.params.idWorkShop).then(routines =>
       this.setState({ routines })
     );
@@ -140,7 +146,7 @@ export default class appointmentCalendar extends Component {
   };
 
   render() {
-    const { history, form } = this.props;
+    const { form } = this.props;
     const {
       visible,
       workShopData,
@@ -149,7 +155,9 @@ export default class appointmentCalendar extends Component {
       timeString,
       routines,
       routinesTimeEstimed,
-      routinesCostTime
+      routinesCostTime,
+      createAppointment,
+      workShopID
     } = this.state;
 
     const routinesCostTimeFunc = () => {
@@ -166,6 +174,12 @@ export default class appointmentCalendar extends Component {
     return (
       <Authorize roles={["CLIENT"]} redirect to="/404">
         <Helmet title="Talleres" />
+        <ModalCreateAppointment
+          visible={createAppointment}
+          handleSubmit={() => this.setState({ createAppointment: false })}
+          handleCancel={() => this.setState({ createAppointment: false })}
+          workShopID={workShopID}
+        />
         <div className="card">
           <div className="card-body">
             <Modal
@@ -302,7 +316,7 @@ export default class appointmentCalendar extends Component {
                   </div>
                   <div className="card-body">
                     <Button
-                      onClick={() => history.push("/clientsPages/workshpsList")}
+                      onClick={() => this.setState({ createAppointment: true })}
                       type="primary"
                       icon="calendar"
                     >

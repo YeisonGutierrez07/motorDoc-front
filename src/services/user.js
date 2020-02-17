@@ -51,12 +51,20 @@ export function createNewUser(data) {
       data
     })
       .then(response => {
-        notification.success({
-          message: "Exito",
-          description:
-            "Se Creo su cuenta con exito, ya puedes usar todos nuestros servicios."
-        });
-        resolve(response.data.data);
+        if (response.data.status === "200") {
+          notification.success({
+            message: "Exito",
+            description:
+              "Se Creo su cuenta con exito, ya puedes usar todos nuestros servicios."
+          });
+        } else {
+          notification.error({
+            message: "Error al crear la cuenta",
+            description:
+              "La cuenta ya existe para este correo electronico o CC."
+          });
+        }
+        resolve(response.data);
       })
       .catch(() => {
         notification.error({

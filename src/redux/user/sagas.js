@@ -12,7 +12,7 @@ export function* LOGIN({ payload }) {
     }
   });
   const success = yield call(login, email, password);
-  if (success) {
+  if (success && success.user) {
     notification.success({
       message: "Sesion iniciada",
       description: "Ha ingresado correctamente a MotorDoc"
@@ -58,6 +58,9 @@ export function* LOAD_CURRENT_ACCOUNT(data) {
         avatar: user.profile_pic,
         id: user.id
       }
+    });
+    yield put({
+      type: "menu/GET_DATA"
     });
   }
   yield put({

@@ -11,8 +11,10 @@ import {
   Select,
   notification,
   InputNumber,
-  Icon
+  Icon,
+  TimePicker
 } from "antd";
+import moment from "moment";
 import {
   getAllRoutines,
   getAllRoutinesByWorkShop,
@@ -164,9 +166,11 @@ class ViewRoutines extends React.Component {
       });
     };
 
-    const onChangeHours = val => {
+    const onChangeHours = (time, timeString) => {
+      console.log(time, timeString);
+
       this.setState({
-        estimatedTime: val.toString()
+        estimatedTime: timeString
       });
     };
 
@@ -227,10 +231,9 @@ class ViewRoutines extends React.Component {
             <br />
             <br />
             <b>Tiempo estimado</b>(en horas)<b>:</b>
-            <InputNumber
-              min={1}
+            <TimePicker
               onChange={onChangeHours}
-              value={estimatedTime}
+              defaultOpenValue={moment("00:00", "HH:mm")}
               style={{ width: "100%" }}
             />
             <br />

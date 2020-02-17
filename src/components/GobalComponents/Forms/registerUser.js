@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Form, Upload, Icon, InputNumber, Row, Col } from "antd";
+import { Input, Form, Upload, Icon, Row, Col, InputNumber } from "antd";
 
 const { Dragger } = Upload;
 const FormItem = Form.Item;
@@ -57,7 +57,11 @@ export class RegisterUser extends Component {
               <FormItem {...formItemLayout} label="Email: ">
                 {form.getFieldDecorator("email", {
                   rules: [
-                    { required: true, message: "¡Por favor ingrese el correo!" }
+                    {
+                      type: "email",
+                      required: true,
+                      message: "¡Por favor ingrese un correo valido!"
+                    }
                   ]
                 })(<Input type="email" />)}
               </FormItem>
