@@ -10,7 +10,8 @@ import {
   Input,
   Select,
   Upload,
-  Icon
+  Icon,
+  Spin
 } from "antd";
 import { GetAllBrands } from "../../../services/brands";
 import { GetAllVehicles, CreateVehicle } from "../../../services/vehicles";
@@ -26,12 +27,15 @@ export class VehiclesList extends Component {
     visible: false,
     brands: [],
     vehicles: [],
-    image: ""
+    image: "",
+    loading: true
   };
 
   componentDidMount() {
     GetAllBrands().then(brands => this.setState({ brands }));
-    GetAllVehicles().then(vehicles => this.setState({ vehicles }));
+    GetAllVehicles().then(vehicles =>
+      this.setState({ vehicles, loading: false })
+    );
   }
 
   createVehicle = () => {
@@ -74,7 +78,7 @@ export class VehiclesList extends Component {
   };
 
   render() {
-    const { visible, brands, vehicles } = this.state;
+    const { visible, brands, vehicles, loading } = this.state;
     const saveImage = base64 => {
       this.setState({
         image: base64
@@ -94,6 +98,18 @@ export class VehiclesList extends Component {
     };
 
     const { form } = this.props;
+
+    const loadingData = () => {
+      if (loading) {
+        return (
+          <div align="center">
+            <Spin />
+          </div>
+        );
+      }
+      return null;
+    };
+
     return (
       <Authorize roles={["CLIENT"]} redirect to="/404">
         <Helmet title="Vehiculos" />
@@ -220,6 +236,7 @@ export class VehiclesList extends Component {
                   </div>
                   <div className="card-body">
                     <div className="card-body">
+                      {loadingData()}
                       <div className="row">
                         {Object.keys(vehicles).map(c => (
                           <div key={c} className="col-md-3">
