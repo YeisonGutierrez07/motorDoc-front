@@ -19,16 +19,8 @@ const { Search } = Input;
 const actionsMenu = (
   <Menu>
     <Menu.Item key="1">
-      <Icon style={{ marginRight: 3 }} type="sound" />
-      Mute
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon style={{ marginRight: 3 }} type="delete" />
-      Delete chat
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Icon style={{ marginRight: 3 }} type="setting" />
-      Settings
+      <Icon style={{ marginRight: 3 }} type="calendar" />
+      Agendar cita
     </Menu.Item>
   </Menu>
 );
@@ -37,12 +29,7 @@ const chatTabActives = chat => {
   return (
     <div className="messaging__tab">
       <div className="messaging__tab-avatar">
-        <Avatar
-          src={chat.photo_workShop}
-          size="50"
-          border="true"
-          borderColor="#fff"
-        />
+        <Avatar src={chat.photo} size="50" border="true" borderColor="#fff" />
       </div>
       <div className="messaging__tab-content">
         <small className="messaging__tab-time">

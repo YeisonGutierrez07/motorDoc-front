@@ -12,7 +12,8 @@ import {
   Form,
   TimePicker,
   Select,
-  Input
+  Input,
+  notification
 } from "antd";
 import Moment from "react-moment";
 import moment from "moment";
@@ -145,6 +146,18 @@ export default class appointmentCalendar extends Component {
     });
   };
 
+  createApointment = () => {
+    const { vehicles } = this.state;
+
+    if (vehicles.length > 0) {
+      return this.setState({ createAppointment: true });
+    }
+    return notification.warning({
+      message: "Alerta",
+      description: "Aun no cuentas con un vehiculo al cual asignar la cita"
+    });
+  };
+
   render() {
     const { form } = this.props;
     const {
@@ -179,6 +192,7 @@ export default class appointmentCalendar extends Component {
           handleSubmit={() => this.setState({ createAppointment: false })}
           handleCancel={() => this.setState({ createAppointment: false })}
           workShopID={workShopID}
+          vehicles={vehicles}
         />
         <div className="card">
           <div className="card-body">
@@ -316,7 +330,7 @@ export default class appointmentCalendar extends Component {
                   </div>
                   <div className="card-body">
                     <Button
-                      onClick={() => this.setState({ createAppointment: true })}
+                      onClick={() => this.createApointment()}
                       type="primary"
                       icon="calendar"
                     >

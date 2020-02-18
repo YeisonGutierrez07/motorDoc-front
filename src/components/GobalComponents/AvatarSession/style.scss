@@ -1,6 +1,6 @@
 @import "assets/styles/mixins.scss";
 
-.avatar {
+.avatarStyle {
   width: rem(35);
   height: rem(35);
   background-color: $gray-lighten;
@@ -13,7 +13,7 @@
     width: 100%;
     max-width: 100%;
     height: auto;
-    top: 5px;
+    top: -11px !important;
   }
 
   &--20 {

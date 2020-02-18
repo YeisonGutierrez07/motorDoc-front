@@ -60,21 +60,21 @@ const menuMECHANIC = [
   },
   {
     title: "Mis Citas Atendidas",
-    key: "dashoboard",
+    key: "Atendidas",
     url: "/mechanicPages/dashboard",
-    icon: "icmn icmn-home"
+    icon: "icmn icmn-newspaper"
   },
   {
     title: "Mis Citas del Dia",
-    key: "dashoboard",
+    key: "CitasDay",
     url: "/mechanicPages/dashboard",
-    icon: "icmn icmn-home"
+    icon: "icmn icmn-newspaper"
   },
   {
     title: "Todas las citas",
-    key: "dashoboard",
+    key: "CitasAll",
     url: "/mechanicPages/dashboard",
-    icon: "icmn icmn-home"
+    icon: "icmn icmn-newspaper"
   }
 ];
 
