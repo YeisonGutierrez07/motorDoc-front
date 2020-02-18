@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Menu, Dropdown } from "antd";
-import Avatar from "../../../GobalComponents/Avatar";
+import AvatarSession from "../../../GobalComponents/AvatarSession";
 
 import styles from "./style.module.scss";
 
@@ -47,8 +47,8 @@ class ProfileMenu extends React.Component {
         onVisibleChange={this.addCount}
       >
         <div className={styles.dropdown}>
-          <div className="avatarPhoto">
-            <Avatar
+          <div>
+            <AvatarSession
               src={user.avatar}
               size="50"
               border="true"

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import Authorize from "components/LayoutComponents/Authorize";
 import { Helmet } from "react-helmet";
-import { Row, Col } from "antd";
+import { Row, Col, Spin } from "antd";
 import { getAllWorkshopService } from "../../../services/workshops";
 import DetailWorkshop from "./detailWorkshop";
 
 export default class misWorkShops extends Component {
   state = {
-    workshops: []
+    workshops: [],
+    loading: true
   };
 
   componentDidMount() {
@@ -17,14 +18,26 @@ export default class misWorkShops extends Component {
   getAll = search => {
     getAllWorkshopService(search).then(response => {
       this.setState({
-        workshops: response
+        workshops: response,
+        loading: false
       });
     });
   };
 
   render() {
-    const { workshops } = this.state;
+    const { workshops, loading } = this.state;
     const { history } = this.props;
+
+    const loadingData = () => {
+      if (loading) {
+        return (
+          <div align="center">
+            <Spin />
+          </div>
+        );
+      }
+      return null;
+    };
 
     return (
       <Authorize roles={["CLIENT"]} redirect to="/404">
@@ -45,6 +58,7 @@ export default class misWorkShops extends Component {
                       </div>
                     </div>
                   </div>
+                  {loadingData()}
                   <div className="card-body">
                     {Object.keys(workshops).map(c => (
                       <div key={c}>

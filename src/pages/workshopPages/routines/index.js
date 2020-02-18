@@ -2,6 +2,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
+import Moment from "react-moment";
 import {
   Row,
   Col,
@@ -33,13 +34,14 @@ class ViewRoutines extends React.Component {
     visible: false,
     estimatedTime: null,
     selectRoutine: null,
-    estimatedCost: null
+    estimatedCost: null,
+    loading: true
   };
 
   componentDidMount() {
     this.stategetAllRoutinesByWorkShop();
     getAllRoutines().then(routines => {
-      this.setState({ routines });
+      this.setState({ routines, loading: false });
     });
   }
 
@@ -105,7 +107,8 @@ class ViewRoutines extends React.Component {
       routinesTable,
       estimatedTime,
       selectRoutine,
-      estimatedCost
+      estimatedCost,
+      loading
     } = this.state;
 
     const columns = [
@@ -117,14 +120,18 @@ class ViewRoutines extends React.Component {
       {
         title: "Tiempo estimado",
         dataIndex: "estimated_time",
-        render: time => `${time} Horas`,
+        render: time => (
+          <p>
+            <Moment format="HH:mm">{Number(time)}</Moment>&nbsp;&nbsp; Horas{" "}
+          </p>
+        ),
         key: "estimated_time"
       },
       {
         title: "Costo estimado",
         dataIndex: "estimated_cost",
         render: time => `$ ${time}`,
-        key: "estimated_time"
+        key: "estimated_cost"
       }
     ];
     const addRoutine = () => {
@@ -167,7 +174,9 @@ class ViewRoutines extends React.Component {
     };
 
     const onChangeHours = (time, timeString) => {
-      console.log(time, timeString);
+      // const date = time.getTime();
+      const date = moment(time).valueOf();
+      console.log("date", date);
 
       this.setState({
         estimatedTime: timeString
@@ -192,6 +201,7 @@ class ViewRoutines extends React.Component {
               dataSource={routinesTable}
               columns={columns}
               pagination={routinesTable.length >= 11}
+              rowKey="id"
             />
           </>
         );
@@ -232,6 +242,7 @@ class ViewRoutines extends React.Component {
             <br />
             <b>Tiempo estimado</b>(en horas)<b>:</b>
             <TimePicker
+              key="estimated_time"
               onChange={onChangeHours}
               defaultOpenValue={moment("00:00", "HH:mm")}
               style={{ width: "100%" }}
@@ -277,7 +288,9 @@ class ViewRoutines extends React.Component {
                     <Table
                       dataSource={misRoutines}
                       columns={columns}
+                      loading={loading}
                       pagination={misRoutines.length >= 11}
+                      rowKey="id"
                     />
                   </div>
                 </div>

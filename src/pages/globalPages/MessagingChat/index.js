@@ -18,16 +18,8 @@ const { Search } = Input;
 const actionsMenu = (
   <Menu>
     <Menu.Item key="1">
-      <Icon style={{ marginRight: 3 }} type="sound" />
-      Mute
-    </Menu.Item>
-    <Menu.Item key="2">
-      <Icon style={{ marginRight: 3 }} type="delete" />
-      Delete chat
-    </Menu.Item>
-    <Menu.Item key="3">
-      <Icon style={{ marginRight: 3 }} type="setting" />
-      Settings
+      <Icon style={{ marginRight: 3 }} type="calendar" />
+      Agendar cita
     </Menu.Item>
   </Menu>
 );

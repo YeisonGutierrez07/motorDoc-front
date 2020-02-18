@@ -3,25 +3,39 @@ import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
 import { MoreInfoCard } from "components/GobalComponents/MoreInfoCard";
 
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Spin } from "antd";
 import { getMisWorkShopService } from "../../../services/companies";
 
 export class list extends Component {
   state = {
-    listMechanics: []
+    listMechanics: [],
+    loading: true
   };
 
   componentDidMount() {
     getMisWorkShopService().then(listMechanics => {
       this.setState({
-        listMechanics
+        listMechanics,
+        loading: false
       });
     });
   }
 
   render() {
     const { history } = this.props;
-    const { listMechanics } = this.state;
+    const { listMechanics, loading } = this.state;
+
+    const loadingData = () => {
+      if (loading) {
+        return (
+          <div align="center">
+            <Spin />
+          </div>
+        );
+      }
+      return null;
+    };
+
     return (
       <Authorize roles={["COMPANY"]} redirect to="/404">
         <Helmet title="Principal" />
@@ -49,6 +63,7 @@ export class list extends Component {
                   </div>
                   <div className="card-body">
                     <div className="card-body">
+                      {loadingData()}
                       <div className="row">
                         {Object.keys(listMechanics).map(c => (
                           <div key={c} className="col-md-6">
