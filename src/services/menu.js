@@ -48,6 +48,28 @@ const menuWORKSHOP = [
     key: "chat",
     url: "/globals/MessagingWorkshop",
     icon: "icmn icmn-bubbles"
+  },
+  {
+    title: "Calendario",
+    key: "pages",
+    icon: "icmn icmn-calendar",
+    children: [
+      {
+        title: "Mi Horario",
+        key: "mySchedule",
+        url: "/globals/mySchedule/1"
+      },
+      {
+        title: "Citas Agendadas",
+        key: "ScheduledAppointments",
+        url: "/globals/mySchedule/2"
+      },
+      {
+        title: "Tiempos Disponibles",
+        key: "AvailableTimes",
+        url: "/globals/mySchedule/3"
+      }
+    ]
   }
 ];
 

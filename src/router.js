@@ -53,6 +53,12 @@ const routes = [
     path: "/globals/MessagingWorkshop",
     component: loadable(() => import("pages/globalPages/MessagingWorkshop"))
   },
+  {
+    path: "/globals/mySchedule/:type",
+    component: loadable(() =>
+      import("pages/workshopPages/calendarViews/mySchedule")
+    )
+  },
 
   // SUPERADMIN PAGES
   {
