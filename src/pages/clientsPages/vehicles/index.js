@@ -55,6 +55,7 @@ export class VehiclesList extends Component {
           model: values.model,
           estado: values.estado,
           reference: values.reference,
+          placa: values.placa,
           image
         };
         CreateVehicle(data)
@@ -121,30 +122,32 @@ export class VehiclesList extends Component {
         >
           <>
             <Form layout="vertical" onSubmit={this.onSubmit}>
-              <Form.Item label="Marca">
-                {form.getFieldDecorator("brand_id", {
-                  initialValue: "",
-                  rules: [
-                    {
-                      required: true,
-                      message: "¡Por favor seleccione la marca!"
-                    }
-                  ]
-                })(
-                  <Select
-                    style={{ width: "100%" }}
-                    placeholder="Seleccione el taller"
-                    optionFilterProp="children"
-                  >
-                    {Object.keys(brands).map(c => (
-                      <Option key={c} value={brands[c].id}>
-                        {brands[c].name}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              </Form.Item>
               <Row gutter={20}>
+                <Col md={12} xs={24}>
+                  <Form.Item label="Marca">
+                    {form.getFieldDecorator("brand_id", {
+                      initialValue: "",
+                      rules: [
+                        {
+                          required: true,
+                          message: "¡Por favor seleccione la marca!"
+                        }
+                      ]
+                    })(
+                      <Select
+                        style={{ width: "100%" }}
+                        placeholder="Seleccione el taller"
+                        optionFilterProp="children"
+                      >
+                        {Object.keys(brands).map(c => (
+                          <Option key={c} value={brands[c].id}>
+                            {brands[c].name}
+                          </Option>
+                        ))}
+                      </Select>
+                    )}
+                  </Form.Item>
+                </Col>
                 <Col md={12} xs={24}>
                   <Form.Item label="Referencia">
                     {form.getFieldDecorator("reference", {
@@ -156,6 +159,22 @@ export class VehiclesList extends Component {
                         }
                       ]
                     })(<Input size="default" placeholder="Referencia" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={20}>
+                <Col md={12} xs={24}>
+                  <Form.Item label="Placa">
+                    {form.getFieldDecorator("placa", {
+                      initialValue: "",
+                      rules: [
+                        {
+                          required: true,
+                          message: "¡Por favor ingrese la placa!"
+                        }
+                      ]
+                    })(<Input size="default" placeholder="Placa" />)}
                   </Form.Item>
                 </Col>
                 <Col md={12} xs={24}>
