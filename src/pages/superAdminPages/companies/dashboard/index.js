@@ -85,7 +85,7 @@ class BrandsDashboard extends Component {
                   {loadingData()}
                   <div className="row">
                     {Object.keys(listCompanies).map(c => (
-                      <div key={c} className="col-lg-6">
+                      <div key={c} className="col-lg-6 col-md-12">
                         <CardCompany
                           key={c}
                           company={listCompanies[c]}
