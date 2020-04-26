@@ -26,8 +26,6 @@ export async function login(email, password) {
       password: password.trim()
     });
 
-    console.log(response);
-
     if (response.status === 200) {
       const dataSave = {
         token: response.data.data.token,

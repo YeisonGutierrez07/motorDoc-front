@@ -20,7 +20,7 @@ class Forgot extends Component {
 
     form.validateFields((error, values) => {
       if (!error) {
-        console.log(values);
+        alert(values);
       }
     });
   };

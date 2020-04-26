@@ -144,6 +144,16 @@ const routes = [
     component: loadable(() => import("pages/clientsPages/appointmentCalendar"))
   },
   {
+    path: "/clientsPages/AppointmentBigCalendar",
+    component: loadable(() =>
+      import("pages/clientsPages/AppointmentBigCalendar")
+    )
+  },
+  {
+    path: "/clientsPages/appointment",
+    component: loadable(() => import("pages/clientsPages/appointment"))
+  },
+  {
     path: "/clientsPages/appointmentCreate/:idWorkShop",
     component: loadable(() => import("pages/clientsPages/appointmentCreate"))
   },
