@@ -38,7 +38,8 @@ const ROUTINES = {
   ADD_ROUTINE: `${HOST_SITE_ENDPOINTS}/routines/addRoutineByWorkshop`
 };
 const ROUTINESV2 = {
-  GET: `${HOST_SITE_ENDPOINTS_NET}/routines`
+  GET: `${HOST_SITE_ENDPOINTS_NET}routine`,
+  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/byWorkshop?workshopId=`
 };
 
 const BRANDS = {

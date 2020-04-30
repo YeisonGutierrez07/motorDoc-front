@@ -4,14 +4,19 @@ import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
 import { FirstContent } from "./components/steps";
 import { CardView } from "./components/cardview";
+// import { useDispatch, useSelector } from "react-redux";
 
 const { Step } = Steps;
 
 export const Appointment = () => {
   const [step, setStep] = useState(0);
-
+  const [isDisabled, setDisabled] = useState(true);
   const next = () => {
     setStep(step + 1);
+  };
+
+  const disabledButton = bool => {
+    setDisabled(bool);
   };
 
   const prev = () => {
@@ -20,14 +25,7 @@ export const Appointment = () => {
   const steps = [
     {
       title: "Paso 1",
-      content: (
-        <FirstContent
-          items={[
-            { key: 1, value: "First value" },
-            { key: 2, value: "Second value" }
-          ]}
-        />
-      )
+      content: <FirstContent disabledButton={disabledButton} />
     },
     {
       title: "Paso 2",
@@ -53,7 +51,11 @@ export const Appointment = () => {
             <div className="steps-content">{steps[step].content}</div>
             <div className="steps-action">
               {step < steps.length - 1 && (
-                <Button type="primary" onClick={() => next()}>
+                <Button
+                  type="primary"
+                  onClick={() => next()}
+                  disabled={isDisabled}
+                >
                   Siguiente
                 </Button>
               )}

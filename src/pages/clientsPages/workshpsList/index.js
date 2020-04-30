@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import Authorize from "components/LayoutComponents/Authorize";
 import { Helmet } from "react-helmet";
 import { Row, Col, Input, Spin } from "antd";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { getAllWorkshopService } from "../../../services/workshops";
 import DetailWorkshop from "./detailWorkshop";
+import { setWorkshops } from "../../../redux/appointment";
 
 const { Search } = Input;
 
-export default class componentName extends Component {
+export class componentName extends Component {
   state = {
     workshops: [],
     loading: true
@@ -23,6 +26,8 @@ export default class componentName extends Component {
         workshops: response,
         loading: false
       });
+      const { setWorkshops: setWorkshop } = this.props;
+      setWorkshop(response);
     });
   };
 
@@ -85,3 +90,10 @@ export default class componentName extends Component {
     );
   }
 }
+
+const mapStateToProps = data => ({ workshops: data.workshops });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ setWorkshops }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(componentName);

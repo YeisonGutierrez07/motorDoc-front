@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import Authorize from "components/LayoutComponents/Authorize";
 import { Helmet } from "react-helmet";
 import { Row, Col, Spin } from "antd";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { getAllWorkshopService } from "../../../services/workshops";
 import DetailWorkshop from "./detailWorkshop";
+import { setWorkshops } from "../../../redux/appointment";
 
-export default class misWorkShops extends Component {
+export class misWorkShops extends Component {
   state = {
     workshops: [],
     loading: true
@@ -21,6 +24,8 @@ export default class misWorkShops extends Component {
         workshops: response,
         loading: false
       });
+      const { setWorkshops: setWorkshop } = this.props;
+      setWorkshop(response);
     });
   };
 
@@ -77,3 +82,10 @@ export default class misWorkShops extends Component {
     );
   }
 }
+
+const mapStateToProps = data => ({ workshops: data.workshops });
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ setWorkshops }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(misWorkShops);
