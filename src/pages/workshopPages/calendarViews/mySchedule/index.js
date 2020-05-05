@@ -4,12 +4,10 @@ import Authorize from "components/LayoutComponents/Authorize";
 import { Calendar } from "antd";
 
 function onPanelChange(value, mode) {
-  console.log(value.format("YYYY-MM-DD"), mode);
+  console.info(value, mode);
 }
 
 const index = ({ match }) => {
-  console.log(match.params.type);
-
   let title = "";
 
   switch (match.params.type) {

@@ -176,8 +176,7 @@ class ViewRoutines extends React.Component {
     const onChangeHours = (time, timeString) => {
       // const date = time.getTime();
       const date = moment(time).valueOf();
-      console.log("date", date);
-
+      console.info(date);
       this.setState({
         estimatedTime: timeString
       });

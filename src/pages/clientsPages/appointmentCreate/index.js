@@ -30,13 +30,13 @@ function getListData(value) {
   switch (value.date()) {
     case 8:
       listData = [
-        { type: "warning", content: "Cita precencial" },
+        { type: "warning", content: "Cita presencial" },
         { type: "success", content: "Cita general" }
       ];
       break;
     case 10:
       listData = [
-        { type: "warning", content: "Cita precencial" },
+        { type: "warning", content: "Cita presencial" },
         { type: "success", content: "Cita general" },
         { type: "error", content: "No se completo" }
       ];
@@ -337,7 +337,7 @@ export default class appointmentCalendar extends Component {
                       Agendar Cita
                     </Button>
                     &nbsp;&nbsp;&nbsp;
-                    <Button icon="redo">Regargar</Button>
+                    <Button icon="redo">Recargar</Button>
                     <Calendar
                       dateCellRender={dateCellRender}
                       monthCellRender={monthCellRender}

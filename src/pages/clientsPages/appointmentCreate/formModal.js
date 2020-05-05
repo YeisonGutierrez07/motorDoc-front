@@ -124,8 +124,6 @@ export default class ModalCreateAppointment extends Component {
         totalTime += Number(r.routines.estimated_time);
       });
 
-      console.log(totalTime);
-
       this.setState({ finish: true, routinesService, totalCost, totalTime });
     } else {
       notification.warning({
@@ -145,7 +143,7 @@ export default class ModalCreateAppointment extends Component {
       total_cost: totalCost,
       total_time: totalTime
     };
-    console.log(dataServer);
+    console.info(dataServer);
 
     return confirm({
       title: "Disculpanos",
@@ -153,9 +151,7 @@ export default class ModalCreateAppointment extends Component {
       onOk() {
         handleSubmit();
       },
-      onCancel() {
-        console.log("Cancel");
-      }
+      onCancel() {}
     });
   };
 
@@ -166,7 +162,7 @@ export default class ModalCreateAppointment extends Component {
       return [
         <div align="center" key="footer">
           <Popconfirm
-            title="¿Esta seguro de agendar una cita con este taller?"
+            title="¿Esta seguro de agendar una cita con esté taller?"
             onConfirm={() => this.sentToServer()}
             okText="Si"
             cancelText="No"
@@ -188,8 +184,7 @@ export default class ModalCreateAppointment extends Component {
   };
 
   onChangeDataPicker = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
+    console.info(value, dateString);
   };
 
   returnFormRoutines = () => {

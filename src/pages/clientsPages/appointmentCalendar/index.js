@@ -75,7 +75,7 @@ export default class appointmentCalendar extends Component {
                       Agendar Cita
                     </Button>
                     &nbsp;&nbsp;&nbsp;
-                    <Button icon="redo">Regargar</Button>
+                    <Button icon="redo">Recargar</Button>
                     <Calendar
                       dateCellRender={dateCellRender}
                       monthCellRender={monthCellRender}
