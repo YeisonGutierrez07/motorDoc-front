@@ -179,11 +179,8 @@ export function getLeftMenuData() {
 
 export async function getTopMenuData() {
   return new Promise(resolve => {
-    console.log("resolve");
-
     setTimeout(() => {
       const state = store.getState();
-      console.log("state", state);
 
       switch (state.user.role) {
         case "SUPERADMIN":

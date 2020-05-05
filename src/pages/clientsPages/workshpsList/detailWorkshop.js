@@ -29,7 +29,7 @@ export default class DetailWorkshop extends Component {
             <Button
               type="primary"
               onClick={() =>
-                history.push(`/clientsPages/appointmentCreate/${info.id}`)
+                history.push(`/clientsPages/appointment/${info.id}`)
               }
             >
               <Icon type="calendar" />

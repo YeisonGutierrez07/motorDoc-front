@@ -1,4 +1,4 @@
-import { HOST_SITE_ENDPOINTS } from "./base";
+import { HOST_SITE_ENDPOINTS, HOST_SITE_ENDPOINTS_NET } from "./base";
 
 const AUTH = {
   LOGIN: `${HOST_SITE_ENDPOINTS}/login`,
@@ -37,6 +37,10 @@ const ROUTINES = {
   GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS}/routines/byWorkshopID`,
   ADD_ROUTINE: `${HOST_SITE_ENDPOINTS}/routines/addRoutineByWorkshop`
 };
+const ROUTINESV2 = {
+  GET: `${HOST_SITE_ENDPOINTS_NET}routine`,
+  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/byWorkshop/`
+};
 
 const BRANDS = {
   GET_ALL: `${HOST_SITE_ENDPOINTS}/brands`
@@ -54,7 +58,8 @@ export const ENDPOINTS = {
   MECHANIC,
   ROUTINES,
   BRANDS,
-  VEHICLES
+  VEHICLES,
+  ROUTINESV2
 };
 
 export default {

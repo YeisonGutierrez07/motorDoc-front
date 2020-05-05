@@ -1,2 +1,7 @@
 # dependencies
 /node_modules
+/_cacache
+/_locks
+/_logs
+/node-sass
+/anonymous-cli-metrics.json
