@@ -80,10 +80,10 @@ export async function addRoutineToWorkShop(data) {
     });
 }
 
-export const GetRoutineByWorkShop = async id => {
+export const GetRoutineByWorkShop = async (idworkshop, idreferencebrand) => {
   try {
     const { data, status } = await axios.get(
-      `${ENDPOINTS.ROUTINESV2.GET_BY_WORKSHOP_ID}${id}`,
+      `${ENDPOINTS.ROUTINESV2.GET_BY_WORKSHOP_ID}${idworkshop}/${idreferencebrand}`,
       {
         method: "GET",
         headers: {
@@ -97,11 +97,11 @@ export const GetRoutineByWorkShop = async id => {
     );
     return status === 200
       ? data.map(item => ({
-          key: item.idroutine,
-          value: `${item.name} - ${item.cost}`
+          key: item.idRoutine,
+          value: `${item.name}`
         }))
-      : null;
+      : [];
   } catch (e) {
-    return null;
+    return [];
   }
 };

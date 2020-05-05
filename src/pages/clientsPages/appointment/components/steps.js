@@ -1,31 +1,65 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Select, DatePicker, Row, Col, notification, Spin } from "antd";
 import moment from "moment";
 import "./style.css";
 import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { GetRoutineByWorkShop } from "../../../../services/routines";
-import { setWorkshopSelected } from "../../../../redux/appointment";
+import { GetAllVehicles } from "../../../../services/vehicles";
+import { 
+  setWorkshopSelected, setRoutines, setVehicles, 
+  setVehicleSelected, setSelectedRoutine,
+  setDateAppointment
+} from "../../../../redux/appointment";
 
 const { Option } = Select;
 
 export const FirstContent = props => {
   const dispatch = useDispatch();
-  const { queryString } = useSelector(
+  const {
+    idWorkshop,
+    vehicles,
+    routines,
+    vehicleSelected,
+    workshopSelected,
+    routineSelected,
+    dateAppointment
+  } = useSelector(
     state => ({
-      queryString: state.router.location.pathname
+      idWorkshop: parseInt(state.router.location.pathname.split("/")[3], 10),
+      vehicles: state.appointment.vehicles,
+      routines: state.appointment.routines,
+      vehicleSelected: state.appointment.vehicleSelected,
+      workshopSelected: state.appointment.workshopSelected,
+      routineSelected: state.appointment.routineSelected,
+      dateAppointment: state.appointment.dateAppointment,
     }),
     shallowEqual
   );
-
-  const [selectRoutine, setSelectRoutine] = useState(undefined);
-  const [routine, setRoutine] = useState(undefined);
+  // console.log(useSelector(x =>x));
   const [selectMechanic, setSelectMechanic] = useState(undefined);
-  const [selectVehicle, setSelectVehicle] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
-  const GetRoutine = async () => {
-    const data = await GetRoutineByWorkShop(1);
-    if (data != null) setRoutine(data);
+  const getData = async () => {
+
+    const vehiclesData = await GetAllVehicles();
+    if (vehiclesData != null) {
+      dispatch(setVehicles(vehiclesData));
+    }
+    else {
+      notification.error({
+        message: "Error",
+        description: "Error al consultar los vehículos"
+      });
+    }
+    setLoading(false);
+  };
+
+  const getDataRoutine = async idreferencebrand => {
+    setLoading(true);
+    const routineData = await GetRoutineByWorkShop(workshopSelected, idreferencebrand);
+    if (routineData != null) {
+      dispatch(setRoutines(routineData));
+    }
     else {
       notification.error({
         message: "Error",
@@ -33,12 +67,22 @@ export const FirstContent = props => {
       });
     }
     setLoading(false);
-  };
+  }
 
   const setWorkshopId = () => {
-    const idWorkshop = parseInt(queryString.split("/")[3], 10);
     dispatch(setWorkshopSelected(idWorkshop));
   };
+
+  const setSelectVehicle = id => {
+    dispatch(setVehicleSelected(id));
+    getDataRoutine(id.split('-')[1]);
+    validatedButton();
+  }
+
+  const setSelectRoutine = id => {
+    dispatch(setSelectedRoutine(id));
+    validatedButton();
+  }
 
   const loadingData = () => {
     if (loading) {
@@ -51,19 +95,54 @@ export const FirstContent = props => {
     return null;
   };
 
-  useEffect(() => {
-    GetRoutine();
-    setWorkshopId();
-  }, []);
-
+  const clearState = () => {
+    dispatch(setDateAppointment(undefined));
+    dispatch(setRoutines([]));
+    dispatch(setVehicleSelected(undefined));
+    dispatch(setSelectedRoutine(undefined));
+    validatedButton();
+  }
   const onChangeDate = (date, dateString) => {
-    props.disabledButton(false);
-    console.log(date, dateString);
+    dispatch(setDateAppointment(dateString));
+    console.log(dateAppointment, dateString);
+    validatedButton(true, dateString);
   };
+  const validatedButton = (isDate = false, dateString) => {
+    if(
+      vehicleSelected !== undefined &&
+      workshopSelected !== undefined &&
+      routineSelected !== undefined 
+    ){
+      if(!isDate){
+        if(dateAppointment === undefined || dateAppointment === ""){
+          props.disabledButton(true);
+          return ;
+        }
+      }else if(dateString === ""){
+        props.disabledButton(true);
+        return;
+      }
+      props.disabledButton(false);
+    }else{
+      props.disabledButton(true);
+    }
+  }
 
   const disabledDate = current =>
     moment().isAfter(current) &&
     moment().format("l") !== moment(current).format("l");
+
+  const prevWorshopRef = useRef();
+
+  useEffect(() => {
+    getData();
+    setWorkshopId();
+    prevWorshopRef.current = idWorkshop;
+    if(prevWorshopRef.current !== idWorkshop){
+      clearState();
+    }
+  }, [idWorkshop]);
+
   return (
     <Fragment>
       {loadingData()}
@@ -85,14 +164,20 @@ export const FirstContent = props => {
             placeholder="Seleccione vehículo"
             optionFilterProp="children"
             onChange={setSelectVehicle}
-            value={selectVehicle}
+            value={vehicleSelected}
             filterOption={(input, option) =>
               option.props.children
                 .toLowerCase()
                 .indexOf(input.toLowerCase()) >= 0
             }
           >
-            {null}
+            {vehicles != null
+              ? vehicles.map(x => (
+                <Option key={x.id} value={`${x.id}-${x.idreferencebrand}`}>
+                  {x.placa}
+                </Option>
+              ))
+              : null}
           </Select>
         </Col>
         <Col span={4} xs={1}>
@@ -116,19 +201,19 @@ export const FirstContent = props => {
             placeholder="Seleccione la rutina"
             optionFilterProp="children"
             onChange={setSelectRoutine}
-            value={selectRoutine}
+            value={routineSelected}
             filterOption={(input, option) =>
               option.props.children
                 .toLowerCase()
                 .indexOf(input.toLowerCase()) >= 0
             }
           >
-            {routine != null
-              ? routine.map(({ key, value }) => (
-                  <Option key={key} value={value}>
-                    {value}
-                  </Option>
-                ))
+            {routines != null
+              ? routines.map(({ key, value }) => (
+                <Option key={key} value={value}>
+                  {value}
+                </Option>
+              ))
               : null}
           </Select>
         </Col>

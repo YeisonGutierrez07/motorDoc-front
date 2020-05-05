@@ -39,7 +39,7 @@ const ROUTINES = {
 };
 const ROUTINESV2 = {
   GET: `${HOST_SITE_ENDPOINTS_NET}routine`,
-  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/byWorkshop?workshopId=`
+  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/byWorkshop/`
 };
 
 const BRANDS = {
