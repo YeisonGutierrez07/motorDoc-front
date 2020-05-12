@@ -1,9 +1,34 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import { Button, Icon } from "antd";
+import { bindActionCreators } from "redux";
+import { 
+  setRoutines, 
+  setVehicleSelected, 
+  setSelectedRoutine,
+  setDateAppointment
+} from "../../../redux/appointment";
 
-export default class DetailWorkshop extends Component {
+class DetailWorkshop extends Component {
+
+  clearFirstContent = () => 
+  {
+    const { 
+      setDateAppointment: setAppointmentDate,
+      setRoutines: setRoutine,
+      setVehicleSelected: setVehicle,
+      setSelectedRoutine: setRoutineSelected
+    } = this.props;
+
+    setAppointmentDate(undefined);
+    setRoutine([]);
+    setVehicle(undefined);
+    setRoutineSelected(undefined);
+  }
+
   render() {
     const { info, history } = this.props;
+
     return (
       <div style={{ background: "#ECECEC", padding: "30px" }}>
         <div className="row">
@@ -28,9 +53,10 @@ export default class DetailWorkshop extends Component {
             <br />
             <Button
               type="primary"
-              onClick={() =>
-                history.push(`/clientsPages/appointment/${info.id}`)
-              }
+              onClick={() =>{
+                this.clearFirstContent();
+                history.push(`/clientsPages/appointment/${info.id}`);
+              }}
             >
               <Icon type="calendar" />
               Agendar cita
@@ -55,3 +81,15 @@ export default class DetailWorkshop extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators(
+    {
+      setDateAppointment,
+      setRoutines,
+      setVehicleSelected,
+      setSelectedRoutine
+    }, dispatch)
+  );
+
+export default connect(null, mapDispatchToProps)(DetailWorkshop);
