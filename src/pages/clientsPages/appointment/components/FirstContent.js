@@ -41,7 +41,7 @@ export const FirstContent = () => {
     }),
     shallowEqual
   );
-  console.log(useSelector(x =>x));
+  // console.log(useSelector(x =>x));
 
   const [loading, setLoading] = useState(true);
 

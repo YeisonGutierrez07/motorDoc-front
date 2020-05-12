@@ -3,7 +3,7 @@ import { Steps, Button, message, notification } from "antd";
 import { useSelector, shallowEqual } from "react-redux";
 import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
-import { FirstContent } from "./components/steps";
+import { FirstContent } from "./components/FirstContent";
 import { CardView } from "./components/cardview";
 
 
