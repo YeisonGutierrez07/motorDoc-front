@@ -51,13 +51,13 @@ export class VehiclesList extends Component {
       if (!err) {
         const { image } = this.state;
         const data = {
-          brand_id: values.brand_id,
           model: values.model,
           estado: values.estado,
-          reference: values.reference,
+          idreferencebrand: values.idreferencebrand,
           placa: values.placa,
           image
         };
+
         CreateVehicle(data)
           .then(() => {
             return GetAllVehicles();
@@ -150,7 +150,7 @@ export class VehiclesList extends Component {
                 </Col>
                 <Col md={12} xs={24}>
                   <Form.Item label="Referencia">
-                    {form.getFieldDecorator("reference", {
+                    {form.getFieldDecorator("idreferencebrand", {
                       initialValue: "",
                       rules: [
                         {
@@ -158,7 +158,24 @@ export class VehiclesList extends Component {
                           message: "¡Por favor ingrese la referencia!"
                         }
                       ]
-                    })(<Input size="default" placeholder="Referencia" />)}
+                    })(
+                      <Select
+                        style={{ width: "100%" }}
+                        placeholder="Seleccione el taller"
+                        optionFilterProp="children"
+                      >
+                        <Option value={1}>Referencia 1</Option>
+                        <Option value={2} disabled>
+                          Referencia 2
+                        </Option>
+                        <Option value={3} disabled>
+                          Referencia 3
+                        </Option>
+                        <Option value={4} disabled>
+                          Referencia 4
+                        </Option>
+                      </Select>
+                    )}
                   </Form.Item>
                 </Col>
               </Row>
