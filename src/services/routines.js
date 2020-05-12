@@ -98,10 +98,16 @@ export const GetRoutineByWorkShop = async (idworkshop, idreferencebrand) => {
     return status === 200
       ? data.map(item => ({
           key: item.idRoutine,
-          value: `${item.name}`
+          value: `${item.name}`,
+          cost: item.routineBrand[0].cost,
+          estimatedTime: item.routineBrand[0].estimatedTime
         }))
       : [];
-  } catch (e) {
+  } catch {
+    notification.warning({
+      message: "Error",
+      description: "Hubo un error consultando los datos."
+    });
     return [];
   }
 };

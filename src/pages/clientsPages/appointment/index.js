@@ -1,23 +1,52 @@
 import React, { Fragment, useState } from "react";
-import { Steps, Button, message } from "antd";
+import { Steps, Button, message, notification } from "antd";
+import { useSelector, shallowEqual } from "react-redux";
 import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
 import { FirstContent } from "./components/steps";
 import { CardView } from "./components/cardview";
-// import { useDispatch, useSelector } from "react-redux";
+
 
 const { Step } = Steps;
 
 export const Appointment = () => {
   const [step, setStep] = useState(0);
-  const [isDisabled, setDisabled] = useState(true);
   const next = () => {
-    setStep(step + 1);
+    if(step === 0 ){
+      if(!validatedButton()){
+        notification.error({
+          message: "Error",
+          description: "Debe seleccionar un vehículo, rutina y fecha"
+        });
+        return;
+      }
+    }
+      setStep(step + 1);
   };
+  const {
+    vehicleSelected,
+    workshopSelected,
+    routineSelected,
+    dateAppointment
+  } = useSelector(
+    state => ({
+      vehicleSelected: state.appointment.vehicleSelected,
+      workshopSelected: state.appointment.workshopSelected,
+      routineSelected: state.appointment.routineSelected,
+      dateAppointment: state.appointment.dateAppointment,
+    }),
+    shallowEqual
+  );
 
-  const disabledButton = bool => {
-    setDisabled(bool);
-  };
+  const validatedButton = () => (
+    (
+      vehicleSelected !== undefined &&
+      workshopSelected !== undefined &&
+      dateAppointment !== undefined && 
+      dateAppointment !== "" &&
+      routineSelected !== undefined 
+    )
+  );
 
   const prev = () => {
     setStep(step - 1);
@@ -25,7 +54,7 @@ export const Appointment = () => {
   const steps = [
     {
       title: "Paso 1",
-      content: <FirstContent disabledButton={disabledButton} />
+      content: <FirstContent next={next} />
     },
     {
       title: "Paso 2",
@@ -54,7 +83,7 @@ export const Appointment = () => {
                 <Button
                   type="primary"
                   onClick={() => next()}
-                  disabled={isDisabled}
+                  // disabled={isDisabled}
                 >
                   Siguiente
                 </Button>

@@ -1,21 +1,25 @@
 // Definición de acciones
-export const SET_ROUTINES = "SET_ROUTINES";
-export const SET_SELECTED_ROUTINE = "SET_SELECTED_ROUTINE";
-export const SET_VEHICLES = "SET_VEHICLES";
-export const SET_SELECTED_VEHICLES = "SET_SELECTED_VEHICLES";
-export const SET_DATE_APPOINTMENT = "SET_DATE_APPOINMENT";
-export const SET_WORKSHOPS = "SET_WORKSHOPS";
-export const SET_WORKSHOP_SELECTED = "SET_WORKSHOP_SELECTED";
+export const SET_ROUTINES = 'SET_ROUTINES';
+export const SET_SELECTED_ROUTINE = 'SET_SELECTED_ROUTINE';
+export const SET_VEHICLES = 'SET_VEHICLES';
+export const SET_MECHANICS = 'SET_MECHANICS';
+export const SET_SELECTED_VEHICLES = 'SET_SELECTED_VEHICLES';
+export const SET_DATE_APPOINTMENT = 'SET_DATE_APPOINMENT';
+export const SET_WORKSHOPS = 'SET_WORKSHOPS';
+export const SET_WORKSHOP_SELECTED = 'SET_WORKSHOP_SELECTED';
+export const SET_MECHANIC_SELECTED = 'SET_MECHANIC_SELECTED';
 
 // Estado inicial
 export const initialState = {
   routines: [],
   vehicles: [],
   workshops: [],
-  routineSelected: undefined,
+  mechanics: [],
+  routineSelected: [],
   vehicleSelected: undefined,
   dateAppointment: undefined,
-  workshopSelected: undefined
+  workshopSelected: undefined,
+  mechanicSelected: undefined
 };
 
 // Función reductora
@@ -29,13 +33,18 @@ export default function appointment(state = initialState, action) {
     case SET_SELECTED_ROUTINE:
       return {
         ...state,
-        routineSelected: action.routineSelected
+        routineSelected: [...state.routines.filter(x => x.key === action.routineSelected) ]
       };
     case SET_VEHICLES:
       return {
         ...state,
         vehicles: action.vehicles
       };
+    case SET_MECHANICS:
+      return {
+        ...state,
+        mechanics: action.mechanics
+      }
     case SET_SELECTED_VEHICLES:
       return {
         ...state,
@@ -56,6 +65,11 @@ export default function appointment(state = initialState, action) {
         ...state,
         workshopSelected: action.workshopSelected
       };
+    case SET_MECHANIC_SELECTED:
+      return {
+        ...state,
+        mechanicSelected: action.mechanicSelected
+      }
     default:
       return state;
   }
@@ -93,7 +107,17 @@ export const setWorkshops = workshops => ({
   workshops
 });
 
+export const setMechanics = mechanics => ({
+  type: SET_MECHANICS,
+  mechanics
+});
+
 export const setWorkshopSelected = workshopSelected => ({
   type: SET_WORKSHOP_SELECTED,
   workshopSelected
+});
+
+export const setMechanicSelected = mechanicSelected => ({
+  type: SET_MECHANIC_SELECTED,
+  mechanicSelected
 });
