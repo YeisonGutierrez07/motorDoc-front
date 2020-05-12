@@ -4,48 +4,48 @@ import { ENDPOINTS } from 'constant/endPoints'
 import { notification } from 'antd';
 
 export async function getMechanicService() {
-  return axios({
-      method: 'GET',
-      url: `${ENDPOINTS.MECHANIC.GET}`,     
-      headers: {
-      authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
-      },
-  }).then(response => {
-      return response.data.data
-  })
-  .catch(() => {
-      notification.warning({
-          message: 'Error',
-          description: "Hubo un error consultando los datos.",
-      })
-  })
+    return axios({
+        method: 'GET',
+        url: `${ENDPOINTS.MECHANIC.GET}`,
+        headers: {
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
+    }).then(response => {
+        return response.data.data
+    })
+        .catch(() => {
+            notification.warning({
+                message: 'Error',
+                description: "Hubo un error consultando los datos.",
+            })
+        })
 }
 
 export async function getMisMechanicsService() {
     return axios({
         method: 'GET',
-        url: `${ENDPOINTS.MECHANIC.MIS_MECHANICS}`,     
+        url: `${ENDPOINTS.MECHANIC.MIS_MECHANICS}`,
         headers: {
-        authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
         },
     }).then(response => {
         return response.data.data
     })
-    .catch(() => {
-        notification.warning({
-            message: 'Error',
-            description: "Hubo un error consultando los datos.",
+        .catch(() => {
+            notification.warning({
+                message: 'Error',
+                description: "Hubo un error consultando los datos.",
+            })
         })
-    })
 }
 
 export async function createMechanicService(data) {
     return axios({
         method: 'POST',
-        url: `${ENDPOINTS.MECHANIC.CREATE}`, 
-        data,    
+        url: `${ENDPOINTS.MECHANIC.CREATE}`,
+        data,
         headers: {
-        authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
         },
     }).then(response => {
         notification.success({
@@ -54,10 +54,39 @@ export async function createMechanicService(data) {
         })
         return response.data.data
     })
-    .catch(() => {
+        .catch(() => {
+            notification.warning({
+                message: 'Error',
+                description: "Hubo un error consultando los datos.",
+            })
+        })
+}
+
+export const getTreatingMechanic = async (idworkshop, idvehicle) => {
+    try {
+        const { data, status } = await axios.get(
+            `${ENDPOINTS.MECHANIC.TRATING_MECHNIC}${idworkshop}/${idvehicle}`,
+            {
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${
+                        JSON.parse(localStorage.getItem("user")).token
+                        }`
+                }
+            }
+        );
+        return status === 200 ?
+                data.data.map(item => ({
+                        key: item.id, 
+                        value: `${item.name} ${item.last_name}`
+                    })) 
+                    : [];
+    } catch
+    {
         notification.warning({
             message: 'Error',
             description: "Hubo un error consultando los datos.",
         })
-    })
-  }
+        return [];
+    }
+} 

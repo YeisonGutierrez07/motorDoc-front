@@ -28,7 +28,8 @@ const WORKSHOP = {
 const MECHANIC = {
   GET: `${HOST_SITE_ENDPOINTS}/mechanic/`,
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
-  MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`
+  MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`,
+  TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
 };
 
 const ROUTINES = {
@@ -39,7 +40,7 @@ const ROUTINES = {
 };
 const ROUTINESV2 = {
   GET: `${HOST_SITE_ENDPOINTS_NET}routine`,
-  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/byWorkshop/`
+  GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/`
 };
 
 const BRANDS = {
