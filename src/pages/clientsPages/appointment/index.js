@@ -4,6 +4,7 @@ import { useSelector, shallowEqual } from "react-redux";
 import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
 import { FirstContent } from "./components/FirstContent";
+import { SecondContent } from "./components/SecondContent";
 import { CardView } from "./components/cardview";
 
 
@@ -20,6 +21,11 @@ export const Appointment = () => {
         });
         return;
       }
+    }else if(step === 1){
+      notification.error({
+        message: "Error",
+        description: "Debe seleccionar una cita"
+      });
     }
       setStep(step + 1);
   };
@@ -45,7 +51,7 @@ export const Appointment = () => {
       dateAppointment !== undefined && 
       dateAppointment !== "" &&
       routineSelected !== undefined 
-    )
+    ) === false
   );
 
   const prev = () => {
@@ -53,15 +59,15 @@ export const Appointment = () => {
   };
   const steps = [
     {
-      title: "Paso 1",
-      content: <FirstContent next={next} />
+      title: "Búsqueda especialidad",
+      content: <FirstContent />
     },
     {
-      title: "Paso 2",
-      content: "Second-content"
+      title: "Disponibilidad",
+      content: <SecondContent />
     },
     {
-      title: "Paso 3",
+      title: "Asignación",
       content: "Last-content"
     }
   ];
@@ -83,7 +89,6 @@ export const Appointment = () => {
                 <Button
                   type="primary"
                   onClick={() => next()}
-                  // disabled={isDisabled}
                 >
                   Siguiente
                 </Button>
@@ -93,7 +98,7 @@ export const Appointment = () => {
                   type="primary"
                   onClick={() => message.success("Processing complete!")}
                 >
-                  Finalizar
+                  Asignar cita
                 </Button>
               )}
               {step > 0 && (
