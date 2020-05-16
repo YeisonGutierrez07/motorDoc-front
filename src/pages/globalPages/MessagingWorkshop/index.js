@@ -5,7 +5,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/no-array-index-key */
 import React from "react";
-import { Tabs, Input, Menu, Dropdown, Button, Icon, Alert } from "antd";
+import { Tabs, Input, Menu, Dropdown, Button, Icon, Alert, Spin } from "antd";
 import Avatar from "components/GobalComponents/Avatar";
 import Moment from "react-moment";
 import { connect } from "react-redux";
@@ -98,12 +98,14 @@ class MessagingChat extends React.Component {
     myMessaggesClients: {},
     newMessage: "",
     firebaseID: "",
-    activeChatNumber: ""
+    activeChatNumber: "",
+    loading: true
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.loadFirebaseWorkshops();
   }
+
 
   loadFirebaseWorkshops = () => {
     const { user } = this.props;
@@ -134,7 +136,8 @@ class MessagingChat extends React.Component {
       }
       this.setState({
         myMessaggesClients: responseMessages,
-        activeChatNumber
+        activeChatNumber,
+        loading:false
       });
     });
   };
@@ -186,7 +189,7 @@ class MessagingChat extends React.Component {
   };
 
   render() {
-    const { activeChatNumber, myMessaggesClients, newMessage } = this.state;
+    const { activeChatNumber, myMessaggesClients, newMessage, loading } = this.state;
     const selectedChatData = myMessaggesClients
       ? myMessaggesClients[activeChatNumber]
       : {};
@@ -304,13 +307,16 @@ class MessagingChat extends React.Component {
           <div className="messaging__tabs">
             <Tabs defaultActiveKey="actives">
               <TabPane tab="Mis clientes" key="actives">
-                <Tabs
-                  defaultActiveKey="0"
-                  tabPosition="left"
-                  onChange={this.changeChat}
-                >
-                  {tabMisChats()}
-                </Tabs>
+                {loading ? 
+                  <div align="center"><Spin /></div> : 
+                  <Tabs
+                    defaultActiveKey="0"
+                    tabPosition="left"
+                    onChange={this.changeChat}
+                  >
+                    {tabMisChats()}
+                  </Tabs>
+                }
               </TabPane>
             </Tabs>
           </div>

@@ -16,6 +16,7 @@ export class ChartistGraphComponent extends Component {
     return (
       <>
         <h3 style={{ color: "red" }}>{title}</h3>
+        <br />
         <div className="row" style={{ left: "38px", position: "relative" }}>
           <div
             style={{

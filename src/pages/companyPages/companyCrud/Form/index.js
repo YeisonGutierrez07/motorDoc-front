@@ -100,8 +100,8 @@ class CardsForm extends React.Component {
   };
 
   render() {
-    const { form } = this.props;
     const { activeKeyCard, validTab1, validTab2 } = this.state;
+    const { form, history } = this.props;
 
     const tabList = [
       {
@@ -147,13 +147,12 @@ class CardsForm extends React.Component {
     };
 
     const getOptionsButtons = () => {
-      const { history } = this.props;
       if (activeKeyCard === "tab1" || activeKeyCard === "tab2") {
         return (
           <Button.Group size="big">
             <Popconfirm
               title="¿Esta seguro de descartar?"
-              onConfirm={() => history.push(`/superAdmin/companies`)}
+              onConfirm={() => history.goBack()}
               okText="Si"
               cancelText="No"
             >
@@ -172,11 +171,12 @@ class CardsForm extends React.Component {
           </Button.Group>
         );
       }
+
       return (
         <Button.Group size="big">
           <Popconfirm
             title="¿Esta seguro de descartar?"
-            onConfirm={() => history.push(`/company/list`)}
+            onConfirm={() => history.goBack()}
             okText="Si"
             cancelText="No"
           >
@@ -200,9 +200,15 @@ class CardsForm extends React.Component {
     return (
       <Authorize roles={["COMPANY"]} redirect to="/404">
         <Helmet title="Crear Empresa" />
-        <h1 align="center" style={{ color: "red" }}>
-          Formulario de registro de talleres
-        </h1>
+        <div align="center">
+          <h1 style={{ color: "red" }}>
+            <b>Formulario de registro de talleres</b>
+          </h1>
+          <div className="utils__titleDescription">
+            LLene el formulario para agregar un nuevo taller
+          </div>
+        </div>
+        <br />
         <Card
           style={{ width: "100%" }}
           tabList={tabList}

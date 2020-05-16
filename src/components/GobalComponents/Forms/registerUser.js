@@ -25,7 +25,7 @@ export class RegisterUser extends Component {
         <div className="col-lg-1" />
         <div className="col-lg-10">
           <div className="utils__title">
-            <h4 style={{ color: "red" }}>{title}</h4>
+            <h2 style={{ color: "red" }}><b>{title}</b></h2>
           </div>
           <div className="utils__titleDescription">
             Ingrese la siguiente infomación

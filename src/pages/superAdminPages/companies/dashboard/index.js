@@ -53,33 +53,34 @@ class BrandsDashboard extends Component {
                     <div className="row">
                       <div className="col-lg-6">
                         <div className="utils__title">
-                          <h4 style={{ color: "red" }}>Listado de empresas</h4>
+                          <h2 style={{ color: "red" }}><b>Listado de empresas</b></h2>
                         </div>
+                        <div className="utils__titleDescription">
+                          En esta sección puedes ver el listado y agregar empresas que tienen convenio con nosotros
+                        </div>
+                        <br />
+                        <Button
+                          shape="round"
+                          type="primary"
+                          icon="plus"
+                          size="large"
+                          onClick={() =>
+                            history.push(`/superAdmin/formCompanies/0`)
+                          }
+                        >
+                          Agregar Empresa
+                        </Button>
                       </div>
-                      <div className="col-lg-3" />
-                      <div className="col-lg-3">
+                      <div className="col-lg-6" align="center">
                         <b>Buscar por nombre: </b>
                         <Search
                           placeholder="Buscar..."
-                          size="small"
+                          size="large"
                           onSearch={value => this.getCompanies(value)}
                           enterButton
                         />
                       </div>
                     </div>
-                  </div>
-                  <br />
-                  <div align="right">
-                    <Button
-                      shape="round"
-                      type="primary"
-                      icon="plus"
-                      onClick={() =>
-                        history.push(`/superAdmin/formCompanies/0`)
-                      }
-                    >
-                      Agregar Empresa
-                    </Button>
                   </div>
                   <br />
                   {loadingData()}
