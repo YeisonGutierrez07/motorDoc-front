@@ -48,8 +48,11 @@ export class list extends Component {
                       <div className="col-lg-6">
                         <div className="utils__title">
                           <h2 style={{ color: "red" }}>
-                            Listado de mecanicos de su taller
+                            <b>Listado de mecanicos de su taller</b>
                           </h2>
+                        </div>
+                        <div className="utils__titleDescription">
+                          En esta sección vas a encontrar el listado de los mecanicos de su taller
                         </div>
                       </div>
                       <div className="col-lg-6" align="right">

@@ -25,13 +25,13 @@ export async function getAllRoutines() {
 export async function getAllRoutinesByWorkShop() {
   return axios({
     method: "GET",
-    url: `${ENDPOINTS.ROUTINES.GET_BY_WORKSHOP}`,
+    url: `${ENDPOINTS.ROUTINESV2.GET}`,
     headers: {
       authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
     }
   })
     .then(response => {
-      return response.data.data;
+      return response.data;
     })
     .catch(() => {
       notification.warning({
@@ -70,7 +70,7 @@ export async function addRoutineToWorkShop(data) {
     }
   })
     .then(response => {
-      return response.data.data;
+      return response.data;
     })
     .catch(() => {
       notification.warning({
@@ -111,3 +111,23 @@ export const GetRoutineByWorkShop = async (idworkshop, idreferencebrand) => {
     return [];
   }
 };
+
+export async function deleteRoutine(routineID) {
+  return axios({
+    method: "DELETE",
+    url: `${ENDPOINTS.ROUTINESV2.GET}/${routineID}`,
+    headers: {
+      authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
+    }
+  })
+    .then(response => {
+      return response.data;
+    })
+    .catch(() => {
+      notification.warning({
+        message: "Error",
+        description: "Hubo un error consultando los datos."
+      });
+    });
+}
+

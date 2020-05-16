@@ -68,24 +68,19 @@ class DashboardWorkshp extends React.Component {
       <Authorize roles={["WORKSHOP"]} redirect to="/404">
         <Helmet title="Principal" />
         <div className="card">
+          <div className="card-header">
+            <div className="row">
+              <div className="col-lg-12">
+                <div className="utils__title">
+                  <h2 style={{ color: "red" }}>
+                    <b>Bienvenido a su taller:</b> {workShop.name}
+                  </h2>
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="card-body">
             <Row gutter={20}>
-              <Col xs={24}>
-                <div className="card">
-                  <div className="card-header">
-                    <div className="row">
-                      <div className="col-lg-12">
-                        <div className="utils__title">
-                          <h2 style={{ color: "red" }}>
-                            <b>Bienvenido a su taller:</b> {workShop.name}
-                          </h2>
-                          <br />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Col>
               <Row gutter={20}>
                 <Col md={8} xs={24}>
                   <Spin spinning={false}>
@@ -115,6 +110,7 @@ class DashboardWorkshp extends React.Component {
                   </Spin>
                 </Col>
               </Row>
+              <br />
               <Col md={18} xs={24}>
                 <Tabs defaultActiveKey="1">
                   <TabPane tab="Grafica taller" key="1">
@@ -150,7 +146,7 @@ class DashboardWorkshp extends React.Component {
                 </Tabs>
               </Col>
               <Col md={6} xs={24}>
-                <div className="font-size-16 text-black mb-3">
+                <div className="font-size-16 text-black mb-3" align="center">
                   <h3 style={{ color: "red" }}>Listado de cliente VIP</h3>
                 </div>
                 <Table

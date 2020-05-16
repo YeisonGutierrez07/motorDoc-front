@@ -14,8 +14,7 @@
     "stylelint": "stylelint \"src/**/*.{scss,less}\""
   },
   "husky": {
-    "hooks": {
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,scss,less}": [
@@ -31,7 +30,7 @@
   },
   "dependencies": {
     "@devexpress/dx-react-core": "^2.5.1",
-    "@devexpress/dx-react-scheduler": "^2.5.1",
+    "@devexpress/dx-react-scheduler": "^2.6.2",
     "@devexpress/dx-react-scheduler-material-ui": "^2.5.1",
     "@material-ui/core": "^4.9.7",
     "@material-ui/icons": "^4.9.1",

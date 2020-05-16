@@ -1,8 +1,10 @@
+/* eslint-disable jsx-a11y/iframe-has-title */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Card, Col, Row } from "antd";
+import "./styles.scss";
 
 @connect(({ user }) => ({ user }))
 export default class dashboard extends Component {
@@ -10,7 +12,7 @@ export default class dashboard extends Component {
     const { user, history } = this.props;
     return (
       <>
-        <h2>
+        <h2 style={{ color: "red" }}>
           <b>Bienvenido(a)</b>
           {user.name}
         </h2>
@@ -20,9 +22,9 @@ export default class dashboard extends Component {
         </h4>
         <br />
         <Row gutter={20}>
-          <Col md={8} xs={8}>
+          <Col lg={8} md={12} xs={24}>
             <Card
-              title="Talleres"
+              title={<h3 style={{color: 'red'}}>Talleres</h3>}
               extra={
                 <a onClick={() => history.push("/clientsPages/workshpsList")}>
                   Saber mas
@@ -37,9 +39,9 @@ export default class dashboard extends Component {
               />
             </Card>
           </Col>
-          <Col md={8} xs={8}>
+          <Col lg={8} md={12} xs={24}>
             <Card
-              title="Contacta a un mecanico"
+              title={<h3 style={{color: 'red'}}>Contacta a un mecanico</h3>}
               extra={
                 <a onClick={() => history.push("/globals/MessagingChat")}>
                   Saber mas
@@ -54,9 +56,9 @@ export default class dashboard extends Component {
               />
             </Card>
           </Col>
-          <Col md={8} xs={8}>
+          <Col lg={8} md={12} xs={24}>
             <Card
-              title="Mis citas"
+              title={<h3 style={{color: 'red'}}>Mis citas</h3>}
               extra={
                 <a
                   onClick={() =>
@@ -76,6 +78,30 @@ export default class dashboard extends Component {
             </Card>
           </Col>
         </Row>
+        <br />
+        <h1 style={{ color: "red" }} align="center"><b>Últimas noticias</b></h1>
+        <br />
+        <div className="card">
+          <div className="card-body">
+            <Row gutter={20}>
+              <div align="center"> <h2 style={{ color: "red" }}> La Feria de las 2 ruedas del 2020 no sera igual a las pasadas</h2></div>
+              <br />
+              <div align="center">
+                <Col lg={8} md={12} xs={24}>
+                  <iframe width="350" height="315" src="https://www.youtube.com/embed/lJEJVkexc-E" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" />
+                </Col>
+                <Col lg={8} md={12} xs={24}>
+                  El evento que va del 2 al 5 de mayo (2 y 3 para prensa; 4 y 5 para público en general) en el centro de convenciones Plaza Mayor, contará con los lanzamientos de las firmas Victory, KTM, y Bajaj (Victory Flow, KTM 790 Adventure, KTM 790 Adventure R y Bajaj con las ediciones especiales de Pulsarmanía); por su parte Husqvarna, Kawasaki y Kymco exhibirán su portafolio actualizado. En movilidad eléctrica, Stärker anunció que lanzará una de las motocicletas eléctricas más potentes del mundo, denominada SuperSoco TC Max. Auteco ofrecerá también toda su gama de accesorios.
+                  <br /><br /><br />
+                  Conoce mas en <a href="https://www.motor.com.co/actualidad/lanzamientos/novedades-auteco-feria-2-ruedas/32234">https://www.motor.com.co/</a>
+                </Col>
+                <Col lg={8} md={12} xs={24}>
+                  <iframe width="350" height="315" src="https://www.youtube.com/embed/x1jasfwI42c" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" />
+                </Col>
+              </div>
+            </Row>
+          </div>
+        </div>
       </>
     );
   }

@@ -21,3 +21,23 @@ export async function GetAllBrands() {
       });
     });
 }
+
+
+export async function GetReferencesBrands(brandID) {
+  return axios({
+    method: "GET",
+    url: `${ENDPOINTS.REFERENCEBRAND.GET}${brandID}`,
+    headers: {
+      authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
+    }
+  })
+    .then(response => {
+      return response.data;
+    })
+    .catch(() => {
+      notification.warning({
+        message: "Error",
+        description: "Hubo un error consultando los datos."
+      });
+    });
+}

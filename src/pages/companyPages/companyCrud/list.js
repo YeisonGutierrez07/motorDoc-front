@@ -48,13 +48,18 @@ export class list extends Component {
                     <div className="row">
                       <div className="col-lg-6">
                         <div className="utils__title">
-                          <h2 style={{ color: "red" }}>Listado de talleres</h2>
+                          <h2 style={{ color: "red" }}><b>Listado de talleres</b></h2>
+                        </div>
+                        <div className="utils__titleDescription">
+                          En esta sección puedes agregar todos los talleres para que los usuarios de motorDOC pueda agendar sus citas 
                         </div>
                       </div>
                       <div className="col-lg-6" align="right">
                         <Button
                           type="primary"
                           onClick={() => history.push("/company/form/0")}
+                          icon="plus"
+                          size="large"
                         >
                           Agregar taller
                         </Button>

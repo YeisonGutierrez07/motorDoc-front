@@ -21,6 +21,8 @@ export class componentName extends Component {
   }
 
   getAll = search => {
+    
+    this.setState({loading: true});
     getAllWorkshopService(search).then(response => {
       this.setState({
         workshops: response,
@@ -57,8 +59,8 @@ export class componentName extends Component {
                   <div className="card-header">
                     <div className="row">
                       <div className="col-lg-6">
-                        <div className="utils__title">
-                          <h4 style={{ color: "red" }}>Listado de talleres</h4>
+                        <div className="utils__title" align="center">
+                          <h2 style={{ color: "red" }}><b>Listado de talleres</b></h2>
                         </div>
                       </div>
                       <div className="col-lg-6">
@@ -71,14 +73,24 @@ export class componentName extends Component {
                       </div>
                     </div>
                   </div>
+                  <br />
+                  <div className="utils__titleDescription" align="center">
+                    En esta sección vas a encontrar el listado de los talleres que prestan su servicio mediante nuestra plataforma
+                  </div>
+                  <br />
                   <div className="card-body">
                     {loadingData()}
-                    {Object.keys(workshops).map(c => (
-                      <div key={c}>
-                        <br />
-                        <DetailWorkshop info={workshops[c]} history={history} />
-                      </div>
-                    ))}
+                    {
+                      workshops.length > 0 || loading ?
+                        <Row gutter={20}>
+                          {Object.keys(workshops).map(c => (
+                            <Col md={12} xs={24}>
+                              <DetailWorkshop info={workshops[c]} history={history} />
+                              <br />
+                            </Col>
+                          ))}
+                        </Row> : <div align="center" className="utils__titleDescription"><h3>Upps No se encontro ningun taller</h3></div>
+                    }
                   </div>
                   <br />
                 </div>

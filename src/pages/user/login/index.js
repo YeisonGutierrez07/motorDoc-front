@@ -120,7 +120,7 @@ class Login extends Component {
                     </div>
                     <div className="ludwig ludwig--info">
                       en motorDoc encontraras los mejores talleres calificados
-                      de la ciudad y a un somple click.
+                      de la ciudad y a un simple click.
                     </div>
                   </div>
                 </div>

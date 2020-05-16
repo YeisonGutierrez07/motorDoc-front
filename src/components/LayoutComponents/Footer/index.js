@@ -6,21 +6,17 @@ import styles from './style.module.scss'
 const extrafooter = (
   <div className={styles.inner}>
     <div className="row">
-      <div className="col-lg-9">
+      <div className="col-lg-12">
         <p>
-          <strong>Clean UI React Admin Template - Best Solution for Your App!</strong>
+          <strong>MOTOR DOC</strong>
         </p>
         <p>
-          Clean UI – a modern professional admin template, based on Bootstrap 4 framework. Clean UI
-          is a powerful and super flexible tool, which suits best for any kind of web application:
-          Web Applications; CRM; CMS; Admin Panels; Dashboards; etc. Clean UI is fully responsive,
-          which means that it looks perfect on mobiles and tablets.
-        </p>
-        <p>
-          Clean UI is fully based on SASS pre-processor, includes 50+ commented SASS files. Each
-          file corresponds to a single component, layout, page, plugin or extension – so you can
-          easily find necessary piece of code and edit it for your needs. The package includes both
-          normal and minified CSS files, compiled from SASS.
+          El gran aumento de la adquisición de motos en colombia y su circulación exponencial en la ciudad 
+          de Bogotá demanda una mayor eficiencia de los talleres, ya que se están viendo afectados los tiempos 
+          de respuesta al servicio y atención de los empleados que brindan estas compañías. Cuyos usuarios 
+          llegan a los establecimientos por algún tipo de mantenimiento o garantía, la cual brinda una calidad 
+          de servicio muy baja, teniendo como consecuencia la insatisfacción y tiempo perdido de sus clientes... 
+          Es por esto que resulta relevante visualizar y analizar una temática que abra camino a otras modalidades de atención al usuario.
         </p>
       </div>
     </div>
@@ -28,28 +24,23 @@ const extrafooter = (
       <div className="row">
         <div className="col-sm-6">
           <a
-            href="https://themeforest.net/item/clean-ui-react-admin-template/21938700"
+            href="https://motor-doc-lp.netlify.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="mr-4"
           >
-            <Button type="danger">Buy Bundle 26$</Button>
+            <Button type="danger" icon="plus">Visita nuestra pagina</Button>
           </a>
         </div>
         <div className="col-sm-6">
-          <div className={styles.copyright}>
-            <img
-              src="resources/images/mediatec.png"
-              rel="noopener noreferrer"
-              alt="Mediatec Software"
-            />
+          <div className={styles.copyright} align="right">
             <span>
-              © 2019{' '}
+              © 2020{' '}
               <a href="http://mediatec.org/" target="_blank" rel="noopener noreferrer">
-                Mediatec Software
+                Fundación Universaria Uninpahu
               </a>
               <br />
-              All rights reserved
+              Ingenieria de Software
             </span>
           </div>
         </div>
@@ -58,6 +49,6 @@ const extrafooter = (
   </div>
 )
 
-const Footer = () => <div className={styles.footer}>{true ? null : extrafooter}</div>
+const Footer = () => <div className={styles.footer}>{extrafooter}</div>
 
 export default Footer

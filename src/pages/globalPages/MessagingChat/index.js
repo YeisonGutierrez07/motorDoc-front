@@ -4,7 +4,7 @@
 /* eslint-disable func-names */
 /* eslint-disable react/button-has-type */
 import React from "react";
-import { Tabs, Input, Menu, Dropdown, Button, Icon, Alert } from "antd";
+import { Tabs, Input, Menu, Dropdown, Button, Icon, Alert, Spin } from "antd";
 import Avatar from "components/GobalComponents/Avatar";
 import Moment from "react-moment";
 import { connect } from "react-redux";
@@ -103,7 +103,8 @@ class MessagingChat extends React.Component {
     myMessaggesWorkShops: {},
     newMessage: "",
     firebaseID: "",
-    activeChatNumber: ""
+    activeChatNumber: "",
+    loading: true
   };
 
   componentWillMount() {
@@ -144,15 +145,16 @@ class MessagingChat extends React.Component {
     const ref = referenciaFirebase.ref(`chats/clients/${firebaseID}`);
     ref.on("value", snapshot => {
       const responseMessages = snapshot.val();
+      
       this.setState({
-        myMessaggesWorkShops: responseMessages
+        myMessaggesWorkShops:responseMessages
       });
       let activeChatNumber = "";
       for (const iterator in responseMessages) {
         activeChatNumber = iterator;
       }
 
-      this.setState({ activeChatNumber });
+      this.setState({ activeChatNumber, loading: false });
     });
   };
 
@@ -182,12 +184,7 @@ class MessagingChat extends React.Component {
             size="small"
           >
             <Icon type="message" />
-            Iniciar
-          </Button>
-          &nbsp;&nbsp;
-          <Button type="primary" size="small">
-            <Icon type="profile" />
-            Ver perfil
+            Iniciar Chat
           </Button>
         </div>
       </div>
@@ -198,6 +195,7 @@ class MessagingChat extends React.Component {
     const { newMessage, firebaseID } = this.state;
     const d = new Date();
     const time = d.getTime();
+
     referenciaFirebase
       .ref(`/chats/clients/${firebaseID}/${uidWorkShop}/chatMessages`)
       .push({
@@ -205,12 +203,14 @@ class MessagingChat extends React.Component {
         send: true,
         time
       });
+
     referenciaFirebase
       .ref(`/chats/clients/${firebaseID}/${uidWorkShop}`)
       .update({
         last_message: newMessage,
         time
       });
+
     referenciaFirebase
       .ref(`/chats/workShops/${uidWorkShop}/${firebaseID}/chatMessages`)
       .push({
@@ -218,6 +218,7 @@ class MessagingChat extends React.Component {
         send: false,
         time
       });
+
     referenciaFirebase
       .ref(`/chats/workShops/${uidWorkShop}/${firebaseID}`)
       .update({
@@ -225,9 +226,7 @@ class MessagingChat extends React.Component {
         time
       });
 
-    this.setState({
-      newMessage: ""
-    });
+    this.setState({ newMessage: "", activeChatNumber: uidWorkShop });
   };
 
   createChat = uidWorkShop => {
@@ -279,12 +278,14 @@ class MessagingChat extends React.Component {
       activeChatNumber,
       usersWorkShops,
       myMessaggesWorkShops,
-      newMessage
+      newMessage,
+      loading
     } = this.state;
 
     const selectedChatData = myMessaggesWorkShops
       ? myMessaggesWorkShops[activeChatNumber]
       : null;
+
     const messagesData = selectedChatData ? selectedChatData.chatMessages : [];
 
     const returnPanelChat = () => {
@@ -415,13 +416,16 @@ class MessagingChat extends React.Component {
           <div className="messaging__tabs">
             <Tabs defaultActiveKey="actives">
               <TabPane tab="Mis talleres" key="actives">
-                <Tabs
-                  defaultActiveKey="0"
-                  tabPosition="left"
-                  onChange={this.changeChat}
-                >
-                  {tabMisChats()}
-                </Tabs>
+                {loading ? 
+                  <div align="center"><Spin /></div> : 
+                  <Tabs
+                    defaultActiveKey="0"
+                    tabPosition="left"
+                    onChange={this.changeChat}
+                  >
+                    {tabMisChats()}
+                  </Tabs>
+                }
               </TabPane>
               <TabPane tab="Todos los talleres" key="inactives">
                 <Tabs
