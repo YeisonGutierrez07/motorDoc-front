@@ -119,7 +119,7 @@ class CardsForm extends React.Component {
           <Button.Group size="big">
             <Popconfirm
               title="¿Esta seguro de descartar?"
-              onConfirm={() => history.push(`/superAdmin/companies`)}
+              onConfirm={() => history.goBack()}
               okText="Si"
               cancelText="No"
             >
@@ -137,7 +137,7 @@ class CardsForm extends React.Component {
         <Button.Group size="big">
           <Popconfirm
             title="¿Esta seguro de descartar?"
-            onConfirm={() => history.push(`/superAdmin/companies`)}
+            onConfirm={() => history.goBack()}
             okText="Si"
             cancelText="No"
           >

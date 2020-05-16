@@ -113,12 +113,6 @@ const menuCLIENT = [
     icon: "icmn icmn-stack",
     children: [
       {
-        title: "Mis talleres",
-        key: "MisTalleres",
-        url: "/clientsPages/misWorkshpsList",
-        pro: true
-      },
-      {
         title: "Buscar taller",
         key: "workshpsList",
         url: "/clientsPages/workshpsList"

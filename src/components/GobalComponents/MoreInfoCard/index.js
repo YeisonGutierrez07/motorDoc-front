@@ -106,7 +106,9 @@ export class MoreInfoCard extends Component {
           style={{ width: "100%" }}
         >
           <div align="center">
+            <br />
             <img width="500" height="300" src={moreData.logo} alt="Imagen" />
+            <br /><br />
             <h4 style={{ color: "red" }}>{moreData.name}</h4>
             <p>{moreData.more}</p>
           </div>

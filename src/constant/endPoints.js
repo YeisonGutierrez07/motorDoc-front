@@ -36,8 +36,9 @@ const ROUTINES = {
   GET: `${HOST_SITE_ENDPOINTS}/routines`,
   GET_BY_WORKSHOP: `${HOST_SITE_ENDPOINTS}/routines/byWorkshop`,
   GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS}/routines/byWorkshopID`,
-  ADD_ROUTINE: `${HOST_SITE_ENDPOINTS}/routines/addRoutineByWorkshop`
+  ADD_ROUTINE: `${HOST_SITE_ENDPOINTS_NET}routine`
 };
+
 const ROUTINESV2 = {
   GET: `${HOST_SITE_ENDPOINTS_NET}routine`,
   GET_BY_WORKSHOP_ID: `${HOST_SITE_ENDPOINTS_NET}routine/`
@@ -52,6 +53,11 @@ const VEHICLES = {
   CREATE: `${HOST_SITE_ENDPOINTS}/vehicles`
 };
 
+const REFERENCEBRAND = {
+  GET: `${HOST_SITE_ENDPOINTS_NET}referencebrand/`,
+};
+
+
 export const ENDPOINTS = {
   AUTH,
   COMPANIES,
@@ -60,7 +66,8 @@ export const ENDPOINTS = {
   ROUTINES,
   BRANDS,
   VEHICLES,
-  ROUTINESV2
+  ROUTINESV2,
+  REFERENCEBRAND
 };
 
 export default {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Radio, Button } from 'antd'
+import { Radio } from 'antd'
 import './style.scss'
 import Avatar from 'components/GobalComponents/Avatar'
 
@@ -12,7 +12,6 @@ class UserCard extends React.Component {
     const { type, info } = this.props
     return (
       <div className={`userCard px-3 py-5 ${type.length > 0 ? `userCard--typed bg-${  type}` : ''}`}>
-        <Button className="userCard__plusBtn">Add</Button>
         <Avatar
           src={info.profile_pic}
           border
