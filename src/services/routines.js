@@ -22,10 +22,10 @@ export async function getAllRoutines() {
     });
 }
 
-export async function getAllRoutinesByWorkShop() {
+export async function getAllRoutinesByWorkShop(workshopID) {
   return axios({
     method: "GET",
-    url: `${ENDPOINTS.ROUTINESV2.GET}`,
+    url: `${ENDPOINTS.ROUTINESV2.GET}/${workshopID}`,
     headers: {
       authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
     }
