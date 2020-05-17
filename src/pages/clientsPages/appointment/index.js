@@ -64,7 +64,7 @@ export const Appointment = () => {
     },
     {
       title: "Disponibilidad",
-      content: <SecondContent />
+      content: <SecondContent next={next} />
     },
     {
       title: "Asignación",
@@ -85,7 +85,7 @@ export const Appointment = () => {
             </Steps>
             <div className="steps-content">{steps[step].content}</div>
             <div className="steps-action">
-              {step < steps.length - 1 && (
+              {step < steps.length - 2 && (
                 <Button
                   type="primary"
                   onClick={() => next()}

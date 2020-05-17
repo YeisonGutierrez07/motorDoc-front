@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react';
 import { Collapse, Button } from 'antd';
 import './style.css';
+import { truncateAppointments } from '../../../../common';
 
 const { Panel } = Collapse;
 
-export const SecondContent = () => {
+export const SecondContent = ({ next }) => {
+  truncateAppointments('03/15/2020', 30);
   const callback = (key) => {
     console.log(key);
   }
@@ -50,6 +52,10 @@ export const SecondContent = () => {
       }]
     }
   ];
+  const selectAppointment = (id) => {
+    console.log(id);
+    next();
+  }
   return (
     <Fragment>
       <Collapse onChange={callback} style={{ margin: 20 }} defaultActiveKey={['0']}>
@@ -59,8 +65,9 @@ export const SecondContent = () => {
               {item.appointment.map(data => (
                 <Panel header={data.hour} key={data.id}>
                   {data.mechanic.map(mechanic => (
-                    <p>{`${mechanic.name} ${mechanic.last_name}`} <Button type='link' onClick={(e) => console.log(e)}>Seleccionar</Button></p>
-                  ))}
+                    <p>{`${mechanic.name} ${mechanic.last_name}`} <Button type='link' onClick={() => selectAppointment(mechanic.id)}>Seleccionar</Button></p>
+                    )
+                  )}
                 </Panel>
               ))}
             </Collapse>
