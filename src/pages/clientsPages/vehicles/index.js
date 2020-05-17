@@ -13,7 +13,8 @@ import {
   Icon,
   Spin
 } from "antd";
-import { GetAllBrands } from "../../../services/brands";
+import { GetAllBrands, GetReferencesBrands } from "../../../services/brands";
+
 import { GetAllVehicles, CreateVehicle } from "../../../services/vehicles";
 import VehicleDetail from "./vehicleDetail";
 
@@ -28,7 +29,8 @@ export class VehiclesList extends Component {
     brands: [],
     vehicles: [],
     image: "",
-    loading: true
+    loading: true,
+    references:[]
   };
 
   componentDidMount() {
@@ -42,6 +44,11 @@ export class VehiclesList extends Component {
     this.setState({
       visible: true
     });
+  };
+
+  getReferenceByIDBrand = brandID => {
+    GetReferencesBrands(brandID)
+    .then(references => this.setState({ references }));
   };
 
   handleOk = () => {
@@ -79,7 +86,7 @@ export class VehiclesList extends Component {
   };
 
   render() {
-    const { visible, brands, vehicles, loading } = this.state;
+    const { visible, brands, vehicles, loading, references } = this.state;
     const saveImage = base64 => {
       this.setState({
         image: base64
@@ -138,6 +145,7 @@ export class VehiclesList extends Component {
                         style={{ width: "100%" }}
                         placeholder="Seleccione el taller"
                         optionFilterProp="children"
+                        onChange={this.getReferenceByIDBrand}
                       >
                         {Object.keys(brands).map(c => (
                           <Option key={c} value={brands[c].id}>
@@ -163,17 +171,13 @@ export class VehiclesList extends Component {
                         style={{ width: "100%" }}
                         placeholder="Seleccione el taller"
                         optionFilterProp="children"
+                        disabled={references.length === 0}
                       >
-                        <Option value={1}>Referencia 1</Option>
-                        <Option value={2} disabled>
-                          Referencia 2
-                        </Option>
-                        <Option value={3} disabled>
-                          Referencia 3
-                        </Option>
-                        <Option value={4} disabled>
-                          Referencia 4
-                        </Option>
+                        {Object.keys(references).map(c => (
+                          <Option key={references[c].idReferenceBrand} value={references[c].idReferenceBrand}>
+                            {references[c].nameReference}
+                          </Option>
+                        ))}
                       </Select>
                     )}
                   </Form.Item>
@@ -256,8 +260,11 @@ export class VehiclesList extends Component {
                       <div className="col-lg-6">
                         <div className="utils__title">
                           <h2 style={{ color: "red" }}>
-                            LISTADO DE MIS VEHICULOS
+                            <b>LISTADO DE MIS VEHICULOS</b>
                           </h2>
+                        </div>
+                        <div className="utils__titleDescription">
+                          En esta sección puedes agregar tus vehiculos para guardar un historial de ellos y agendar las citas 
                         </div>
                       </div>
                       <div className="col-lg-6" align="right">

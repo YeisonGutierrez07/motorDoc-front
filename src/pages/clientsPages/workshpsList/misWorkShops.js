@@ -56,21 +56,23 @@ export class misWorkShops extends Component {
                     <div className="row">
                       <div className="col-lg-6">
                         <div className="utils__title">
-                          <h4 style={{ color: "red" }}>
-                            Listado de mis Talleres
-                          </h4>
+                          <h2 style={{ color: "red" }}>
+                            <b>Listado de mis Talleres</b>
+                          </h2>
                         </div>
                       </div>
                     </div>
                   </div>
                   {loadingData()}
                   <div className="card-body">
-                    {Object.keys(workshops).map(c => (
-                      <div key={c}>
-                        <br />
-                        <DetailWorkshop info={workshops[c]} history={history} />
-                      </div>
-                    ))}
+                    <Row gutter={20}>
+                      {Object.keys(workshops).map(c => (
+                        <Col md={12} xs={24}>
+                          <DetailWorkshop info={workshops[c]} history={history} />
+                          <br />
+                        </Col>
+                      ))}
+                    </Row>
                   </div>
                   <br />
                 </div>

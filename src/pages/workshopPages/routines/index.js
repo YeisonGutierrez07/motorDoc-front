@@ -2,7 +2,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Authorize from "components/LayoutComponents/Authorize";
-import Moment from "react-moment";
 import {
   Row,
   Col,
@@ -12,15 +11,17 @@ import {
   Select,
   notification,
   InputNumber,
+  Input,
   Icon,
-  TimePicker
+  Popconfirm,
 } from "antd";
-import moment from "moment";
 import {
-  getAllRoutines,
   getAllRoutinesByWorkShop,
-  addRoutineToWorkShop
+  addRoutineToWorkShop,
+  deleteRoutine
 } from "../../../services/routines";
+import { GetAllBrands, GetReferencesBrands } from "../../../services/brands";
+
 
 const { confirm } = Modal;
 const { Option } = Select;
@@ -28,26 +29,26 @@ const { Option } = Select;
 class ViewRoutines extends React.Component {
   state = {
     misRoutines: [],
-    routines: [],
     newRoutines: [],
     routinesTable: [],
     visible: false,
     estimatedTime: null,
-    selectRoutine: null,
+    selectReference: null,
     estimatedCost: null,
-    loading: true
+    loading: true,
+    nameRoutine: "",
+    brands:[],
+    references:[]
   };
 
   componentDidMount() {
+    GetAllBrands().then(brands => this.setState({ brands }));
     this.stategetAllRoutinesByWorkShop();
-    getAllRoutines().then(routines => {
-      this.setState({ routines, loading: false });
-    });
   }
 
   stategetAllRoutinesByWorkShop = () => {
     getAllRoutinesByWorkShop().then(misRoutines => {
-      this.setState({ misRoutines });
+      this.setState({ misRoutines, loading: false });
     });
   };
 
@@ -58,8 +59,13 @@ class ViewRoutines extends React.Component {
     });
   };
 
+  getReferenceByIDBrand = brandID => {
+    GetReferencesBrands(brandID)
+    .then(references => this.setState({ references }));
+  };
+
   handleSubmit = () => {
-    const { newRoutines } = this.state;
+    const { newRoutines, nameRoutine } = this.state;
     if (newRoutines.length === 0) {
       notification.error({
         message: "Error",
@@ -69,15 +75,30 @@ class ViewRoutines extends React.Component {
       return;
     }
     const sendData = () => {
-      addRoutineToWorkShop(newRoutines).then(data => {
+      const dataSend = {
+        "name": nameRoutine,
+        "routineBrand": newRoutines,
+        "workshopsid": 1
+      }
+
+      addRoutineToWorkShop(dataSend)
+      .then(() => {
         this.setState({
           visible: false,
-          misRoutines: data
+          newRoutines: [],
+          routinesTable: [],
+          estimatedTime: null,
+          selectReference: null,
+          estimatedCost: null,
+          nameRoutine: "",
+          references:[]
         });
         notification.success({
           message: "Exito",
           description: "Se han agregado las rutinas con exito"
         });
+        this.setState({loading: true})
+        this.stategetAllRoutinesByWorkShop();
       });
     };
 
@@ -99,59 +120,116 @@ class ViewRoutines extends React.Component {
     });
   };
 
+  deleteRoutine = idRoutine => {
+    deleteRoutine(idRoutine)
+    .then(() => {
+      notification.success({
+        message: "Exito",
+        description: "Se ha eliminado la rutina con exito"
+      });
+      this.setState({loading: true})
+      this.stategetAllRoutinesByWorkShop();
+    })
+  }
+
+  onChangeNameRoutine = e => this.setState({nameRoutine: e.target.value})
+
   render() {
     const {
       misRoutines,
-      routines,
       visible,
       routinesTable,
       estimatedTime,
-      selectRoutine,
+      selectReference,
       estimatedCost,
-      loading
+      loading,
+      brands,
+      references,
+      nameRoutine
     } = this.state;
 
-    const columns = [
+    const columnsRegister = [
       {
         title: "Nombre de la rutina",
-        dataIndex: "routine.name",
-        key: "name"
+        dataIndex: "reference.nameReference",
+        key: "name",
       },
       {
         title: "Tiempo estimado",
-        dataIndex: "estimated_time",
-        render: time => (
-          <p>
-            <Moment format="HH:mm">{Number(time)}</Moment>&nbsp;&nbsp; Horas{" "}
-          </p>
-        ),
-        key: "estimated_time"
+        key: "estimated_time",
+        render: data => data.estimated_time
+
       },
       {
         title: "Costo estimado",
         dataIndex: "estimated_cost",
-        render: time => `$ ${time}`,
+        render: cost => `$ ${cost}`,
         key: "estimated_cost"
       }
     ];
+
+
+    const columns = [
+      {
+        title: "Nombre de la rutina",
+        key: "name",
+        render: data => data.reference ? data.reference.nameReference : data.name
+      },
+      {
+        title: "Tiempo estimado",
+        key: "estimated_time",
+        render: data => data.estimated_time || data.estimatedtime
+
+      },
+      {
+        title: "Costo estimado",
+        dataIndex: "estimated_cost",
+        render: cost => `$ ${cost}`,
+        key: "estimated_cost"
+      },
+      {
+        title: "Eliminar Rutina",
+        key: "delete",
+        render: data => (
+          <>
+            <Button icon="edit">Editar</Button>&nbsp;&nbsp;
+            <Popconfirm title="¿Seguro de eliminar esta rutina?" okText="Si" cancelText="No" onConfirm={() => this.deleteRoutine(data.idRoutine)}>
+              <Button type="primary" icon="delete">Eliminar</Button>
+            </Popconfirm>
+          </>
+        )
+      },
+    ];
+
+
     const addRoutine = () => {
-      const { newRoutines } = this.state;
+      const { newRoutines, nameReference } = this.state;
       const newRoutinesObj = {
-        routine_id: selectRoutine,
+        idreferencebrand: selectReference,
         estimated_time: estimatedTime,
         estimated_cost: estimatedCost
       };
-      if (!selectRoutine || !estimatedTime) {
+      if (!selectReference || !estimatedTime || !estimatedCost || nameReference) {
         notification.error({
           message: "Error",
-          description: "Debe agregar información en los dos campos"
+          description: "Debe agregar información en todos los campos"
         });
         return;
       }
 
-      const routineData = routines.filter(r => r.id === selectRoutine)[0];
+      const validRoutines = routinesTable.filter(r => r.reference.idReferenceBrand === selectReference);
+
+      if (validRoutines.length > 0) {
+        notification.error({
+          message: "Error",
+          description: "No puede agregar la rutina 2 veces para la misma referencia"
+        });
+        return;
+      }
+
+      const referenceData = references.filter(r => r.idReferenceBrand === selectReference)[0];
       const routinesTableObj = {
-        routine: routineData,
+        reference: referenceData,
         estimated_time: estimatedTime,
         estimated_cost: estimatedCost
       };
@@ -161,24 +239,18 @@ class ViewRoutines extends React.Component {
       this.setState({
         newRoutines,
         routinesTable,
-        selectRoutine: null,
-        estimatedTime: null,
-        estimatedCost: null
       });
     };
 
     const onChangeSelect = val => {
       this.setState({
-        selectRoutine: val
+        selectReference: val
       });
     };
 
-    const onChangeHours = (time, timeString) => {
-      // const date = time.getTime();
-      const date = moment(time).valueOf();
-      console.info(date);
+    const onChangeHours = (val) => {
       this.setState({
-        estimatedTime: timeString
+        estimatedTime: val
       });
     };
 
@@ -198,7 +270,7 @@ class ViewRoutines extends React.Component {
             </h3>
             <Table
               dataSource={routinesTable}
-              columns={columns}
+              columns={columnsRegister}
               pagination={routinesTable.length >= 11}
               rowKey="id"
             />
@@ -217,55 +289,86 @@ class ViewRoutines extends React.Component {
           onCancel={this.handleCancel}
         >
           <>
-            <b>Seleccione las rutinas para agregar a su listado</b>
-            <Select
-              showSearch
-              style={{ width: "100%" }}
-              placeholder="Seleccione la rutina"
-              optionFilterProp="children"
-              onChange={onChangeSelect}
-              value={selectRoutine}
-              filterOption={(input, option) =>
-                option.props.children
-                  .toLowerCase()
-                  .indexOf(input.toLowerCase()) >= 0
-              }
-            >
-              {Object.keys(routines).map(c => (
-                <Option key={routines[c].id} value={routines[c].id}>
-                  {routines[c].name}
-                </Option>
-              ))}
-            </Select>
-            <br />
-            <br />
-            <b>Tiempo estimado</b>(en horas)<b>:</b>
-            <TimePicker
-              key="estimated_time"
-              onChange={onChangeHours}
-              defaultOpenValue={moment("00:00", "HH:mm")}
-              style={{ width: "100%" }}
-            />
-            <br />
-            <br />
-            <b>Valor</b>(en dinero)<b>:</b>
-            <InputNumber
-              min={1}
-              onChange={onChangeCost}
-              value={estimatedCost}
-              style={{ width: "100%" }}
-            />
-            <br />
-            <br />
-            <div align="center">
-              <Button size="small" onClick={() => addRoutine()}>
-                <Icon type="plus" />
-                Agregar
-              </Button>
-              <br />
-              <br />
-            </div>
-            {returnList()}
+            <b>Nombre de la rutina</b>
+            <Input value={nameRoutine} onChange={this.onChangeNameRoutine} />
+            {
+              <>
+                <br />
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <b>Seleccione las marca</b>
+                    <Select
+                      style={{ width: "100%" }}
+                      placeholder="Seleccione el taller"
+                      optionFilterProp="children"
+                      onChange={this.getReferenceByIDBrand}
+                    >
+                      {Object.keys(brands).map(c => (
+                        <Option key={c} value={brands[c].id}>
+                          {brands[c].name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                  <div className="col-6">
+                    <b>Seleccione las referencias</b>
+                    <Select
+                      showSearch
+                      style={{ width: "100%" }}
+                      placeholder="Seleccione la Referencia"
+                      optionFilterProp="children"
+                      onChange={onChangeSelect}
+                      disabled={references.length === 0}
+                      filterOption={(input, option) =>
+                        option.props.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {Object.keys(references).map(c => (
+                        <Option key={references[c].idReferenceBrand} value={references[c].idReferenceBrand}>
+                          {references[c].nameReference}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
+                <br />
+                <br />
+                <div className="row">
+                  <div className="col-6">
+                    <b>Tiempo estimado</b>(en horas)<b>:</b>
+                    <InputNumber
+                      min={1}
+                      key="estimated_time"
+                      onChange={onChangeHours}
+                      style={{ width: "100%" }}
+                    />
+                  </div>
+                  <div className="col-6">
+                    <b>Valor</b>(en dinero)<b>:</b>
+                    <InputNumber
+                      min={1}
+                      onChange={onChangeCost}
+                      value={estimatedCost}
+                      style={{ width: "100%" }}
+                    />
+                  </div>
+                </div>
+                <br />
+                <br />
+                <div align="center">
+                  <Button onClick={() => addRoutine()}>
+                    <Icon type="plus" />
+                    Agregar al listado
+                  </Button>
+                  <br />
+                  <br />
+                </div>
+                {returnList()}
+              </>
+            }
           </>
         </Modal>
         <div className="card">
@@ -273,10 +376,15 @@ class ViewRoutines extends React.Component {
             <Row gutter={20}>
               <Col xs={24}>
                 <div className="card">
-                  <div className="utils__title">
-                    <h2 style={{ color: "red" }}>
-                      Listado de rutinas que ofrece su taller
-                    </h2>
+                  <div className="card-header">
+                    <div className="utils__title">
+                      <h2 style={{ color: "red" }}>
+                        <b>Listado de rutinas que ofrece su taller</b>
+                      </h2>
+                    </div>
+                    <div className="utils__titleDescription">
+                      En esta sección puedes agregar todas las rutinas que tu taller ofrece a los clientes de motorDOC
+                    </div>
                   </div>
                   <div className="card-body">
                     <div align="right">
