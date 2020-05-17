@@ -5,7 +5,8 @@ const AUTH = {
   REQUEST_RESET_PASSWORD: `${HOST_SITE_ENDPOINTS}/user/RequestResetPassword`,
   RESET_PASSWORD: `${HOST_SITE_ENDPOINTS}/user/reset`,
   USERS: `${HOST_SITE_ENDPOINTS}/user/listUsers/`,
-  REGISTER: `${HOST_SITE_ENDPOINTS}/register`
+  REGISTER: `${HOST_SITE_ENDPOINTS}/register`,
+  GET_WORKSHOP: `${HOST_SITE_ENDPOINTS}/user/myWorkShop`
   // LOGIN: "https://a724d7ee.ngrok.io/login"
 };
 

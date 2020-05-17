@@ -21,6 +21,7 @@ import {
   deleteRoutine
 } from "../../../services/routines";
 import { GetAllBrands, GetReferencesBrands } from "../../../services/brands";
+import { getMyWorkShopData } from "../../../services/workshops";
 
 
 const { confirm } = Modal;
@@ -28,6 +29,7 @@ const { Option } = Select;
 
 class ViewRoutines extends React.Component {
   state = {
+    workshopID: 0,
     misRoutines: [],
     newRoutines: [],
     routinesTable: [],
@@ -43,11 +45,19 @@ class ViewRoutines extends React.Component {
 
   componentDidMount() {
     GetAllBrands().then(brands => this.setState({ brands }));
-    this.stategetAllRoutinesByWorkShop();
+    this.getMyWorkShopData();
   }
 
-  stategetAllRoutinesByWorkShop = () => {
-    getAllRoutinesByWorkShop().then(misRoutines => {
+  getMyWorkShopData = () => {
+    getMyWorkShopData()
+    .then(data => {
+      this.setState({workshopID:data.id });
+      this.stategetAllRoutinesByWorkShop(data.id);
+    })
+  }
+
+  stategetAllRoutinesByWorkShop = (workshopID) => {
+    getAllRoutinesByWorkShop(workshopID).then(misRoutines => {
       this.setState({ misRoutines, loading: false });
     });
   };
@@ -65,7 +75,7 @@ class ViewRoutines extends React.Component {
   };
 
   handleSubmit = () => {
-    const { newRoutines, nameRoutine } = this.state;
+    const { newRoutines, nameRoutine, workshopID } = this.state;
     if (newRoutines.length === 0) {
       notification.error({
         message: "Error",
@@ -78,7 +88,7 @@ class ViewRoutines extends React.Component {
       const dataSend = {
         "name": nameRoutine,
         "routineBrand": newRoutines,
-        "workshopsid": 1
+        "workshopsid": workshopID
       }
 
       addRoutineToWorkShop(dataSend)
@@ -157,7 +167,7 @@ class ViewRoutines extends React.Component {
       {
         title: "Tiempo estimado",
         key: "estimated_time",
-        render: data => data.estimated_time
+        render: data => data.routineBrand
 
       },
       {
@@ -177,15 +187,16 @@ class ViewRoutines extends React.Component {
       },
       {
         title: "Tiempo estimado",
+        dataIndex: "routineBrand",
+        render: data => data.length > 0 ? `${data[0].estimatedTime  }  Minutos`: 0,
         key: "estimated_time",
-        render: data => data.estimated_time || data.estimatedtime
 
       },
       {
         title: "Costo estimado",
-        dataIndex: "estimated_cost",
-        render: cost => `$ ${cost}`,
-        key: "estimated_cost"
+        dataIndex: "routineBrand",
+        render: data => data.length > 0 ? `$${  data[0].cost}`  : 0,
+        key: "cost"
       },
       {
         title: "Eliminar Rutina",
@@ -338,7 +349,7 @@ class ViewRoutines extends React.Component {
                 <br />
                 <div className="row">
                   <div className="col-6">
-                    <b>Tiempo estimado</b>(en horas)<b>:</b>
+                    <b>Tiempo estimado</b>(en Minutos)<b>:</b>
                     <InputNumber
                       min={1}
                       key="estimated_time"
