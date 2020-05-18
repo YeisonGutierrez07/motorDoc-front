@@ -83,3 +83,22 @@ export async function searchWorkShopService(idWorkShop) {
       });
     });
 }
+
+export async function getMyWorkShopData() {
+  return axios({
+    method: "GET",
+    url: `${ENDPOINTS.AUTH.GET_WORKSHOP}`,
+    headers: {
+      authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
+    }
+  })
+    .then(response => {
+      return response.data.data;
+    })
+    .catch(() => {
+      notification.warning({
+        message: "Error",
+        description: "Hubo un error consultando los datos."
+      });
+    });
+}
