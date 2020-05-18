@@ -7,6 +7,7 @@ export const SET_SELECTED_VEHICLES = 'SET_SELECTED_VEHICLES';
 export const SET_DATE_APPOINTMENT = 'SET_DATE_APPOINMENT';
 export const SET_WORKSHOPS = 'SET_WORKSHOPS';
 export const SET_WORKSHOP_SELECTED = 'SET_WORKSHOP_SELECTED';
+export const SET_MECHANIC_TREATING_SELECTED = 'SET_MECHANIC_TREATING_SELECTED';
 export const SET_MECHANIC_SELECTED = 'SET_MECHANIC_SELECTED';
 
 // Estado inicial
@@ -19,6 +20,7 @@ export const initialState = {
   vehicleSelected: undefined,
   dateAppointment: undefined,
   workshopSelected: undefined,
+  mechanicTreatingSelected: undefined,
   mechanicSelected: undefined
 };
 
@@ -65,6 +67,11 @@ export default function appointment(state = initialState, action) {
         ...state,
         workshopSelected: action.workshopSelected
       };
+    case SET_MECHANIC_TREATING_SELECTED:
+      return {
+        ...state,
+        mechanicTreatingSelected: action.mechanicTreatingSelected
+      }
     case SET_MECHANIC_SELECTED:
       return {
         ...state,
@@ -115,6 +122,11 @@ export const setMechanics = mechanics => ({
 export const setWorkshopSelected = workshopSelected => ({
   type: SET_WORKSHOP_SELECTED,
   workshopSelected
+});
+
+export const setTreatingMechanicSelected = mechanicTreatingSelected => ({
+  type: SET_MECHANIC_TREATING_SELECTED,
+  mechanicTreatingSelected
 });
 
 export const setMechanicSelected = mechanicSelected => ({

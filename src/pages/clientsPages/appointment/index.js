@@ -1,11 +1,12 @@
-import React, { Fragment, useState } from "react";
-import { Steps, Button, message, notification } from "antd";
-import { useSelector, shallowEqual } from "react-redux";
-import { Helmet } from "react-helmet";
-import Authorize from "components/LayoutComponents/Authorize";
-import { FirstContent } from "./components/FirstContent";
-import { CardView } from "./components/cardview";
-
+import React, { Fragment, useState } from 'react';
+import { Steps, Button, message, notification } from 'antd';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import Authorize from 'components/LayoutComponents/Authorize';
+import { FirstContent } from './components/FirstContent';
+import { SecondContent } from './components/SecondContent';
+import { ThirdContent } from './components/ThirdContent';
+import { CardView } from './components/cardview';
 
 const { Step } = Steps;
 
@@ -15,11 +16,16 @@ export const Appointment = () => {
     if(step === 0 ){
       if(!validatedButton()){
         notification.error({
-          message: "Error",
-          description: "Debe seleccionar un vehículo, rutina y fecha"
+          message: 'Error',
+          description: 'Debe seleccionar un vehículo, rutina y fecha'
         });
         return;
       }
+    }else if(step === 1){
+      notification.error({
+        message: 'Error',
+        description: 'Debe seleccionar una cita'
+      });
     }
       setStep(step + 1);
   };
@@ -43,9 +49,9 @@ export const Appointment = () => {
       vehicleSelected !== undefined &&
       workshopSelected !== undefined &&
       dateAppointment !== undefined && 
-      dateAppointment !== "" &&
+      dateAppointment !== '' &&
       routineSelected !== undefined 
-    )
+    ) === false // quitar
   );
 
   const prev = () => {
@@ -53,23 +59,23 @@ export const Appointment = () => {
   };
   const steps = [
     {
-      title: "Paso 1",
-      content: <FirstContent next={next} />
+      title: 'Búsqueda especialidad',
+      content: <FirstContent />
     },
     {
-      title: "Paso 2",
-      content: "Second-content"
+      title: 'Disponibilidad',
+      content: <SecondContent next={next} />
     },
     {
-      title: "Paso 3",
-      content: "Last-content"
+      title: 'Asignación',
+      content: <ThirdContent />
     }
   ];
   return (
-    <Authorize roles={["CLIENT"]} redirect to="/404">
-      <Helmet title="Citas" />
+    <Authorize roles={['CLIENT']} redirect to='/404'>
+      <Helmet title='Citas' />
       <CardView
-        title="Asignar Cita"
+        title='Asignar Cita'
         body={
           <Fragment>
             <Steps current={step}>
@@ -77,23 +83,22 @@ export const Appointment = () => {
                 <Step key={item.title} title={item.title} />
               ))}
             </Steps>
-            <div className="steps-content">{steps[step].content}</div>
-            <div className="steps-action">
-              {step < steps.length - 1 && (
+            <div className='steps-content'>{steps[step].content}</div>
+            <div className='steps-action'>
+              {step < steps.length - 2 && (
                 <Button
-                  type="primary"
+                  type='primary'
                   onClick={() => next()}
-                  // disabled={isDisabled}
                 >
                   Siguiente
                 </Button>
               )}
               {step === steps.length - 1 && (
                 <Button
-                  type="primary"
-                  onClick={() => message.success("Processing complete!")}
+                  type='primary'
+                  onClick={() => message.success('Processing complete!')}
                 >
-                  Finalizar
+                  Asignar cita
                 </Button>
               )}
               {step > 0 && (
