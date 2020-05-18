@@ -9,7 +9,7 @@ import { GetAllVehicles } from '../../../../services/vehicles';
 import {
   setWorkshopSelected, setRoutines, setVehicles,
   setVehicleSelected, setSelectedRoutine,
-  setDateAppointment, setMechanicSelected,
+  setDateAppointment, setTreatingMechanicSelected,
   setMechanics
 } from '../../../../redux/appointment';
 import { disabledDate } from '../../../../common';
@@ -27,7 +27,7 @@ export const FirstContent = () => {
     routineSelected,
     dateAppointment,
     mechanics,
-    mechanicSelected
+    mechanicTreatingSelected
   } = useSelector(
     state => ({
       idWorkshop: parseInt(state.router.location.pathname.split('/')[3], 10),
@@ -38,7 +38,7 @@ export const FirstContent = () => {
       workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
-      mechanicSelected: state.appointment.mechanicSelected,
+      mechanicTreatingSelected: state.appointment.mechanicTreatingSelected,
     }),
     shallowEqual
   );
@@ -80,7 +80,7 @@ export const FirstContent = () => {
     } else {
       dispatch(setMechanics([]));
     }
-    dispatch(setMechanicSelected(undefined));
+    dispatch(setTreatingMechanicSelected(undefined));
     setLoading(false);
   }
   const setWorkshopId = () => {
@@ -100,7 +100,7 @@ export const FirstContent = () => {
   }
 
   const setSelectedMechanic = id => {
-    dispatch(setMechanicSelected(id));
+    dispatch(setTreatingMechanicSelected(id));
   }
 
   const loadingData = () => {
@@ -177,7 +177,7 @@ export const FirstContent = () => {
             className='input-routine'
             showSearch
             style={{ width: '100%' }}
-            placeholder='Seleccione la rutina'
+            placeholder='Seleccione rutina de mantenimiento'
             optionFilterProp='children'
             onChange={setSelectRoutine}
             value={routineSelected.length <= 0 ? undefined : routineSelected[0].key}
@@ -271,7 +271,7 @@ export const FirstContent = () => {
             placeholder='Seleccione su mécanico tratante'
             optionFilterProp='children'
             onChange={setSelectedMechanic}
-            value={mechanicSelected}
+            value={mechanicTreatingSelected}
             filterOption={(input, option) =>
               option.props.children
                 .toLowerCase()

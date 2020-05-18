@@ -1,60 +1,54 @@
 import React, { Fragment } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Collapse, Button } from 'antd';
 import './style.css';
+import { setMechanicSelected } from '../../../../redux/appointment';
 import { truncateAppointments } from '../../../../common';
 
 const { Panel } = Collapse;
 
 export const SecondContent = ({ next }) => {
-  truncateAppointments('03/15/2020', 30);
+
+  let index = 0;
+  const dispatch = useDispatch();
+  const { dateAppointment } = useSelector(
+    state => ({
+      // routineSelected: state.appointment.routineSelected,
+      dateAppointment: state.appointment.dateAppointment,
+    }),
+    shallowEqual
+  );
+  const appointments = truncateAppointments(dateAppointment, 70).map(p => (
+    {
+      id: p.index,
+      day: p.day,
+      appointment: p.dayandhours.map(x => (
+        x.hour.map(h => {
+            const hours = {
+              index,
+              mechanic: [{
+                id: 1,
+                name: 'Jorge',
+                last_name: 'Canchon'
+              }],
+              hour: h
+            }
+            index += 1;
+            return hours;
+          }
+        ))
+      )
+    }
+  ));
+
   const callback = (key) => {
     console.log(key);
   }
-  const appointments = [
-    {
-      id: 0,
-      day: '13 Mayo 2020',
-      appointment: [{
-        id: 0,
-        mechanic: [{
-          id: 1,
-          name: 'Jorge',
-          last_name: 'Canchon'
-        },
-        {
-          id: 2,
-          name: 'Yeison',
-          last_name: 'Gutierrez'
-        }],
-        hour: '01:00 PM',
-      },
-      {
-        id: 1,
-        mechanic: [{
-          id: 3,
-          name: 'Diego',
-          last_name: 'Rios'
-        }],
-        hour: '01:50 PM'
-      }]
-    },
-    {
-      id: 1,
-      day: '14 Mayo 2020',
-      appointment:[{
-        id: 0,
-        mechanic: [{
-          id: 1,
-          name: 'Jorge',
-          last_name: 'Canchon'
-        }],
-        hour: '09:00 AM'
-      }]
-    }
-  ];
+
   const selectAppointment = (id) => {
     console.log(id);
     next();
+    dispatch(setMechanicSelected(id));
   }
   return (
     <Fragment>
@@ -63,12 +57,11 @@ export const SecondContent = ({ next }) => {
           <Panel header={item.day} key={item.id}>
             <Collapse>
               {item.appointment.map(data => (
-                <Panel header={data.hour} key={data.id}>
-                  {data.mechanic.map(mechanic => (
-                    <p>{`${mechanic.name} ${mechanic.last_name}`} <Button type='link' onClick={() => selectAppointment(mechanic.id)}>Seleccionar</Button></p>
-                    )
-                  )}
-                </Panel>
+                data.map(x => (
+                  <Panel header={x.hour} key={x.index}>
+                    {x.mechanic.map(mechanic => panel(mechanic, selectAppointment))}
+                  </Panel>
+                ))
               ))}
             </Collapse>
           </Panel>
@@ -78,4 +71,9 @@ export const SecondContent = ({ next }) => {
   );
 };
 
+const panel = (mechanic, selectAppointment) => (
+  <Fragment>
+    {`${mechanic.name} ${mechanic.last_name}`} <Button type='primary' onClick={() => selectAppointment(mechanic.id)}>Seleccionar</Button>
+  </Fragment>
+);
 export default SecondContent;
