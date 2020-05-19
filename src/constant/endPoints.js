@@ -58,6 +58,10 @@ const REFERENCEBRAND = {
   GET: `${HOST_SITE_ENDPOINTS_NET}referencebrand/`,
 };
 
+const APPOINTMENTS = {
+  GET_APPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments`,
+  ADD_APPOINTMENT:  `http://localhost:65063/api/appointment`,
+}
 
 export const ENDPOINTS = {
   AUTH,
@@ -68,7 +72,8 @@ export const ENDPOINTS = {
   BRANDS,
   VEHICLES,
   ROUTINESV2,
-  REFERENCEBRAND
+  REFERENCEBRAND,
+  APPOINTMENTS
 };
 
 export default {

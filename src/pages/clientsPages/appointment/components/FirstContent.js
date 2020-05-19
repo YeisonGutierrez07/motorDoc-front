@@ -17,7 +17,12 @@ import { disabledDate } from '../../../../common';
 const { Option } = Select;
 
 export const FirstContent = () => {
+
   const dispatch = useDispatch();
+  const [disabledRoutine, setDisabledRoutine] = useState(true);
+  const [disabledMechanic, setDisabledMechanic] = useState(true);
+  const [loading, setLoading] = useState(true);
+  
   const {
     idWorkshop,
     vehicles,
@@ -43,8 +48,6 @@ export const FirstContent = () => {
     shallowEqual
   );
 
-  const [loading, setLoading] = useState(true);
-
   const getData = async () => {
     const vehiclesData = await GetAllVehicles();
     if (vehiclesData != null) {
@@ -62,13 +65,16 @@ export const FirstContent = () => {
   const getDataRoutine = async idreferencebrand => {
     setLoading(true);
     const routineData = await GetRoutineByWorkShop(workshopSelected, idreferencebrand);
+    
     if (routineData !== null && routineData.length > 0) {
       dispatch(setRoutines(routineData));
+      setDisabledRoutine(false);
+      setLoading(false);
+      return;
     }
-    else {
-      dispatch(setRoutines([]));
-    }
+    dispatch(setRoutines([]));
     dispatch(setSelectedRoutine([]));
+    setDisabledRoutine(true);
     setLoading(false);
   }
 
@@ -77,10 +83,14 @@ export const FirstContent = () => {
     const mechanicData = await getTreatingMechanic(idworkshop, idVehicle);
     if (mechanicData != null && mechanicData.length > 0) {
       dispatch(setMechanics(mechanicData));
-    } else {
-      dispatch(setMechanics([]));
-    }
+      setDisabledMechanic(false);
+      setLoading(false);
+      return;
+    } 
+
+    dispatch(setMechanics([]));
     dispatch(setTreatingMechanicSelected(undefined));
+    setDisabledMechanic(true);
     setLoading(false);
   }
   const setWorkshopId = () => {
@@ -180,6 +190,7 @@ export const FirstContent = () => {
             placeholder='Seleccione rutina de mantenimiento'
             optionFilterProp='children'
             onChange={setSelectRoutine}
+            disabled={disabledRoutine}
             value={routineSelected.length <= 0 ? undefined : routineSelected[0].key}
             filterOption={(input, option) =>
               option.props.children
@@ -271,6 +282,7 @@ export const FirstContent = () => {
             placeholder='Seleccione su mécanico tratante'
             optionFilterProp='children'
             onChange={setSelectedMechanic}
+            disabled={disabledMechanic}
             value={mechanicTreatingSelected}
             filterOption={(input, option) =>
               option.props.children

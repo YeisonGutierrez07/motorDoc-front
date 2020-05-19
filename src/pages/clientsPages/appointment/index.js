@@ -7,11 +7,14 @@ import { FirstContent } from './components/FirstContent';
 import { SecondContent } from './components/SecondContent';
 import { ThirdContent } from './components/ThirdContent';
 import { CardView } from './components/cardview';
+import { addAppointment } from '../../../services/appointment';
 
 const { Step } = Steps;
 
 export const Appointment = () => {
+  
   const [step, setStep] = useState(0);
+
   const next = () => {
     if(step === 0 ){
       if(!validatedButton()){
@@ -51,12 +54,32 @@ export const Appointment = () => {
       dateAppointment !== undefined && 
       dateAppointment !== '' &&
       routineSelected !== undefined 
-    ) === false // quitar
+    )
   );
 
   const prev = () => {
     setStep(step - 1);
   };
+
+  const assignAppointment = async () => {
+    message.success('Processing complete!')
+    const appointment = {
+      "appointmentdate": dateAppointment,
+      "workshopsid": workshopSelected,
+      "maintenance": {
+        "idvehicle": vehicleSelected,
+        "maintenanceroutines":[{
+          "costroutine": routineSelected[0].cost,
+          "timeroutine": routineSelected[0].estimatedTime,
+          "idmechanic": 1,
+          "idroutine": routineSelected[0].key
+        }]
+      }
+    }
+    const res = await addAppointment(appointment);
+    console.log(res);
+  }
+
   const steps = [
     {
       title: 'Búsqueda especialidad',
@@ -96,7 +119,7 @@ export const Appointment = () => {
               {step === steps.length - 1 && (
                 <Button
                   type='primary'
-                  onClick={() => message.success('Processing complete!')}
+                  onClick={assignAppointment}
                 >
                   Asignar cita
                 </Button>
