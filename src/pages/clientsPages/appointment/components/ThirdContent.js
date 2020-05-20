@@ -4,26 +4,25 @@ import { Col, Row } from 'antd';
 
 export const ThirdContent = () => {
   const {
+    vehicles,
     vehicleSelected,
-    workshopSelected,
     routineSelected,
-    dateAppointment,
-    mechanicSelected
+    dateHourAppointment,
+    mechanicSelected,
+    // mechanics
   } = useSelector(
     state => ({
-      idWorkshop: parseInt(state.router.location.pathname.split('/')[3], 10),
       vehicles: state.appointment.vehicles,
       routines: state.appointment.routines,
       mechanics: state.appointment.mechanics,
       vehicleSelected: state.appointment.vehicleSelected,
-      workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
-      dateAppointment: state.appointment.dateAppointment,
+      dateHourAppointment: state.appointment.dateHourAppointment,
       mechanicSelected: state.appointment.mechanicSelected,
     }),
     shallowEqual
   );
-  
+
   return (
     <Fragment>
       <Row>
@@ -34,7 +33,7 @@ export const ThirdContent = () => {
           <p align='left'>Vehículo:</p>
         </Col>
         <Col span={10} xs={12}>
-          {vehicleSelected} 
+          {vehicles.filter(x => x.id === parseInt(vehicleSelected.split('-')[0], 10))[0].placa}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
@@ -62,7 +61,7 @@ export const ThirdContent = () => {
           <p align='left'>Fecha y hora cita:</p>
         </Col>
         <Col span={10} xs={12}>
-          {dateAppointment}
+          {dateHourAppointment}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
@@ -76,13 +75,40 @@ export const ThirdContent = () => {
           <p align='left'>Rutina de mantenimiento</p>
         </Col>
         <Col span={10} xs={12}>
-          {routineSelected.id}
+          {routineSelected[0].value}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
         </Col>
       </Row>
-      {workshopSelected}
+      <Row>
+        <Col span={4} xs={1}>
+          &nbsp;
+        </Col>
+        <Col span={6} xs={10}>
+          <p align='left'>Costo:</p>
+        </Col>
+        <Col span={10} xs={12}>
+          {routineSelected[0].cost}
+        </Col>
+        <Col span={4} xs={1}>
+          &nbsp;
+        </Col>
+      </Row>
+      <Row>
+        <Col span={4} xs={1}>
+          &nbsp;
+        </Col>
+        <Col span={6} xs={10}>
+          <p align='left'>Tiempo estimado</p>
+        </Col>
+        <Col span={10} xs={12}>
+          {routineSelected[0].estimatedTime}
+        </Col>
+        <Col span={4} xs={1}>
+          &nbsp;
+        </Col>
+      </Row>
     </Fragment>
   );
 }

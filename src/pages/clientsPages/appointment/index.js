@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Steps, Button, message, notification } from 'antd';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router';
 import Authorize from 'components/LayoutComponents/Authorize';
 import { FirstContent } from './components/FirstContent';
 import { SecondContent } from './components/SecondContent';
@@ -14,6 +15,7 @@ const { Step } = Steps;
 export const Appointment = () => {
   
   const [step, setStep] = useState(0);
+  const history = useHistory();
 
   const next = () => {
     if(step === 0 ){
@@ -24,11 +26,6 @@ export const Appointment = () => {
         });
         return;
       }
-    }else if(step === 1){
-      notification.error({
-        message: 'Error',
-        description: 'Debe seleccionar una cita'
-      });
     }
       setStep(step + 1);
   };
@@ -36,13 +33,15 @@ export const Appointment = () => {
     vehicleSelected,
     workshopSelected,
     routineSelected,
-    dateAppointment
+    dateAppointment,
+    dateHourAppointment
   } = useSelector(
     state => ({
       vehicleSelected: state.appointment.vehicleSelected,
       workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
+      dateHourAppointment: state.appointment.dateHourAppointment
     }),
     shallowEqual
   );
@@ -62,12 +61,13 @@ export const Appointment = () => {
   };
 
   const assignAppointment = async () => {
-    message.success('Processing complete!')
+   
+    const idVehicle = vehicleSelected.split('-')[0];
     const appointment = {
-      "appointmentdate": dateAppointment,
+      "appointmentdate": dateHourAppointment,
       "workshopsid": workshopSelected,
       "maintenance": {
-        "idvehicle": vehicleSelected,
+        "idvehicle": idVehicle,
         "maintenanceroutines":[{
           "costroutine": routineSelected[0].cost,
           "timeroutine": routineSelected[0].estimatedTime,
@@ -76,8 +76,15 @@ export const Appointment = () => {
         }]
       }
     }
+
     const res = await addAppointment(appointment);
-    console.log(res);
+    if(res === 200 ){
+      message.success('Cita asignada correctamente');
+      history.push("/clientsPages/appointmentCalendar");
+    }else{
+      message.error('Ocurrió un error, por favor intenté de nuevo');
+    }
+
   }
 
   const steps = [

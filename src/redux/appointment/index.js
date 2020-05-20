@@ -9,6 +9,7 @@ export const SET_WORKSHOPS = 'SET_WORKSHOPS';
 export const SET_WORKSHOP_SELECTED = 'SET_WORKSHOP_SELECTED';
 export const SET_MECHANIC_TREATING_SELECTED = 'SET_MECHANIC_TREATING_SELECTED';
 export const SET_MECHANIC_SELECTED = 'SET_MECHANIC_SELECTED';
+export const SET_DATE_HOUR_APPOINTMENT = 'SET_DATE_HOUR_APPOINMENT';
 
 // Estado inicial
 export const initialState = {
@@ -21,7 +22,8 @@ export const initialState = {
   dateAppointment: undefined,
   workshopSelected: undefined,
   mechanicTreatingSelected: undefined,
-  mechanicSelected: undefined
+  mechanicSelected: undefined,
+  dateHourAppointment: null
 };
 
 // Función reductora
@@ -76,6 +78,11 @@ export default function appointment(state = initialState, action) {
       return {
         ...state,
         mechanicSelected: action.mechanicSelected
+      }
+    case SET_DATE_HOUR_APPOINTMENT:
+      return {
+        ...state,
+        dateHourAppointment: action.dateHourAppointment
       }
     default:
       return state;
@@ -132,4 +139,9 @@ export const setTreatingMechanicSelected = mechanicTreatingSelected => ({
 export const setMechanicSelected = mechanicSelected => ({
   type: SET_MECHANIC_SELECTED,
   mechanicSelected
+});
+
+export const setDateHourAppointment =  dateHourAppointment => ({
+  type: SET_DATE_HOUR_APPOINTMENT,
+  dateHourAppointment
 });

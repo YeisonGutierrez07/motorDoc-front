@@ -36,8 +36,7 @@ export const truncateAppointments = (appointmentdate, timeroutine) => {
         // }
 
         start = moment(start).add(day, 'days').format(format);
-            end = moment(start).add(totalHours, 'hours').format(format);
-        console.log(start, end);
+        end = moment(start).add(totalHours, 'hours').format(format);
        
         while( start < end)
         {
@@ -46,11 +45,10 @@ export const truncateAppointments = (appointmentdate, timeroutine) => {
             dayandhours[0].hour.push(moment(start).format('HH:mm:ss'));
         }
         index += 1;
-        days.push({ index: day, day: moment(start).format("Do MMM YY"), dayandhours});
+        days.push({ index: day, day: moment(start).format('LL'), dayandhours});
         start = `${moment(start).format('l')} 07:00:00`;
         dayandhours = [{ index: 0, hour: [moment(start).format('HH:mm:ss')] }];
     });
-    console.log(days);
     return days;
 }
 export default [];

@@ -70,6 +70,7 @@ export const FirstContent = () => {
       dispatch(setRoutines(routineData));
       setDisabledRoutine(false);
       setLoading(false);
+      dispatch(setSelectedRoutine([]));
       return;
     }
     dispatch(setRoutines([]));
@@ -81,7 +82,8 @@ export const FirstContent = () => {
   const getDataMechanic = async (idworkshop, idVehicle) => {
     setLoading(true);
     const mechanicData = await getTreatingMechanic(idworkshop, idVehicle);
-    if (mechanicData != null && mechanicData.length > 0) {
+    if (mechanicData != null && mechanicData.length > 0) { 
+      dispatch(setMechanics([]));
       dispatch(setMechanics(mechanicData));
       setDisabledMechanic(false);
       setLoading(false);

@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Collapse, Button } from 'antd';
+import moment from 'moment';
 import './style.css';
-import { setMechanicSelected } from '../../../../redux/appointment';
+import { setMechanicSelected, setDateHourAppointment } from '../../../../redux/appointment';
 import { truncateAppointments } from '../../../../common';
+
 
 const { Panel } = Collapse;
 
@@ -45,11 +47,13 @@ export const SecondContent = ({ next }) => {
     console.log(key);
   }
 
-  const selectAppointment = (id) => {
-    console.log(id);
+  const selectAppointment = data => {
+    const dateHourAppointment = moment(`${data.day} ${data.hour}`).format('L HH:mm:ss');
     next();
-    dispatch(setMechanicSelected(id));
+    dispatch(setMechanicSelected(data.mechanic.id));
+    dispatch(setDateHourAppointment(dateHourAppointment));
   }
+
   return (
     <Fragment>
       <Collapse onChange={callback} style={{ margin: 20 }} defaultActiveKey={['0']}>
@@ -59,7 +63,7 @@ export const SecondContent = ({ next }) => {
               {item.appointment.map(data => (
                 data.map(x => (
                   <Panel header={x.hour} key={x.index}>
-                    {x.mechanic.map(mechanic => panel(mechanic, selectAppointment))}
+                    {x.mechanic.map(mechanic => panel({ day: item.day, hour: x.hour, mechanic }, selectAppointment))}
                   </Panel>
                 ))
               ))}
@@ -71,9 +75,9 @@ export const SecondContent = ({ next }) => {
   );
 };
 
-const panel = (mechanic, selectAppointment) => (
+const panel = (data, selectAppointment) => (
   <Fragment>
-    {`${mechanic.name} ${mechanic.last_name}`} <Button type='primary' onClick={() => selectAppointment(mechanic.id)}>Seleccionar</Button>
+    {`${data.mechanic.name} ${data.mechanic.last_name}`} <Button type='primary' onClick={() => selectAppointment(data)}>Seleccionar</Button>
   </Fragment>
 );
 export default SecondContent;
