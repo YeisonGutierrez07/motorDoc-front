@@ -90,3 +90,26 @@ export const getTreatingMechanic = async (idworkshop, idvehicle) => {
         return [];
     }
 } 
+
+export async function ChangeStatusRoutine(data) {
+    return axios({
+        method: 'POST',
+        url: `${ENDPOINTS.MECHANIC.ROUTINE}`,
+        data,
+        headers: {
+            authorization: `Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+        },
+    }).then(response => {
+        notification.success({
+            message: 'Exito',
+            description: "Se ha cambiado el status con exito",
+        })
+        return response.data.data
+    })
+    .catch(() => {
+        notification.warning({
+            message: 'Error',
+            description: "Hubo un error consultando los datos.",
+        })
+    })
+}
