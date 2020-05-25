@@ -1,5 +1,5 @@
 import React from 'react'
-import { Radio } from 'antd'
+import { Button } from 'antd'
 import './style.scss'
 import Avatar from 'components/GobalComponents/Avatar'
 
@@ -9,7 +9,7 @@ class UserCard extends React.Component {
   }
 
   render() {
-    const { type, info } = this.props
+    const { type, info, buttonAction } = this.props
     return (
       <div className={`userCard px-3 py-5 ${type.length > 0 ? `userCard--typed bg-${  type}` : ''}`}>
         <Avatar
@@ -24,9 +24,7 @@ class UserCard extends React.Component {
         </div>
         <div className="text-center">
           <div className="btn-group text-center">
-            <Radio.Group size="small">
-              <Radio.Button value="default">Invalidar</Radio.Button>
-            </Radio.Group>
+            <Button onClick={() => buttonAction(true, info)}>Agregar Rutinas</Button>
           </div>
         </div>
       </div>
