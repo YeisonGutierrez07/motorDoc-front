@@ -31,6 +31,7 @@ const MECHANIC = {
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
   MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`,
   TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
+  ROUTINE: `${HOST_SITE_ENDPOINTS}/mechanic/routine`,
 };
 
 const ROUTINES = {
