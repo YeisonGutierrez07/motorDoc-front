@@ -23,7 +23,7 @@ const ModalAddRoutine = ({visible, changeVisible, mechanicData, routinesMechanic
       footer={false}
       onCancel={() => changeVisible(false)}
     >
-      <Table dataSource={routinesMechanic} columns={columns} rowKey="key" />
+      <Table dataSource={routinesMechanic} columns={columns} rowKey="key" pagination={false} />
     </Modal>
   );
 }
