@@ -108,7 +108,7 @@ class ViewRoutines extends React.Component {
           description: "Se han agregado las rutinas con exito"
         });
         this.setState({loading: true})
-        this.stategetAllRoutinesByWorkShop();
+        this.stategetAllRoutinesByWorkShop(workshopID);
       });
     };
 
@@ -131,6 +131,8 @@ class ViewRoutines extends React.Component {
   };
 
   deleteRoutine = idRoutine => {
+    const {workshopID } = this.state;
+
     deleteRoutine(idRoutine)
     .then(() => {
       notification.success({
@@ -138,7 +140,7 @@ class ViewRoutines extends React.Component {
         description: "Se ha eliminado la rutina con exito"
       });
       this.setState({loading: true})
-      this.stategetAllRoutinesByWorkShop();
+      this.stategetAllRoutinesByWorkShop(workshopID);
     })
   }
 
@@ -166,9 +168,8 @@ class ViewRoutines extends React.Component {
       },
       {
         title: "Tiempo estimado",
+        dataIndex: "estimated_time",
         key: "estimated_time",
-        render: data => data.routineBrand
-
       },
       {
         title: "Costo estimado",
@@ -228,6 +229,14 @@ class ViewRoutines extends React.Component {
         return;
       }
 
+      if (estimatedTime === 0 || estimatedCost === 0) {
+        notification.error({
+          message: "Error",
+          description: "El tiempo estimado y costo estimado no pueden ser igual a 0"
+        });
+        return;
+      }
+
       const validRoutines = routinesTable.filter(r => r.reference.idReferenceBrand === selectReference);
 
       if (validRoutines.length > 0) {
@@ -242,7 +251,8 @@ class ViewRoutines extends React.Component {
       const routinesTableObj = {
         reference: referenceData,
         estimated_time: estimatedTime,
-        estimated_cost: estimatedCost
+        estimated_cost: estimatedCost,
+        id: routinesTable.length
       };
       newRoutines.push(newRoutinesObj);
       routinesTable.push(routinesTableObj);
@@ -407,8 +417,8 @@ class ViewRoutines extends React.Component {
                       dataSource={misRoutines}
                       columns={columns}
                       loading={loading}
-                      pagination={misRoutines.length >= 11}
-                      rowKey="id"
+                      pagination={false}
+                      rowKey="idRoutine"
                     />
                   </div>
                 </div>
