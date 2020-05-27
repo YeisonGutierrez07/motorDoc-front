@@ -1,8 +1,10 @@
 // Definición de acciones
+export const SET_APPOINTMENT_USER = 'SET_APPOINTMENT_USER';
 export const SET_ROUTINES = 'SET_ROUTINES';
 export const SET_SELECTED_ROUTINE = 'SET_SELECTED_ROUTINE';
 export const SET_VEHICLES = 'SET_VEHICLES';
 export const SET_MECHANICS = 'SET_MECHANICS';
+export const SET_MECHANICS_TREATING = 'SET_MECHANICS_TREATING';
 export const SET_SELECTED_VEHICLES = 'SET_SELECTED_VEHICLES';
 export const SET_DATE_APPOINTMENT = 'SET_DATE_APPOINMENT';
 export const SET_WORKSHOPS = 'SET_WORKSHOPS';
@@ -13,10 +15,12 @@ export const SET_DATE_HOUR_APPOINTMENT = 'SET_DATE_HOUR_APPOINMENT';
 
 // Estado inicial
 export const initialState = {
+  appointmentUser: [],
   routines: [],
   vehicles: [],
   workshops: [],
   mechanics: [],
+  mechanicsTreating: [],
   routineSelected: [],
   vehicleSelected: undefined,
   dateAppointment: undefined,
@@ -29,6 +33,11 @@ export const initialState = {
 // Función reductora
 export default function appointment(state = initialState, action) {
   switch (action.type) {
+    case SET_APPOINTMENT_USER:
+      return {
+        ...state,
+        appointmentUser: action.appointmentUser
+      }
     case SET_ROUTINES:
       return {
         ...state,
@@ -48,6 +57,11 @@ export default function appointment(state = initialState, action) {
       return {
         ...state,
         mechanics: action.mechanics
+      }
+    case SET_MECHANICS_TREATING:
+      return {
+        ...state,
+        mechanicsTreating: action.mechanicsTreating
       }
     case SET_SELECTED_VEHICLES:
       return {
@@ -91,6 +105,10 @@ export default function appointment(state = initialState, action) {
 
 // Creadores de acciones
 
+export const setAppointmentUser = appointmentUser => ({
+  type: SET_APPOINTMENT_USER,
+  appointmentUser
+});
 export const setRoutines = routines => ({
   type: SET_ROUTINES,
   routines
@@ -124,6 +142,11 @@ export const setWorkshops = workshops => ({
 export const setMechanics = mechanics => ({
   type: SET_MECHANICS,
   mechanics
+});
+
+export const setMechanicsTreating = mechanicsTreating => ({
+  type: SET_MECHANICS_TREATING,
+  mechanicsTreating
 });
 
 export const setWorkshopSelected = workshopSelected => ({

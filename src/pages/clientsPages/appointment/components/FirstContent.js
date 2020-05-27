@@ -4,13 +4,15 @@ import moment from 'moment';
 import './style.css';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { GetRoutineByWorkShop } from '../../../../services/routines';
-import { getTreatingMechanic } from '../../../../services/mechanic';
+import { getTreatingMechanic, getMechanicByRoutine } from '../../../../services/mechanic';
 import { GetAllVehicles } from '../../../../services/vehicles';
+import { getAppointmentsnotAvailables } from '../../../../services/appointment';
 import {
   setWorkshopSelected, setRoutines, setVehicles,
   setVehicleSelected, setSelectedRoutine,
   setDateAppointment, setTreatingMechanicSelected,
-  setMechanics
+  setMechanics,
+  setMechanicsTreating
 } from '../../../../redux/appointment';
 import { disabledDate } from '../../../../common';
 
@@ -31,23 +33,22 @@ export const FirstContent = () => {
     workshopSelected,
     routineSelected,
     dateAppointment,
-    mechanics,
-    mechanicTreatingSelected
+    mechanicTreatingSelected,
+    mechanicsTreating
   } = useSelector(
     state => ({
       idWorkshop: parseInt(state.router.location.pathname.split('/')[3], 10),
       vehicles: state.appointment.vehicles,
       routines: state.appointment.routines,
-      mechanics: state.appointment.mechanics,
       vehicleSelected: state.appointment.vehicleSelected,
       workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
       mechanicTreatingSelected: state.appointment.mechanicTreatingSelected,
+      mechanicsTreating: state.appointment.mechanicsTreating
     }),
     shallowEqual
   );
-
   const getData = async () => {
     const vehiclesData = await GetAllVehicles();
     if (vehiclesData != null) {
@@ -83,14 +84,14 @@ export const FirstContent = () => {
     setLoading(true);
     const mechanicData = await getTreatingMechanic(idworkshop, idVehicle);
     if (mechanicData != null && mechanicData.length > 0) { 
-      dispatch(setMechanics([]));
-      dispatch(setMechanics(mechanicData));
+      dispatch(setMechanicsTreating([]));
+      dispatch(setMechanicsTreating(mechanicData));
       setDisabledMechanic(false);
       setLoading(false);
       return;
     } 
 
-    dispatch(setMechanics([]));
+    dispatch(setMechanicsTreating([]));
     dispatch(setTreatingMechanicSelected(undefined));
     setDisabledMechanic(true);
     setLoading(false);
@@ -107,8 +108,17 @@ export const FirstContent = () => {
     getDataMechanic(idWorkshop, idVehicle);
   }
 
-  const setSelectRoutine = id => {
+  const setSelectRoutine = async id => {
     dispatch(setSelectedRoutine(id));
+    const dataMechanic = await getMechanicByRoutine(id, idWorkshop);
+    const dataAppointment = await getAppointmentsnotAvailables({
+      workshopid: idWorkshop,
+      routineid: id,
+      fhinitial: '2020-01-01',
+      fhend: '2020-12-31'
+    });
+    console.log(dataAppointment);
+    dispatch(setMechanics(dataMechanic));
   }
 
   const setSelectedMechanic = id => {
@@ -132,6 +142,9 @@ export const FirstContent = () => {
   useEffect(() => {
     getData();
     setWorkshopId();
+    if(vehicleSelected !== undefined){
+      setDisabledRoutine(false);
+    }
   }, [idWorkshop]);
 
   return (
@@ -292,8 +305,8 @@ export const FirstContent = () => {
                 .indexOf(input.toLowerCase()) >= 0
             }
           >
-            {mechanics != null
-              ? mechanics.map(({ key, value }) => (
+            {mechanicsTreating != null
+              ? mechanicsTreating.map(({ key, value }) => (
                 <Option key={key} value={key}>
                   {value}
                 </Option>

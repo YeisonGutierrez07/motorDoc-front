@@ -31,6 +31,7 @@ const MECHANIC = {
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
   MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`,
   TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
+  MECHANICBYROUTINE: `${HOST_SITE_ENDPOINTS}/routines/mechanics/`,
 };
 
 const ROUTINES = {
@@ -60,7 +61,9 @@ const REFERENCEBRAND = {
 
 const APPOINTMENTS = {
   GET_APPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments`,
-  ADD_APPOINTMENT:  `http://localhost:65063/api/appointment`,
+  ADD_APPOINTMENT:  `${HOST_SITE_ENDPOINTS_NET}appointment`,
+  GET_APPOINTMENT_NOT_AVAILABLES: `${HOST_SITE_ENDPOINTS}/appointments/notAvailables`,
+  GET_ALL_APPOINTMENT_BYUSER: `${HOST_SITE_ENDPOINTS}/appointments/byUser`,
 }
 
 export const ENDPOINTS = {

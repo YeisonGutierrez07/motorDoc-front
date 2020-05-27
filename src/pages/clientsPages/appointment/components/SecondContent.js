@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { Collapse, Button } from 'antd';
+import { Collapse, Button, Avatar } from 'antd';
 import moment from 'moment';
 import './style.css';
 import { setMechanicSelected, setDateHourAppointment } from '../../../../redux/appointment';
@@ -13,14 +13,33 @@ export const SecondContent = ({ next }) => {
 
   let index = 0;
   const dispatch = useDispatch();
-  const { dateAppointment } = useSelector(
+  const { 
+    dateAppointment, 
+    routineSelected,
+    mechanics
+  } = useSelector(
     state => ({
-      // routineSelected: state.appointment.routineSelected,
+      routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
+      mechanics: state.appointment.mechanics,
     }),
     shallowEqual
   );
-  const appointments = truncateAppointments(dateAppointment, 70).map(p => (
+  if(routineSelected[0].estimatedTime <= 0){
+    return(
+      <Fragment>
+        No hay citas disponibles
+      </Fragment>
+    )
+  }
+  if(mechanics.length <= 0){
+    return(
+      <Fragment>
+        No hay mecánicos disponibles 
+      </Fragment>
+    )
+  }
+  const appointments = truncateAppointments(dateAppointment, routineSelected[0].estimatedTime).map(p => (
     {
       id: p.index,
       day: p.day,
@@ -28,11 +47,7 @@ export const SecondContent = ({ next }) => {
         x.hour.map(h => {
             const hours = {
               index,
-              mechanic: [{
-                id: 1,
-                name: 'Jorge',
-                last_name: 'Canchon'
-              }],
+              mechanic: mechanics,
               hour: h
             }
             index += 1;
@@ -50,10 +65,9 @@ export const SecondContent = ({ next }) => {
   const selectAppointment = data => {
     const dateHourAppointment = moment(`${data.day} ${data.hour}`).format('L HH:mm:ss');
     next();
-    dispatch(setMechanicSelected(data.mechanic.id));
+    dispatch(setMechanicSelected(data.mechanic.key));
     dispatch(setDateHourAppointment(dateHourAppointment));
   }
-
   return (
     <Fragment>
       <Collapse onChange={callback} style={{ margin: 20 }} defaultActiveKey={['0']}>
@@ -77,7 +91,10 @@ export const SecondContent = ({ next }) => {
 
 const panel = (data, selectAppointment) => (
   <Fragment>
-    {`${data.mechanic.name} ${data.mechanic.last_name}`} <Button type='primary' onClick={() => selectAppointment(data)}>Seleccionar</Button>
+    {`${data.mechanic.value}`}&nbsp;<Avatar size='small' src={data.mechanic.pic} shape='circle' />&nbsp;
+    <Button type='primary' onClick={() => selectAppointment(data)}>Seleccionar</Button>
   </Fragment>
 );
 export default SecondContent;
+
+

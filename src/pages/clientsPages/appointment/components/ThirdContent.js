@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
-import { Col, Row } from 'antd';
+import { Col, Row, Avatar } from 'antd';
 
 export const ThirdContent = () => {
   const {
@@ -8,21 +8,21 @@ export const ThirdContent = () => {
     vehicleSelected,
     routineSelected,
     dateHourAppointment,
-    mechanicSelected,
-    // mechanics
+    mechanics
   } = useSelector(
     state => ({
       vehicles: state.appointment.vehicles,
       routines: state.appointment.routines,
-      mechanics: state.appointment.mechanics,
       vehicleSelected: state.appointment.vehicleSelected,
       routineSelected: state.appointment.routineSelected,
       dateHourAppointment: state.appointment.dateHourAppointment,
-      mechanicSelected: state.appointment.mechanicSelected,
+      mechanics: state.appointment.mechanics.filter(x => x.key === state.appointment.mechanicSelected)
     }),
     shallowEqual
   );
-
+  const vehicle = vehicles.filter(x => x.id === parseInt(vehicleSelected.split('-')[0], 10));
+  if(vehicle.length <= 0)
+    return null;
   return (
     <Fragment>
       <Row>
@@ -33,7 +33,7 @@ export const ThirdContent = () => {
           <p align='left'>Vehículo:</p>
         </Col>
         <Col span={10} xs={12}>
-          {vehicles.filter(x => x.id === parseInt(vehicleSelected.split('-')[0], 10))[0].placa}
+          {vehicle[0].placa}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
@@ -47,7 +47,7 @@ export const ThirdContent = () => {
           <p align='left'>Mecánico:</p>
         </Col>
         <Col span={10} xs={12}>
-          {mechanicSelected}
+          {mechanics[0].value}&nbsp;{<Avatar size='small' src={mechanics[0].pic} shape='circle' />}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
