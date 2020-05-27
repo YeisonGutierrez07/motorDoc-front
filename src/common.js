@@ -8,17 +8,25 @@ export const disabledDate = current => {
 
 export const truncateAppointments = (appointmentdate, timeroutine) => {
     const format = 'l HH:mm:ss';
-    // const now = moment().format(format);
+    const now = moment().format(format);
     const fechaInicial = moment(`${appointmentdate} 07:00:00`).format(format);
     const fechaFinal = moment(`${appointmentdate} 17:00:00`);
     let start = fechaInicial;
+    let indexDay = 3;
     let end = fechaFinal.format(format);
+
+    if(end < now){
+        start = moment(start).add(1, 'days').format(format);
+        indexDay = 2;
+    }
+
     const diff = fechaFinal.diff(fechaInicial, 'hours');
     const totalHours = diff - timeroutine / 60;
     let dayandhours = [{ index: 0, hour: [moment(start).format('HH:mm:ss')]}]; 
     const days = [];
     let index = 1;
-    [...Array(3)].map((x, i) => i).forEach(day => {
+    [...Array(indexDay)].map((x, i) => i).forEach(day => {
+
         // if(start < now)
         // {
         //     // dayandhours.hour.slice(1);
@@ -26,9 +34,9 @@ export const truncateAppointments = (appointmentdate, timeroutine) => {
         // }else{
         //     start = moment(`${moment(start).format('l')} 07:00:00`).format(format);
         // }
+
         start = moment(start).add(day, 'days').format(format);
         end = moment(start).add(totalHours, 'hours').format(format);
-        console.log(start, end);
        
         while( start < end)
         {
@@ -37,11 +45,10 @@ export const truncateAppointments = (appointmentdate, timeroutine) => {
             dayandhours[0].hour.push(moment(start).format('HH:mm:ss'));
         }
         index += 1;
-        days.push({ index: day, day: moment(start).format("Do MMM YY"), dayandhours});
+        days.push({ index: day, day: moment(start).format('LL'), dayandhours});
         start = `${moment(start).format('l')} 07:00:00`;
         dayandhours = [{ index: 0, hour: [moment(start).format('HH:mm:ss')] }];
     });
-    console.log(days);
     return days;
 }
 export default [];

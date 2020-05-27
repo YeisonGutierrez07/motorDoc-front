@@ -1,48 +1,70 @@
 import React, { Fragment, useState } from 'react';
 import { Steps, Button, message, notification } from 'antd';
-import { useSelector, shallowEqual } from 'react-redux';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { useHistory } from 'react-router';
 import Authorize from 'components/LayoutComponents/Authorize';
 import { FirstContent } from './components/FirstContent';
 import { SecondContent } from './components/SecondContent';
 import { ThirdContent } from './components/ThirdContent';
 import { CardView } from './components/cardview';
+import { addAppointment } from '../../../services/appointment';
+import {
+  setWorkshopSelected, setRoutines, setVehicles,
+  setVehicleSelected, setSelectedRoutine,
+  setDateAppointment, setTreatingMechanicSelected,
+  setMechanics,
+  setMechanicsTreating
+} from '../../../redux/appointment';
 
 const { Step } = Steps;
 
 export const Appointment = () => {
+  
   const [step, setStep] = useState(0);
-  const next = () => {
-    if(step === 0 ){
-      if(!validatedButton()){
-        notification.error({
-          message: 'Error',
-          description: 'Debe seleccionar un vehículo, rutina y fecha'
-        });
-        return;
-      }
-    }else if(step === 1){
-      notification.error({
-        message: 'Error',
-        description: 'Debe seleccionar una cita'
-      });
-    }
-      setStep(step + 1);
-  };
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const {
     vehicleSelected,
     workshopSelected,
     routineSelected,
-    dateAppointment
+    dateAppointment,
+    dateHourAppointment,
+    mechanicSelected,
+    mechanics
   } = useSelector(
     state => ({
       vehicleSelected: state.appointment.vehicleSelected,
       workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
+      dateHourAppointment: state.appointment.dateHourAppointment,
+      mechanicSelected: state.appointment.mechanicSelected,
+      mechanics: state.appointment.mechanics
     }),
     shallowEqual
   );
+
+  const next = () => {
+    if(step === 0 ){
+      if(!validatedButton()){
+        notification.error({
+          message: 'Error',
+          description: 'Debe seleccionar un vehículo, rutina y fecha.'
+        });
+        return;
+      }
+      if(mechanics.length <= 0){
+        notification.info({
+          message: 'Info',
+          description: 'No hay mecánicos disponibles.'
+        });
+        return;
+      }
+    }
+      setStep(step + 1);
+  };
 
   const validatedButton = () => (
     (
@@ -51,12 +73,48 @@ export const Appointment = () => {
       dateAppointment !== undefined && 
       dateAppointment !== '' &&
       routineSelected !== undefined 
-    ) === false // quitar
+    )
   );
 
   const prev = () => {
     setStep(step - 1);
   };
+
+  const assignAppointment = async () => {
+    const idVehicle = vehicleSelected.split('-')[0];
+    const appointment = {
+      "appointmentdate": dateHourAppointment,
+      "workshopsid": workshopSelected,
+      "maintenance": {
+        "idvehicle": idVehicle,
+        "maintenanceroutines":[{
+          "costroutine": routineSelected[0].cost,
+          "timeroutine": routineSelected[0].estimatedTime,
+          "idmechanic": mechanicSelected,
+          "idroutine": routineSelected[0].key
+        }]
+      }
+    }
+    const res = await addAppointment(appointment);
+    if(res === 200 ){
+      message.success('Cita asignada correctamente');
+
+      dispatch(setWorkshopSelected(undefined));
+      dispatch(setRoutines([]));
+      dispatch(setVehicles([]));
+      dispatch(setVehicleSelected(undefined));
+      dispatch(setSelectedRoutine([]));
+      dispatch(setDateAppointment(undefined));
+      dispatch(setTreatingMechanicSelected(undefined));
+      dispatch(setMechanics([]));
+      dispatch(setMechanicsTreating([]));
+
+      history.push("/clientsPages/appointmentCalendar");
+    }else{
+      message.error('Ocurrió un error, por favor intenté de nuevo');
+    }
+  }
+
   const steps = [
     {
       title: 'Búsqueda especialidad',
@@ -96,7 +154,7 @@ export const Appointment = () => {
               {step === steps.length - 1 && (
                 <Button
                   type='primary'
-                  onClick={() => message.success('Processing complete!')}
+                  onClick={assignAppointment}
                 >
                   Asignar cita
                 </Button>
