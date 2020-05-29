@@ -89,7 +89,7 @@ const menuMECHANIC = [
   {
     title: "Mis Citas del Dia",
     key: "CitasDay",
-    url: "/mechanicPages/dashboard",
+    url: "/mechanicPages/appointmentday",
     icon: "icmn icmn-newspaper"
   },
   {

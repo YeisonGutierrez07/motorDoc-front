@@ -32,6 +32,8 @@ const MECHANIC = {
   MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`,
   TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
   MECHANICBYROUTINE: `${HOST_SITE_ENDPOINTS}/routines/mechanics/`,
+  APPOINTMENTSMECHANICASSIGNED: `${HOST_SITE_ENDPOINTS}/appointments/mechanics`,
+  MANAGEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}mechanic/`,
 };
 
 const ROUTINES = {
@@ -64,6 +66,7 @@ const APPOINTMENTS = {
   ADD_APPOINTMENT:  `${HOST_SITE_ENDPOINTS_NET}appointment`,
   GET_APPOINTMENT_NOT_AVAILABLES: `${HOST_SITE_ENDPOINTS}/appointments/notAvailables`,
   GET_ALL_APPOINTMENT_BYUSER: `${HOST_SITE_ENDPOINTS}/appointments/byUser`,
+  RATEAPPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments/QualifyAppointment`,
 }
 
 export const ENDPOINTS = {

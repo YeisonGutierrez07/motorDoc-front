@@ -971,15 +971,15 @@
     clsx "^1.0.4"
     prop-types "^15.7.2"
 
-"@devexpress/dx-react-scheduler@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-scheduler/-/dx-react-scheduler-2.5.1.tgz#c193e6f3988fed6a0a60b84a33dacccf0eb5696d"
+"@devexpress/dx-react-scheduler@^2.6.2":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-react-scheduler/-/dx-react-scheduler-2.6.3.tgz#7f2c9901901451311842b3a1e05378222c03d09a"
   dependencies:
-    "@devexpress/dx-scheduler-core" "2.5.1"
+    "@devexpress/dx-scheduler-core" "2.6.3"
 
-"@devexpress/dx-scheduler-core@2.5.1":
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/@devexpress/dx-scheduler-core/-/dx-scheduler-core-2.5.1.tgz#a2a013c17bc90fdb791fb09441c2eceedf04cbc0"
+"@devexpress/dx-scheduler-core@2.6.3":
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/@devexpress/dx-scheduler-core/-/dx-scheduler-core-2.6.3.tgz#0417d2fd2ecd94b826d38ec9c59ec33661087b03"
   dependencies:
     moment "^2.24.0"
     rrule "^2.6.2"
@@ -1329,6 +1329,16 @@
   resolved "https://registry.yarnpkg.com/@material-ui/icons/-/icons-4.9.1.tgz#fdeadf8cb3d89208945b33dbc50c7c616d0bd665"
   dependencies:
     "@babel/runtime" "^7.4.4"
+
+"@material-ui/lab@^4.0.0-alpha.54":
+  version "4.0.0-alpha.54"
+  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.54.tgz#f359fac05667549353e5e21e631ae22cb2c22996"
+  dependencies:
+    "@babel/runtime" "^7.4.4"
+    "@material-ui/utils" "^4.9.6"
+    clsx "^1.0.4"
+    prop-types "^15.7.2"
+    react-is "^16.8.0"
 
 "@material-ui/pickers@^3.2.10":
   version "3.2.10"

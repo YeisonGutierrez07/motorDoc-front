@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Col, Row, Avatar } from 'antd';
+import { formatNumber } from '../../../../common';
 
 export const ThirdContent = () => {
   const {
@@ -89,7 +90,7 @@ export const ThirdContent = () => {
           <p align='left'>Costo:</p>
         </Col>
         <Col span={10} xs={12}>
-          {routineSelected[0].cost}
+          {formatNumber(routineSelected[0].cost)}
         </Col>
         <Col span={4} xs={1}>
           &nbsp;

@@ -14,7 +14,7 @@ import {
   setMechanics,
   setMechanicsTreating
 } from '../../../../redux/appointment';
-import { disabledDate } from '../../../../common';
+import { disabledDate, formatNumber } from '../../../../common';
 
 const { Option } = Select;
 
@@ -111,13 +111,6 @@ export const FirstContent = () => {
   const setSelectRoutine = async id => {
     dispatch(setSelectedRoutine(id));
     const dataMechanic = await getMechanicByRoutine(id, idWorkshop);
-    const dataAppointment = await getAppointmentsnotAvailables({
-      workshopid: idWorkshop,
-      routineid: id,
-      fhinitial: '2020-01-01',
-      fhend: '2020-12-31'
-    });
-    console.log(dataAppointment);
     dispatch(setMechanics(dataMechanic));
   }
 
@@ -135,8 +128,15 @@ export const FirstContent = () => {
     }
     return null;
   };
-  const onChangeDate = (date, dateString) => {
+  const onChangeDate = async (date, dateString) => {
     dispatch(setDateAppointment(dateString));
+    const dataAppointment = await getAppointmentsnotAvailables({
+      workshopid: idWorkshop,
+      routineid: routineSelected !== undefined ? routineSelected[0].key : 0,
+      fhinitial: `${moment(dateString).format('l')} 07:00:00`,
+      fhend: `${moment(dateString).add(3, 'days').format('l')} 18:00:00`
+    });
+    console.log(dataAppointment);
   };
 
   useEffect(() => {
@@ -254,7 +254,7 @@ export const FirstContent = () => {
           <p align='left'>Costo aproximado (COP):</p>
         </Col>
         <Col span={10} xs={12}>
-          <p align='left'>{routineSelected <= 0 ? 'N/A' : routineSelected[0].cost}</p>
+          <p align='left'>{routineSelected <= 0 ? 'N/A' : formatNumber(routineSelected[0].cost)}</p>
         </Col>
         <Col span={4} xs={1}>
           &nbsp;

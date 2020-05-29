@@ -51,4 +51,7 @@ export const truncateAppointments = (appointmentdate, timeroutine) => {
     });
     return days;
 }
+
+export const formatNumber = number => (new Intl.NumberFormat("es-CO").format(number));
+
 export default [];

@@ -71,7 +71,7 @@ class Map extends Component {
             <div className="col-lg-6">
               <div className="utils__title" align="center">
                 <h2 style={{ color: "red" }}>
-                  <b>¿COMO LLEGAR A EL TALLER?</b>
+                  <b>¿Cómo llegar al taller?</b>
                 </h2>
               </div>
             </div>
