@@ -137,8 +137,8 @@ export default class appointmentCalendar extends Component {
     let routinesCostTime = 0;
     selectArray.forEach(element => {
       const routinesSelect = routines.filter(r => r.routine.id === element)[0];
-      routinesTimeEstimed += Number(routinesSelect.estimated_time);
-      routinesCostTime += Number(routinesSelect.estimated_cost);
+      routinesTimeEstimed += Number(routinesSelect.estimatedTime);
+      routinesCostTime += Number(routinesSelect.cost);
     });
     this.setState({
       routinesTimeEstimed,

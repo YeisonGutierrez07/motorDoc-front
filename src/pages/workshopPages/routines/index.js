@@ -168,14 +168,14 @@ class ViewRoutines extends React.Component {
       },
       {
         title: "Tiempo estimado",
-        dataIndex: "estimated_time",
-        key: "estimated_time",
+        dataIndex: "estimatedTime",
+        key: "estimatedTime",
       },
       {
         title: "Costo estimado",
-        dataIndex: "estimated_cost",
+        dataIndex: "cost",
         render: cost => `$ ${cost}`,
-        key: "estimated_cost"
+        key: "cost"
       }
     ];
 
@@ -190,7 +190,7 @@ class ViewRoutines extends React.Component {
         title: "Tiempo estimado",
         dataIndex: "routineBrand",
         render: data => data.length > 0 ? `${data[0].estimatedTime  }  Minutos`: 0,
-        key: "estimated_time",
+        key: "estimatedTime",
 
       },
       {
@@ -218,8 +218,8 @@ class ViewRoutines extends React.Component {
       const { newRoutines, nameReference } = this.state;
       const newRoutinesObj = {
         idreferencebrand: selectReference,
-        estimated_time: estimatedTime,
-        estimated_cost: estimatedCost
+        estimatedTime,
+        cost: estimatedCost
       };
       if (!selectReference || !estimatedTime || !estimatedCost || nameReference) {
         notification.error({
@@ -250,8 +250,8 @@ class ViewRoutines extends React.Component {
       const referenceData = references.filter(r => r.idReferenceBrand === selectReference)[0];
       const routinesTableObj = {
         reference: referenceData,
-        estimated_time: estimatedTime,
-        estimated_cost: estimatedCost,
+        estimatedTime,
+        cost: estimatedCost,
         id: routinesTable.length
       };
       newRoutines.push(newRoutinesObj);
@@ -362,7 +362,7 @@ class ViewRoutines extends React.Component {
                     <b>Tiempo estimado</b>(en Minutos)<b>:</b>
                     <InputNumber
                       min={1}
-                      key="estimated_time"
+                      key="estimatedTime"
                       onChange={onChangeHours}
                       style={{ width: "100%" }}
                     />
