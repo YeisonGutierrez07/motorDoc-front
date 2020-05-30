@@ -35,7 +35,7 @@ const columns = [
   },
   {
     title: "Costo estimado",
-    dataIndex: "routines.estimated_cost",
+    dataIndex: "routines.cost",
     render: time => `$ ${time}`,
     key: "estimated_time"
   }
@@ -118,10 +118,10 @@ export default class ModalCreateAppointment extends Component {
         routinesService.push({
           routine_id: r.routines.routine.id,
           estimated_time: r.routines.estimated_time,
-          cost: r.routines.estimated_cost
+          cost: r.routines.cost
         });
-        totalCost += Number(r.routines.estimated_cost);
-        totalTime += Number(r.routines.estimated_time);
+        totalCost += Number(r.routines.cost);
+        totalTime += Number(r.routines.estimatedTime);
       });
 
       this.setState({ finish: true, routinesService, totalCost, totalTime });
