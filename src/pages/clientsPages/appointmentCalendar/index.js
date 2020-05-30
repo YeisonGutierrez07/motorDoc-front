@@ -10,8 +10,8 @@ import { Calendar, Badge, Button, Spin, message, Modal, Row, Col, Input, DatePic
 import moment from 'moment';
 import { CardView } from '../appointment/components/cardview';
 import { setAppointmentUser } from '../../../redux/appointment';
-import { getAppointmentsByUsers, rateAppointment } from '../../../services/appointment';
-import { formatNumber } from '../../../common';
+import { getAppointmentsByUsers, rateAppointment, cancelAppointment } from '../../../services/appointment';
+import { formatNumber, getStatus } from '../../../common';
 
 const { TextArea } = Input;
 
@@ -34,6 +34,7 @@ export const AppointmentCalendar = () => {
     }),
     shallowEqual
   );
+
   useEffect(() => {
     getData(defaultCurrentDate);
   }, []);
@@ -45,13 +46,6 @@ export const AppointmentCalendar = () => {
 
   const getListData = value => (
     appointmentUser.filter(x => moment(x.appointmentdate).format(format) === moment(value).format(format))
-  );
-
-  const getStatus = status => (
-    [{ id: 0, text: 'Asignada', color: 'green' },
-    { id: 1, text: 'Cumplida', color: 'gold' },
-    { id: 2, text: 'Cancelada', color: 'gray' },
-    { id: 3, text: 'Incumplida', color: 'red' }].filter(x => x.id === status)
   );
 
   const getData = async value => {
@@ -114,11 +108,18 @@ export const AppointmentCalendar = () => {
     );
   }
 
-  const cancelAppointment = id => {
+  const onCancelAppointment = async id => {
     /* eslint no-restricted-globals:0 */
     if (confirm('¿Está seguro de cancelar su cita?')) {
-      console.log(id);
       setLoadingButtonC(true);
+      const res = await cancelAppointment(id);
+      if(res === 200){
+        message.success('Cita cancelada con éxito');
+        getData(defaultCurrentDate);
+        setVisible(false);
+      }else{
+        message.Erro('Hubo un error, por favor intenté de nuevo');
+      }
     }
     setLoadingButtonC(false);
   }
@@ -211,7 +212,7 @@ export const AppointmentCalendar = () => {
                 <Col>
                   <p align='left'>
                     <b>Estado:</b> {getStatus(dataModal.status)[0].text}
-                    {dataModal.status === 0 ? <Button type='link' onClick={() => { cancelAppointment(dataModal.id); }} loading={loadingButtonC}>Cancelar Cita</Button> : null}
+                    {dataModal.status === 0 ? <Button type='link' onClick={() => { onCancelAppointment(dataModal.id); }} loading={loadingButtonC}>Cancelar Cita</Button> : null}
                   </p>
                 </Col>
                 {dataModal.status === 1 && !dataModal.rated ?

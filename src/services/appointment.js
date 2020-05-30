@@ -104,3 +104,19 @@ export const rateAppointment = async data => {
   }
   return res !== undefined ? res.status : res;
 }
+
+export const cancelAppointment = async id => {
+  let res;
+  try {
+    res = await axios({
+      method: "PUT",
+      url: `${ENDPOINTS.APPOINTMENTS.CANCELAPPOINTMENT}${id}`,
+      headers: {
+        authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
+      }
+    })
+  } catch (e) {
+    console.log(e);
+  }
+  return res !== undefined ? res.status : res;
+}
