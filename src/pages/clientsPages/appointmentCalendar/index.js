@@ -10,7 +10,7 @@ import { Calendar, Badge, Button, Spin, message, Modal, Row, Col, Input, DatePic
 import moment from 'moment';
 import { CardView } from '../appointment/components/cardview';
 import { setAppointmentUser } from '../../../redux/appointment';
-import { getAppointmentsByUsers, rateAppointment } from '../../../services/appointment';
+import { getAppointmentsByUsers, rateAppointment, cancelAppointment } from '../../../services/appointment';
 import { formatNumber } from '../../../common';
 
 const { TextArea } = Input;
@@ -114,11 +114,18 @@ export const AppointmentCalendar = () => {
     );
   }
 
-  const cancelAppointment = id => {
+  const onCancelAppointment = async id => {
     /* eslint no-restricted-globals:0 */
     if (confirm('¿Está seguro de cancelar su cita?')) {
-      console.log(id);
       setLoadingButtonC(true);
+      const res = await cancelAppointment(id);
+      if(res === 200){
+        message.success('Cita cancelada con éxito');
+        getData(defaultCurrentDate);
+        setVisible(false);
+      }else{
+        message.Erro('Hubo un error, por favor intenté de nuevo');
+      }
     }
     setLoadingButtonC(false);
   }
@@ -211,7 +218,7 @@ export const AppointmentCalendar = () => {
                 <Col>
                   <p align='left'>
                     <b>Estado:</b> {getStatus(dataModal.status)[0].text}
-                    {dataModal.status === 0 ? <Button type='link' onClick={() => { cancelAppointment(dataModal.id); }} loading={loadingButtonC}>Cancelar Cita</Button> : null}
+                    {dataModal.status === 0 ? <Button type='link' onClick={() => { onCancelAppointment(dataModal.id); }} loading={loadingButtonC}>Cancelar Cita</Button> : null}
                   </p>
                 </Col>
                 {dataModal.status === 1 && !dataModal.rated ?

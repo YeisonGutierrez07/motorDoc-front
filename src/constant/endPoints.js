@@ -68,6 +68,7 @@ const APPOINTMENTS = {
   GET_APPOINTMENT_NOT_AVAILABLES: `${HOST_SITE_ENDPOINTS}/appointments/notAvailables`,
   GET_ALL_APPOINTMENT_BYUSER: `${HOST_SITE_ENDPOINTS}/appointments/byUser`,
   RATEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}appointment/QualifyAppointment`,
+  CANCELAPPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments/cancel/`
 }
 
 export const ENDPOINTS = {
