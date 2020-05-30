@@ -20,26 +20,30 @@ export const AppointmentDay = () => {
   const [dataModal, setDataModal] = useState({});
   const [visible, setVisble] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [mechanicId, setMechanicId] = useState(0);
+  // const [mechanicId, setMechanicId] = useState(0);
 
   const getData = async data => {
+    const idUser = JSON.parse(localStorage.getItem('user')).user.id;
+    const mechanicId = await getIdMechanic(idUser)
     const value = await getAppointmentsMechanicAssigned(mechanicId, data.fhiinitial, data.fhend);
+    console.log(mechanicId, data.fhiinitial, data.fhend);
+    console.log(value);
     setList(value);
     setLoading(false);
   }
 
-  const getMechanicId = async () => {
-    const idUser = JSON.parse(localStorage.getItem('user')).user.id;
-    setMechanicId(await getIdMechanic(idUser));
-  } 
+  // const getMechanicId = async () => {
+  //   const idUser = JSON.parse(localStorage.getItem('user')).user.id;
+  //   setMechanicId(await getIdMechanic(idUser));
+  // } 
 
-  setTimeout(() => {
-    getMechanicId();
-    getData({
-      fhiinitial: fechaInicial,
-      fhend: fechaFinal
-    });
-  }, 300 * 1000);
+  // setTimeout(() => {
+  //   getMechanicId();
+  //   getData({
+  //     fhiinitial: fechaInicial,
+  //     fhend: fechaFinal
+  //   });
+  // }, 300 * 1000);
 
   useEffect(() => {
     getData({
