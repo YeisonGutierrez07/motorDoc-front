@@ -141,6 +141,12 @@ const menuCLIENT = [
     key: "vehicles",
     url: "/clientsPages/vehicles",
     icon: "icmn icmn-steam"
+  },
+  {
+    title: "Histórico de Citas",
+    key: "historico",
+    url: "/clientsPages/historicappointment",
+    icon: "icmn icmn-list"
   }
 ];
 

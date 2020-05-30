@@ -11,7 +11,7 @@ import moment from 'moment';
 import { CardView } from '../appointment/components/cardview';
 import { setAppointmentUser } from '../../../redux/appointment';
 import { getAppointmentsByUsers, rateAppointment, cancelAppointment } from '../../../services/appointment';
-import { formatNumber } from '../../../common';
+import { formatNumber, getStatus } from '../../../common';
 
 const { TextArea } = Input;
 
@@ -34,6 +34,7 @@ export const AppointmentCalendar = () => {
     }),
     shallowEqual
   );
+
   useEffect(() => {
     getData(defaultCurrentDate);
   }, []);
@@ -45,13 +46,6 @@ export const AppointmentCalendar = () => {
 
   const getListData = value => (
     appointmentUser.filter(x => moment(x.appointmentdate).format(format) === moment(value).format(format))
-  );
-
-  const getStatus = status => (
-    [{ id: 0, text: 'Asignada', color: 'green' },
-    { id: 1, text: 'Cumplida', color: 'gold' },
-    { id: 2, text: 'Cancelada', color: 'gray' },
-    { id: 3, text: 'Incumplida', color: 'red' }].filter(x => x.id === status)
   );
 
   const getData = async value => {

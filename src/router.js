@@ -118,6 +118,10 @@ const routes = [
 
   // CLIENT PAGES
   {
+    path: "/clientsPages/historicappointment",
+    component: loadable(() => import("pages/clientsPages/historicappointment"))
+  },
+  {
     path: "/clientsPages/dashboard",
     component: loadable(() => import("pages/clientsPages/dashboard"))
   },

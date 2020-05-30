@@ -69,4 +69,11 @@ export const formatNumberDecimal = value => {
     return `${prefix}${result}${list[1] ? `.${list[1]}` : ''}`;
 }
 
+export const getStatus = status => (
+    [{ id: 0, text: 'Asignada', color: 'green' },
+    { id: 1, text: 'Cumplida', color: 'gold' },
+    { id: 2, text: 'Cancelada', color: 'gray' },
+    { id: 3, text: 'Incumplida', color: 'red' }].filter(x => x.id === status)
+  );
+
 export default [];
