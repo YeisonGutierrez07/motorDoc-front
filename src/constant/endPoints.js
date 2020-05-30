@@ -33,7 +33,8 @@ const MECHANIC = {
   TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
   MECHANICBYROUTINE: `${HOST_SITE_ENDPOINTS}/routines/mechanics/`,
   APPOINTMENTSMECHANICASSIGNED: `${HOST_SITE_ENDPOINTS}/appointments/mechanics`,
-  MANAGEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}mechanic/`,
+  MANAGEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}mechanic`,
+  GETIDMECHANIC: `${HOST_SITE_ENDPOINTS_NET}mechanic/GetIdMechanic`,
 };
 
 const ROUTINES = {
@@ -66,7 +67,7 @@ const APPOINTMENTS = {
   ADD_APPOINTMENT:  `${HOST_SITE_ENDPOINTS_NET}appointment`,
   GET_APPOINTMENT_NOT_AVAILABLES: `${HOST_SITE_ENDPOINTS}/appointments/notAvailables`,
   GET_ALL_APPOINTMENT_BYUSER: `${HOST_SITE_ENDPOINTS}/appointments/byUser`,
-  RATEAPPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments/QualifyAppointment`,
+  RATEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}appointment/QualifyAppointment`,
 }
 
 export const ENDPOINTS = {

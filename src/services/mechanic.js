@@ -192,3 +192,28 @@ export async function manageApppointment(data, idAppointment) {
   }
   return res !== undefined ? res.status : res;
 }
+
+
+export const getIdMechanic = async iduser => {
+  try {
+    const { data, status } = await axios.get(
+      `${ENDPOINTS.MECHANIC.GETIDMECHANIC}/${iduser}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).token
+            }`
+        }
+      }
+    );
+    return status === 200 ? data : [];
+  } catch
+  {
+    notification.warning({
+      message: 'Error',
+      description: "Hubo un error consultando los datos.",
+    })
+    return 0;
+  }
+}

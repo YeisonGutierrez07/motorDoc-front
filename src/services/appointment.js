@@ -83,3 +83,24 @@ export async function getAppointmentsByUsers(data) {
   }
   return res !== undefined ? res.data.data : res;
 }
+
+export const rateAppointment = async data => {
+  let res;
+  try {
+    res = await axios({
+      method: 'POST',
+      url: `${ENDPOINTS.APPOINTMENTS.RATEAPPOINTMENT}`,
+      data,
+      headers: {
+        authorization: `Bearer ${
+          JSON.parse(localStorage.getItem('user')).token
+          }`,
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+  return res !== undefined ? res.status : res;
+}

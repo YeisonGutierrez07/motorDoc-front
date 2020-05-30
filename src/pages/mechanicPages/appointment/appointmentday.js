@@ -5,71 +5,105 @@ import { Helmet } from 'react-helmet';
 import Authorize from 'components/LayoutComponents/Authorize';
 import moment from 'moment';
 import { CardView } from '../../clientsPages/appointment/components/cardview';
-import { getAppointmentsMechanicAssigned, manageApppointment } from '../../../services/mechanic';
-import { formatNumber } from '../../../common';
+import { getAppointmentsMechanicAssigned, manageApppointment, getIdMechanic } from '../../../services/mechanic';
+import { formatNumber, formatNumberDecimal } from '../../../common';
 
 const { TextArea } = Input;
 
+const fechaInicial = `${moment().format('L')} 07:00:00`;
+const fechaFinal =  `${moment().format('L')} 18:00:00`;
+
 export const AppointmentDay = () => {
 
-  const [list, setList] = useState([{ loading: false, name: 'Jorge', description: 'hola1' }, { loading: false, name: 'Luis', description: 'hola2' }]);
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataModal, setDataModal] = useState({});
   const [visible, setVisble] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [mechanicId, setMechanicId] = useState(0);
 
   const getData = async data => {
-    const value = await getAppointmentsMechanicAssigned(data.idmechanic, data.fhiinitial, data.fhend);
+    const value = await getAppointmentsMechanicAssigned(mechanicId, data.fhiinitial, data.fhend);
     setList(value);
     setLoading(false);
   }
 
+  const getMechanicId = async () => {
+    const idUser = JSON.parse(localStorage.getItem('user')).user.id;
+    setMechanicId(await getIdMechanic(idUser));
+  } 
+
+  setTimeout(() => {
+    getMechanicId();
+    getData({
+      fhiinitial: fechaInicial,
+      fhend: fechaFinal
+    });
+  }, 300 * 1000);
+
   useEffect(() => {
     getData({
-      idmechanic: 4,
-      fhiinitial: `${moment().format('L')} 07:00:00`,
-      fhend: `${moment().format('L')} 18:00:00`
+      fhiinitial: fechaInicial,
+      fhend: fechaFinal
     });
   }, []);
 
   const showModal = item => {
     setVisble(true);
     setDataModal(item);
-    message.info('Hola');
-    console.log(manageApppointment);
-    console.log(item);
   };
 
-  const handleOk = e => {
-    console.log(e);
+  const handleOk = async () => {
+    setConfirmLoading(true);
+    const data = {
+      idmaintenance: dataModal.idmaintenance,
+      kilometraje: dataModal.kilometraje,
+      observaciones: dataModal.observaciones
+    };
+    const status = await manageApppointment(data, dataModal.idappointment);
+    if(status === 200){
+      message.info(`Cita gestionada correctamente`);
+      getData({
+        fhiinitial: `${moment().format('L')} 07:00:00`,
+        fhend: `${moment().format('L')} 18:00:00`
+      });
+      setVisble(false);
+    }
+    setConfirmLoading(false);
+  };
+
+  const handleCancel = () => {
     setVisble(false);
   };
 
-  const handleCancel = e => {
-    console.log(e);
-    setVisble(false);
+  const onChangeKilometraje = e => {
+    if(e.target !== undefined)
+    {
+      const { value } = e.target;
+      const reg = /^-?\d*(\.\d*)?$/;
+       /* eslint no-restricted-globals:0 */
+      if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
+        setDataModal({ ...dataModal, kilometraje: value });
+      }
+    }
   };
 
-  const onChange = e => {
+  const onChangeObservaciones = e => {
     const { value } = e.target;
-    // const reg = /^-?\d*(\.\d*)?$/;
-    // if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
-    console.log(value);
-    // }
+    setDataModal({ ...dataModal, observaciones: value });
   };
 
-  // '.' at the end or only '-' in the input box.
   const onBlur = () => {
-    // const { value, onBlur, onChange } = this.props;
-    // let valueTemp = value;
-    // if (value.charAt(value.length - 1) === '.' || value === '-') {
-    //   valueTemp = value.slice(0, -1);
-    // }
-    // onChange(valueTemp.replace(/0*(\d+)/, '$1'));
-    // if (onBlur) {
-    //   onBlur();
-    // }
-  };
+    const value = dataModal.kilometraje === undefined ? '' : dataModal.kilometraje;
+    let valueTemp = value;
+    if (value.charAt(value.length - 1) === '.' || value === '-') {
+      valueTemp = value.slice(0, -1);
+    }
+    if(valueTemp === undefined)
+      return ;
 
+    onChangeKilometraje(valueTemp.replace(/0*(\d+)/, '$1'));
+  };
 
   if (loading) {
     return (
@@ -78,6 +112,12 @@ export const AppointmentDay = () => {
       </Fragment>
     );
   }
+  const title = dataModal.kilometraje ? (
+    <span className="numeric-input-title">{dataModal.kilometraje !== '-' ? formatNumberDecimal(dataModal.kilometraje) : '-'}</span>
+  ) : (
+      'Kilometraje'
+    );
+
   return (
     <Authorize roles={['MECHANIC']} redirect to='/404'>
       <Helmet title='Mis Citas asignadas' />
@@ -85,12 +125,10 @@ export const AppointmentDay = () => {
         title={`Citas asignadas ${moment().format('L')}`}
         body={
           <Fragment>
-
-
             <List
-              className="demo-loadmore-list"
+              className='demo-loadmore-list'
               // loading={initLoading}
-              itemLayout="horizontal"
+              itemLayout='horizontal'
               // loadMore={loadMore}
               dataSource={list}
               renderItem={item => (
@@ -102,7 +140,7 @@ export const AppointmentDay = () => {
                       avatar={
                         <Avatar src={item.image} />
                       }
-                      title={`${item.nombrerutina} ${moment(item.appointmentdate).format('L HH:mm:ss')}`}
+                      title={`${item.nombrerutina} ${moment(item.appointmentdate.replace('T', ' ').replace('Z', '')).format('L HH:mm:ss')}`}
                       description={`Placa: ${item.placa} \n Marca: ${item.marca} - ${item.namereference} \n`}
                     />
                     <Row>
@@ -132,47 +170,46 @@ export const AppointmentDay = () => {
                   </Skeleton>
                 </List.Item>
               )}
-              {...dataModal.idmaintenance !== undefined ?
-                <Fragment>
-                  <Modal
-                    title={`Gestionar cita ${dataModal.nombrerutina}`}
-                    visible={visible}
-                    onOk={handleOk}
-                    onCancel={handleCancel}
-                  >
-                    <Box component="fieldset" mb={3} borderColor="transparent">
-                      <Row>
-                        <Col>
-                          <p align='left'><b>Kilometraje Actual:</b>
-                            <Tooltip
-                              trigger={['focus']}
-                              title='Test'
-                              placement="topLeft"
-                              overlayClassName="numeric-input"
-                            >
-                              <Input
-                                onChange={onChange}
-                                onBlur={onBlur}
-                                placeholder="Input a number"
-                                maxLength={25}
-                              />
-                            </Tooltip>
-                          </p>
-                        </Col>
-                        <Col>
-                          <p align='left'><b>Observaciones:</b> <TextArea rows={4} autoSize /></p>
-                        </Col>
-                        <Col>
-                          <p align='left'>
-                            <Button type='primary' loading>Enviar</Button>
-                          </p>
-                        </Col>
-                      </Row>
-                    </Box>
-                  </Modal>
-                </Fragment>
-                : null}
             />
+            {dataModal.idmaintenance !== undefined ?
+              <Fragment>
+                <Modal
+                  title={`Gestionar cita ${dataModal.nombrerutina}`}
+                  visible={visible}
+                  onOk={handleOk}
+                  confirmLoading={confirmLoading}
+                  onCancel={handleCancel}
+                >
+                  <Box component='fieldset' mb={3} borderColor='transparent'>
+                    <Row>
+                      <Col>
+                        <p align='left'><b>Kilometraje Actual:</b>
+                          <Tooltip
+                            trigger={['focus']}
+                            title={title}
+                            placement='topLeft'
+                            overlayClassName='numeric-input'
+                          >
+                            <Input
+                              onChange={onChangeKilometraje}
+                              onBlur={onBlur}
+                              placeholder='Kilometraje'
+                              maxLength={15}
+                              value={dataModal.kilometraje}
+                            />
+                          </Tooltip>
+                        </p>
+                      </Col>
+                      <Col>
+                        <p align='left'><b>Observaciones:</b> 
+                          <TextArea rows={4} autoSize placeholder='Descripción trabajo realizado' onChange={onChangeObservaciones} maxLength={200} />
+                        </p>
+                      </Col>
+                    </Row>
+                  </Box>
+                </Modal>
+              </Fragment>
+              : null}
           </Fragment>}
       />
     </Authorize>
