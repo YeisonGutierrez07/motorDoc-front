@@ -35,6 +35,7 @@ const MECHANIC = {
   APPOINTMENTSMECHANICASSIGNED: `${HOST_SITE_ENDPOINTS}/appointments/mechanics`,
   MANAGEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}mechanic`,
   GETIDMECHANIC: `${HOST_SITE_ENDPOINTS_NET}mechanic/GetIdMechanic`,
+  ROUTINE: `${HOST_SITE_ENDPOINTS}/mechanic/routine`,
 };
 
 const ROUTINES = {
