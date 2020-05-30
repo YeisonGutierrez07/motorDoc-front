@@ -111,6 +111,10 @@ const routes = [
     path: "/mechanicPages/dashboard",
     component: loadable(() => import("pages/mechanicPages/dashboard"))
   },
+  {
+    path: "/mechanicPages/appointmentday",
+    component: loadable(() => import("pages/mechanicPages/appointment/appointmentday"))
+  },
 
   // CLIENT PAGES
   {

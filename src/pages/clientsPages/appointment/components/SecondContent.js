@@ -16,12 +16,14 @@ export const SecondContent = ({ next }) => {
   const { 
     dateAppointment, 
     routineSelected,
-    mechanics
+    mechanics,
+    mechanicTreatingSelected
   } = useSelector(
     state => ({
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
       mechanics: state.appointment.mechanics,
+      mechanicTreatingSelected: state.appointment.mechanicTreatingSelected ,
     }),
     shallowEqual
   );
@@ -39,6 +41,7 @@ export const SecondContent = ({ next }) => {
       </Fragment>
     )
   }
+  console.log(mechanicTreatingSelected, mechanics);
   const appointments = truncateAppointments(dateAppointment, routineSelected[0].estimatedTime).map(p => (
     {
       id: p.index,
@@ -47,7 +50,7 @@ export const SecondContent = ({ next }) => {
         x.hour.map(h => {
             const hours = {
               index,
-              mechanic: mechanics,
+              mechanic: mechanicTreatingSelected > 0 ? mechanics.filter(me => me.key === mechanicTreatingSelected) : mechanics,
               hour: h
             }
             index += 1;
