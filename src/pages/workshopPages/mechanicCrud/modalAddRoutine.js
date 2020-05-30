@@ -18,7 +18,7 @@ const ModalAddRoutine = ({visible, changeVisible, mechanicData, routinesMechanic
 
   return (
     <Modal
-      title={`Agregar rutinas al mecanico${  mechanicData.name}`}
+      title={`Agregar rutinas al mecanico ${  mechanicData.name}`}
       visible={visible}
       footer={false}
       onCancel={() => changeVisible(false)}
