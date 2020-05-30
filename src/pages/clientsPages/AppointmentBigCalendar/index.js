@@ -1,5 +1,7 @@
-import React from "react";
-import { ViewState } from "@devexpress/dx-react-scheduler";
+import React, { Fragment } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { ViewState, EditingState, IntegratedEditing } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   DayView,
@@ -8,161 +10,29 @@ import {
   Toolbar,
   DateNavigator,
   ViewSwitcher,
-  TodayButton,
   Resources,
   AppointmentTooltip
-} from "@devexpress/dx-react-scheduler-material-ui";
-import { withStyles, createStyles } from "@material-ui/core";
-import { indigo, blue, teal } from "@material-ui/core/colors";
-import Paper from "@material-ui/core/Paper";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+} from '@devexpress/dx-react-scheduler-material-ui';
+import { withStyles, createStyles } from '@material-ui/core';
+import { indigo, blue, teal, red } from '@material-ui/core/colors';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Paper from '@material-ui/core/Paper';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import { Spin } from 'antd';
+import moment from 'moment';
+import { setAppointmentUser } from '../../../redux/appointment';
+import { getAppointmentsByUsers } from '../../../services/appointment';
 
-const appointments = [
-  {
-    title: "Prepare 2015 Marketing Plan",
-    startDate: new Date(2018, 5, 25, 13, 0),
-    endDate: new Date(2018, 5, 25, 13, 30),
-    priority: 2,
-    location: "Room 3"
-  },
-  {
-    title: "Brochure Design Review",
-    startDate: new Date(2018, 5, 28, 14, 10),
-    endDate: new Date(2018, 5, 28, 15, 30),
-    priority: 1,
-    location: "Room 1"
-  },
-  {
-    title: "Website Re-Design Plan",
-    startDate: new Date(2018, 5, 29, 9, 30),
-    endDate: new Date(2018, 5, 29, 11, 30),
-    priority: 1,
-    location: "Room 3"
-  },
-  {
-    title: "Book Flights to San Fran for Sales Trip",
-    startDate: new Date(2018, 6, 2, 12, 0),
-    endDate: new Date(2018, 6, 2, 13, 0),
-    priority: 3,
-    location: "Room 2"
-  },
-  {
-    title: "Install New Router in Dev Room",
-    startDate: new Date(2018, 6, 2, 14, 30),
-    endDate: new Date(2018, 6, 2, 15, 30),
-    priority: 2,
-    location: "Room 3"
-  },
-  {
-    title: "Approve Personal Computer Upgrade Plan",
-    startDate: new Date(2018, 6, 4, 10, 0),
-    endDate: new Date(2018, 6, 4, 11, 0),
-    priority: 1,
-    location: "Room 1"
-  },
-  {
-    title: "Final Budget Review",
-    startDate: new Date(2018, 6, 6, 12, 0),
-    endDate: new Date(2018, 6, 6, 13, 35),
-    priority: 3,
-    location: "Room 1"
-  },
-  {
-    title: "New Brochures",
-    startDate: new Date(2018, 6, 6, 14, 30),
-    endDate: new Date(2018, 6, 6, 15, 45),
-    priority: 3,
-    location: "Room 3"
-  },
-  {
-    title: "Install New Database",
-    startDate: new Date(2018, 6, 10, 9, 45),
-    endDate: new Date(2018, 6, 10, 11, 15),
-    priority: 2,
-    location: "Room 2"
-  },
-  {
-    title: "Approve New Online Marketing Strategy",
-    startDate: new Date(2018, 6, 12, 12, 0),
-    endDate: new Date(2018, 6, 12, 14, 0),
-    priority: 1,
-    location: "Room 2"
-  },
-  {
-    title: "Upgrade Personal Computers",
-    startDate: new Date(2018, 6, 16, 15, 15),
-    endDate: new Date(2018, 6, 16, 16, 30),
-    priority: 2,
-    location: "Room 3"
-  },
-  {
-    title: "Customer Workshop",
-    startDate: new Date(2018, 6, 18, 11, 0),
-    endDate: new Date(2018, 6, 18, 12, 0),
-    priority: 3,
-    location: "Room 1"
-  },
-  {
-    title: "Prepare 2015 Marketing Plan",
-    startDate: new Date(2018, 6, 20, 11, 0),
-    endDate: new Date(2018, 6, 20, 13, 30),
-    priority: 1,
-    location: "Room 3"
-  },
-  {
-    title: "New Brochures",
-    startDate: new Date(2018, 6, 23, 14, 30),
-    endDate: new Date(2018, 6, 23, 15, 45),
-    priority: 2,
-    location: "Room 3"
-  },
-  {
-    title: "Install New Database",
-    startDate: new Date(2018, 6, 23, 9, 45),
-    endDate: new Date(2018, 6, 23, 11, 15),
-    priority: 3,
-    location: "Room 2"
-  },
-  {
-    title: "Approve New Online Marketing Strategy",
-    startDate: new Date(2018, 6, 26, 12, 0),
-    endDate: new Date(2018, 6, 26, 14, 0),
-    priority: 1,
-    location: "Room 1"
-  },
-  {
-    title: "Upgrade Personal Computers",
-    startDate: new Date(2018, 6, 31, 15, 15),
-    endDate: new Date(2018, 6, 31, 16, 30),
-    priority: 2,
-    location: "Room 3"
-  },
-  {
-    title: "Install New Database",
-    startDate: new Date(2018, 6, 31, 9, 45),
-    endDate: new Date(2018, 6, 31, 11, 15),
-    priority: 3,
-    location: "Room 2"
-  }
-];
 
 const resources = [
   {
-    fieldName: "location",
-    title: "Location",
+    fieldName: 'priority',
+    title: 'Estado',
     instances: [
-      { id: "Room 1", text: "Room 1", color: indigo },
-      { id: "Room 2", text: "Room 2", color: blue },
-      { id: "Room 3", text: "Room 3", color: teal }
-    ]
-  },
-  {
-    fieldName: "priority",
-    title: "Priority",
-    instances: [
-      { id: 1, text: "High Priority", color: teal },
-      { id: 2, text: "Medium Priority", color: blue },
-      { id: 3, text: "Low Priority", color: indigo }
+      { id: 0, text: 'Asignada', color: teal },
+      { id: 1, text: 'Cumplida', color: teal },
+      { id: 2, text: 'Cancelada', color: indigo },
+      { id: 3, text: 'Incumplida', color: red }
     ]
   }
 ];
@@ -184,10 +54,10 @@ const styles = ({ palette }) =>
     },
     weekEndCell: {
       backgroundColor: fade(palette.action.disabledBackground, 0.04),
-      "&:hover": {
+      '&:hover': {
         backgroundColor: fade(palette.action.disabledBackground, 0.04)
       },
-      "&:focus": {
+      '&:focus': {
         backgroundColor: fade(palette.action.disabledBackground, 0.04)
       }
     },
@@ -195,22 +65,19 @@ const styles = ({ palette }) =>
       backgroundColor: fade(palette.action.disabledBackground, 0.06)
     },
     text: {
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      whiteSpace: "nowrap"
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
     },
     content: {
       opacity: 0.7
     },
     container: {
-      width: "100%",
+      width: '100%',
       lineHeight: 1.2,
-      height: "100%"
+      height: '100%'
     }
   });
-
-// const isWeekEnd = (date) => date.getDay() === 0 || date.getDay() === 6;
-const defaultCurrentDate = new Date(2018, 6, 2, 11, 15);
 
 const DayScaleCell = withStyles(
   styles
@@ -246,55 +113,165 @@ const Appointment = withStyles(styles)(({ classes, data, ...restProps }) => (
 ));
 
 // #FOLD_BLOCK
-const AppointmentContent = withStyles(styles, { name: "AppointmentContent" })(
+const AppointmentContent = withStyles(styles, { name: 'AppointmentContent' })(
   ({
     classes,
     data,
     ...restProps
     // #FOLD_BLOCK
   }) => {
-    let priority = "low";
-    if (data.priority === 2) priority = "middle";
-    if (data.priority === 3) priority = "high";
+    let priority = 'Asignada';
+    if (data.priority === 1) priority = 'Cumplida';
+    if (data.priority === 2) priority = 'Cancelada';
+    if (data.priority === 3) priority = 'Incumplida';
     return (
       <Appointments.AppointmentContent {...restProps} data={data}>
         <div className={classes.container}>
           <div className={classes.text}>{data.title}</div>
-          <div className={classes.text}>{`Priority: ${priority}`}</div>
-          <div className={classes.text}>{`Location: ${data.location}`}</div>
+          <div className={classes.text}>{`Estado: ${priority}`}</div>
+          <div className={classes.text}>{`Lugar: ${data.location}`}</div>
         </div>
       </Appointments.AppointmentContent>
     );
   }
 );
 
-export default () => (
-  <Paper>
-    <Scheduler data={appointments}>
-      <ViewState defaultCurrentDate={defaultCurrentDate} />
-
-      <MonthView
-        dayScaleCellComponent={DayScaleCell}
-        timeTableCellComponent={TimeTableCell}
-      />
-      <DayView
-        displayName="Three days"
-        startDayHour={9}
-        endDayHour={17}
-        intervalCount={3}
-      />
-
-      <Appointments
-        appointmentComponent={Appointment}
-        appointmentContentComponent={AppointmentContent}
-      />
-      <Resources data={resources} />
-
-      <AppointmentTooltip showCloseButton />
-      <Toolbar />
-      <DateNavigator />
-      <ViewSwitcher />
-      <TodayButton />
-    </Scheduler>
-  </Paper>
+const ToolbarWithLoading = withStyles(styles, { name: 'Toolbar' })(
+  ({ children, classes, ...restProps }) => (
+    <div className={classes.toolbarRoot}>
+      <Toolbar.Root {...restProps}>
+        {children}
+      </Toolbar.Root>
+      <LinearProgress className={classes.progress} />
+    </div>
+  ),
 );
+
+export class SchedulerContainer extends React.PureComponent {
+  
+  format = 'l';
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      defaultCurrentDate: moment().utc().add(-5, 'hours')
+    }
+  }
+
+  componentDidMount() {
+    const { defaultCurrentDate } = this.state;
+    this.getData(defaultCurrentDate);
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   const { appointmentUser } = this.props;
+  //   if (prevProps.appointmentUser !== appointmentUser) {
+  //     const { defaultCurrentDate } = this.state;
+  //     this.getData(defaultCurrentDate);
+  //   }
+  // }
+
+  getData = async value => {
+    const date = moment(value).utc().add(-5, 'hours');
+    const data = await this.getAppointmentsList(date);
+    const { setAppointmentUser: setAppointmentUserR } = this.props;
+    this.setState({
+      defaultCurrentDate: date,
+      loading: false
+    });
+    setAppointmentUserR(data);
+  }
+
+  commitChanges = value => {
+    console.log(value);
+  }
+
+  onCurrentDateChange = async value => {
+    this.getData(value);
+  }
+
+  getAppointmentsList = async date => {
+    const fhinitial = date.format(this.format);
+    const appointment = await getAppointmentsByUsers({
+      fhinitial,
+      fhend: moment(fhinitial).add(15, 'days').format(this.format)
+    });
+
+    return appointment.map(x => ({
+      id: x.idappointment,
+      title: x.nameroutine,
+      startDate: moment(x.appointmentdate),
+      endDate: moment(x.appointmentdate).add(x.timeroutine, 'minutes'),
+      priority: x.status,
+      location: x.nameworkshop,
+      mechanic: `${x.name} ${x.last_name}`
+    })
+    );
+  }
+
+  // DateSelected = () => {
+  //   const { defaultCurrentDate } = this.state;
+  //   console.log('date seledcted');
+  //   return defaultCurrentDate.format(this.format);
+  // };
+
+  render() {
+    const { loading, defaultCurrentDate } = this.state;
+    const { appointmentUser } = this.props;
+    console.log(appointmentUser);
+    if (loading)
+      return (
+        <Fragment>
+          <Spin />
+        </Fragment>);
+
+    return (
+      <Paper>
+        <Scheduler data={appointmentUser}>
+          <ViewState
+            defaultCurrentDate={defaultCurrentDate}
+            onCurrentViewNameChange={this.currentViewNameChange}
+            onCurrentDateChange={this.currentDateChange}
+            // onCurrentDateChange={this.onCurrentDateChange}
+          />
+          <MonthView
+            displayName='Mensual'
+            dayScaleCellComponent={DayScaleCell}
+            timeTableCellComponent={TimeTableCell}
+          />
+          <EditingState
+            onCommitChanges={this.commitChanges}
+          />
+          <IntegratedEditing />
+          <DayView
+            displayName='Semanal'
+            startDayHour={6}
+            endDayHour={17}
+            intervalCount={5}
+          />
+          <Appointments
+            appointmentComponent={Appointment}
+            appointmentContentComponent={AppointmentContent}
+          />
+          <Resources data={resources} />
+          <AppointmentTooltip showCloseButton showDeleteButton />
+          <Toolbar {...loading ? { rootComponent: ToolbarWithLoading } : null} />
+          <DateNavigator onClick={(value) => console.log(value)} />
+          <ViewSwitcher />
+        </Scheduler>
+      </Paper>
+    )
+  }
+};
+
+const mapStateToProps = (data) => {
+  return {
+    appointmentUser: data.appointment.appointmentUser
+  };
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators({ setAppointmentUser }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(SchedulerContainer);

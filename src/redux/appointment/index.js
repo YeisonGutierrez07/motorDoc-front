@@ -1,30 +1,43 @@
 // Definición de acciones
+export const SET_APPOINTMENT_USER = 'SET_APPOINTMENT_USER';
 export const SET_ROUTINES = 'SET_ROUTINES';
 export const SET_SELECTED_ROUTINE = 'SET_SELECTED_ROUTINE';
 export const SET_VEHICLES = 'SET_VEHICLES';
 export const SET_MECHANICS = 'SET_MECHANICS';
+export const SET_MECHANICS_TREATING = 'SET_MECHANICS_TREATING';
 export const SET_SELECTED_VEHICLES = 'SET_SELECTED_VEHICLES';
 export const SET_DATE_APPOINTMENT = 'SET_DATE_APPOINMENT';
 export const SET_WORKSHOPS = 'SET_WORKSHOPS';
 export const SET_WORKSHOP_SELECTED = 'SET_WORKSHOP_SELECTED';
+export const SET_MECHANIC_TREATING_SELECTED = 'SET_MECHANIC_TREATING_SELECTED';
 export const SET_MECHANIC_SELECTED = 'SET_MECHANIC_SELECTED';
+export const SET_DATE_HOUR_APPOINTMENT = 'SET_DATE_HOUR_APPOINMENT';
 
 // Estado inicial
 export const initialState = {
+  appointmentUser: [],
   routines: [],
   vehicles: [],
   workshops: [],
   mechanics: [],
+  mechanicsTreating: [],
   routineSelected: [],
   vehicleSelected: undefined,
   dateAppointment: undefined,
   workshopSelected: undefined,
-  mechanicSelected: undefined
+  mechanicTreatingSelected: undefined,
+  mechanicSelected: undefined,
+  dateHourAppointment: null
 };
 
 // Función reductora
 export default function appointment(state = initialState, action) {
   switch (action.type) {
+    case SET_APPOINTMENT_USER:
+      return {
+        ...state,
+        appointmentUser: action.appointmentUser
+      }
     case SET_ROUTINES:
       return {
         ...state,
@@ -44,6 +57,11 @@ export default function appointment(state = initialState, action) {
       return {
         ...state,
         mechanics: action.mechanics
+      }
+    case SET_MECHANICS_TREATING:
+      return {
+        ...state,
+        mechanicsTreating: action.mechanicsTreating
       }
     case SET_SELECTED_VEHICLES:
       return {
@@ -65,10 +83,20 @@ export default function appointment(state = initialState, action) {
         ...state,
         workshopSelected: action.workshopSelected
       };
+    case SET_MECHANIC_TREATING_SELECTED:
+      return {
+        ...state,
+        mechanicTreatingSelected: action.mechanicTreatingSelected
+      }
     case SET_MECHANIC_SELECTED:
       return {
         ...state,
         mechanicSelected: action.mechanicSelected
+      }
+    case SET_DATE_HOUR_APPOINTMENT:
+      return {
+        ...state,
+        dateHourAppointment: action.dateHourAppointment
       }
     default:
       return state;
@@ -77,6 +105,10 @@ export default function appointment(state = initialState, action) {
 
 // Creadores de acciones
 
+export const setAppointmentUser = appointmentUser => ({
+  type: SET_APPOINTMENT_USER,
+  appointmentUser
+});
 export const setRoutines = routines => ({
   type: SET_ROUTINES,
   routines
@@ -112,12 +144,27 @@ export const setMechanics = mechanics => ({
   mechanics
 });
 
+export const setMechanicsTreating = mechanicsTreating => ({
+  type: SET_MECHANICS_TREATING,
+  mechanicsTreating
+});
+
 export const setWorkshopSelected = workshopSelected => ({
   type: SET_WORKSHOP_SELECTED,
   workshopSelected
 });
 
+export const setTreatingMechanicSelected = mechanicTreatingSelected => ({
+  type: SET_MECHANIC_TREATING_SELECTED,
+  mechanicTreatingSelected
+});
+
 export const setMechanicSelected = mechanicSelected => ({
   type: SET_MECHANIC_SELECTED,
   mechanicSelected
+});
+
+export const setDateHourAppointment =  dateHourAppointment => ({
+  type: SET_DATE_HOUR_APPOINTMENT,
+  dateHourAppointment
 });

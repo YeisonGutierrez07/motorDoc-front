@@ -1,22 +1,30 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Select, DatePicker, Row, Col, notification, Spin } from "antd";
-import moment from "moment";
-import "./style.css";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { GetRoutineByWorkShop } from "../../../../services/routines";
-import { getTreatingMechanic } from "../../../../services/mechanic";
-import { GetAllVehicles } from "../../../../services/vehicles";
+import React, { Fragment, useState, useEffect } from 'react';
+import { Select, DatePicker, Row, Col, notification, Spin } from 'antd';
+import moment from 'moment';
+import './style.css';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { GetRoutineByWorkShop } from '../../../../services/routines';
+import { getTreatingMechanic, getMechanicByRoutine } from '../../../../services/mechanic';
+import { GetAllVehicles } from '../../../../services/vehicles';
+import { getAppointmentsnotAvailables } from '../../../../services/appointment';
 import {
   setWorkshopSelected, setRoutines, setVehicles,
   setVehicleSelected, setSelectedRoutine,
-  setDateAppointment, setMechanicSelected,
-  setMechanics
-} from "../../../../redux/appointment";
+  setDateAppointment, setTreatingMechanicSelected,
+  setMechanics,
+  setMechanicsTreating
+} from '../../../../redux/appointment';
+import { disabledDate, formatNumber } from '../../../../common';
 
 const { Option } = Select;
 
 export const FirstContent = () => {
+
   const dispatch = useDispatch();
+  const [disabledRoutine, setDisabledRoutine] = useState(true);
+  const [disabledMechanic, setDisabledMechanic] = useState(true);
+  const [loading, setLoading] = useState(true);
+  
   const {
     idWorkshop,
     vehicles,
@@ -25,26 +33,22 @@ export const FirstContent = () => {
     workshopSelected,
     routineSelected,
     dateAppointment,
-    mechanics,
-    mechanicSelected
+    mechanicTreatingSelected,
+    mechanicsTreating
   } = useSelector(
     state => ({
-      idWorkshop: parseInt(state.router.location.pathname.split("/")[3], 10),
+      idWorkshop: parseInt(state.router.location.pathname.split('/')[3], 10),
       vehicles: state.appointment.vehicles,
       routines: state.appointment.routines,
-      mechanics: state.appointment.mechanics,
       vehicleSelected: state.appointment.vehicleSelected,
       workshopSelected: state.appointment.workshopSelected,
       routineSelected: state.appointment.routineSelected,
       dateAppointment: state.appointment.dateAppointment,
-      mechanicSelected: state.appointment.mechanicSelected,
+      mechanicTreatingSelected: state.appointment.mechanicTreatingSelected,
+      mechanicsTreating: state.appointment.mechanicsTreating
     }),
     shallowEqual
   );
-  // console.log(useSelector(x =>x));
-
-  const [loading, setLoading] = useState(true);
-
   const getData = async () => {
     const vehiclesData = await GetAllVehicles();
     if (vehiclesData != null) {
@@ -52,8 +56,8 @@ export const FirstContent = () => {
     }
     else {
       notification.error({
-        message: "Error",
-        description: "Error al consultar los vehículos"
+        message: 'Error',
+        description: 'Error al consultar los vehículos'
       });
     }
     setLoading(false);
@@ -62,25 +66,34 @@ export const FirstContent = () => {
   const getDataRoutine = async idreferencebrand => {
     setLoading(true);
     const routineData = await GetRoutineByWorkShop(workshopSelected, idreferencebrand);
+    
     if (routineData !== null && routineData.length > 0) {
       dispatch(setRoutines(routineData));
+      setDisabledRoutine(false);
+      setLoading(false);
+      dispatch(setSelectedRoutine([]));
+      return;
     }
-    else {
-      dispatch(setRoutines([]));
-    }
+    dispatch(setRoutines([]));
     dispatch(setSelectedRoutine([]));
+    setDisabledRoutine(true);
     setLoading(false);
   }
 
   const getDataMechanic = async (idworkshop, idVehicle) => {
     setLoading(true);
     const mechanicData = await getTreatingMechanic(idworkshop, idVehicle);
-    if (mechanicData != null && mechanicData.length > 0) {
-      dispatch(setMechanics(mechanicData));
-    } else {
-      dispatch(setMechanics([]));
-    }
-    dispatch(setMechanicSelected(undefined));
+    if (mechanicData != null && mechanicData.length > 0) { 
+      dispatch(setMechanicsTreating([]));
+      dispatch(setMechanicsTreating(mechanicData));
+      setDisabledMechanic(false);
+      setLoading(false);
+      return;
+    } 
+
+    dispatch(setMechanicsTreating([]));
+    dispatch(setTreatingMechanicSelected(undefined));
+    setDisabledMechanic(true);
     setLoading(false);
   }
   const setWorkshopId = () => {
@@ -95,12 +108,14 @@ export const FirstContent = () => {
     getDataMechanic(idWorkshop, idVehicle);
   }
 
-  const setSelectRoutine = id => {
+  const setSelectRoutine = async id => {
     dispatch(setSelectedRoutine(id));
+    const dataMechanic = await getMechanicByRoutine(id, idWorkshop);
+    dispatch(setMechanics(dataMechanic));
   }
 
   const setSelectedMechanic = id => {
-    dispatch(setMechanicSelected(id));
+    dispatch(setTreatingMechanicSelected(id));
   }
 
   const loadingData = () => {
@@ -113,23 +128,29 @@ export const FirstContent = () => {
     }
     return null;
   };
-  const onChangeDate = (date, dateString) => {
+  const onChangeDate = async (date, dateString) => {
     dispatch(setDateAppointment(dateString));
+    const dataAppointment = await getAppointmentsnotAvailables({
+      workshopid: idWorkshop,
+      routineid: routineSelected !== undefined ? routineSelected[0].key : 0,
+      fhinitial: `${moment(dateString).format('l')} 07:00:00`,
+      fhend: `${moment(dateString).add(3, 'days').format('l')} 18:00:00`
+    });
+    console.log(dataAppointment);
   };
-
-  const disabledDate = current =>
-    moment().isAfter(current) &&
-    moment().format("l") !== moment(current).format("l");
 
   useEffect(() => {
     getData();
     setWorkshopId();
+    if(vehicleSelected !== undefined){
+      setDisabledRoutine(false);
+    }
   }, [idWorkshop]);
 
   return (
     <Fragment>
       {loadingData()}
-      <p align="left" className="text1">
+      <p align='left' className='text1'>
         Búsqueda de cita por especialidad
       </p>
       <Row>
@@ -137,15 +158,15 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={6} xs={10}>
-          <p align="left">Seleccione vehículo:</p>
+          <p align='left'>Seleccione vehículo:</p>
         </Col>
         <Col span={10} xs={12}>
           <Select
-            className="input-routine"
+            className='input-routine'
             showSearch
-            style={{ width: "100%" }}
-            placeholder="Seleccione vehículo"
-            optionFilterProp="children"
+            style={{ width: '100%' }}
+            placeholder='Seleccione vehículo'
+            optionFilterProp='children'
             onChange={setSelectVehicle}
             value={vehicleSelected}
             filterOption={(input, option) =>
@@ -172,18 +193,19 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={6} xs={10}>
-          <p align="left">
+          <p align='left'>
             Seleccione la especialidad de la cuál requiere la cita:
           </p>
         </Col>
         <Col span={10} xs={12}>
           <Select
-            className="input-routine"
+            className='input-routine'
             showSearch
-            style={{ width: "100%" }}
-            placeholder="Seleccione la rutina"
-            optionFilterProp="children"
+            style={{ width: '100%' }}
+            placeholder='Seleccione rutina de mantenimiento'
+            optionFilterProp='children'
             onChange={setSelectRoutine}
+            disabled={disabledRoutine}
             value={routineSelected.length <= 0 ? undefined : routineSelected[0].key}
             filterOption={(input, option) =>
               option.props.children
@@ -209,13 +231,14 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={6} xs={10}>
-          <p align="left">Seleccione la fecha en la que desea ser atendido:</p>
+          <p align='left'>Seleccione la fecha en la que desea ser atendido:</p>
         </Col>
         <Col span={10} xs={12}>
           <DatePicker
             onChange={onChangeDate}
-            className="input-routine"
+            className='input-routine'
             disabledDate={disabledDate}
+            validRange={[moment(), moment().add('5', 'days')]}
             defaultValue={dateAppointment === undefined ? undefined : moment(dateAppointment, 'YYYY-MM-DD')}
           />
         </Col>
@@ -228,10 +251,10 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={6} xs={10}>
-          <p align="left">Costo aproximado (COP):</p>
+          <p align='left'>Costo aproximado (COP):</p>
         </Col>
         <Col span={10} xs={12}>
-          <p align="left">{routineSelected <= 0 ? 'N/A' : routineSelected[0].cost}</p>
+          <p align='left'>{routineSelected <= 0 ? 'N/A' : formatNumber(routineSelected[0].cost)}</p>
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
@@ -242,10 +265,10 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={6} xs={10}>
-          <p align="left">Tiempo aproximado (Min):</p>
+          <p align='left'>Tiempo aproximado (Min):</p>
         </Col>
         <Col span={10} xs={12}>
-          <p align="left">{routineSelected <= 0 ? 'N/A' : routineSelected[0].estimatedTime}</p>
+          <p align='left'>{routineSelected <= 0 ? 'N/A' : routineSelected[0].estimatedTime}</p>
         </Col>
         <Col span={4} xs={1}>
           &nbsp;
@@ -256,7 +279,7 @@ export const FirstContent = () => {
           <hr />
         </Col>
       </Row>
-      <p align="left" className="text1">
+      <p align='left' className='text1'>
         Otras opciones de búsqueda
       </p>
       <Row>
@@ -264,25 +287,26 @@ export const FirstContent = () => {
           &nbsp;
         </Col>
         <Col span={10}>
-          <p align="left">Mecánico tratante</p>
+          <p align='left'>Mecánico tratante</p>
         </Col>
-        <Col span={9} align="left">
+        <Col span={9} align='left'>
           <Select
-            className="input-routine"
+            className='input-routine'
             showSearch
-            style={{ width: "100%" }}
-            placeholder="Seleccione su mécanico tratante"
-            optionFilterProp="children"
+            style={{ width: '100%' }}
+            placeholder='Seleccione su mécanico tratante'
+            optionFilterProp='children'
             onChange={setSelectedMechanic}
-            value={mechanicSelected}
+            disabled={disabledMechanic}
+            value={mechanicTreatingSelected}
             filterOption={(input, option) =>
               option.props.children
                 .toLowerCase()
                 .indexOf(input.toLowerCase()) >= 0
             }
           >
-            {mechanics != null
-              ? mechanics.map(({ key, value }) => (
+            {mechanicsTreating != null
+              ? mechanicsTreating.map(({ key, value }) => (
                 <Option key={key} value={key}>
                   {value}
                 </Option>

@@ -31,7 +31,10 @@ const MECHANIC = {
   CREATE: `${HOST_SITE_ENDPOINTS}/mechanic/create`,
   MIS_MECHANICS: `${HOST_SITE_ENDPOINTS}/mechanic/myMechanics`,
   TRATING_MECHNIC: `${HOST_SITE_ENDPOINTS}/routines/getTreatingMechanic/`,
-  ROUTINE: `${HOST_SITE_ENDPOINTS}/mechanic/routine`,
+  MECHANICBYROUTINE: `${HOST_SITE_ENDPOINTS}/routines/mechanics/`,
+  APPOINTMENTSMECHANICASSIGNED: `${HOST_SITE_ENDPOINTS}/appointments/mechanics`,
+  MANAGEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}mechanic`,
+  GETIDMECHANIC: `${HOST_SITE_ENDPOINTS_NET}mechanic/GetIdMechanic`,
 };
 
 const ROUTINES = {
@@ -59,6 +62,13 @@ const REFERENCEBRAND = {
   GET: `${HOST_SITE_ENDPOINTS_NET}referencebrand/`,
 };
 
+const APPOINTMENTS = {
+  GET_APPOINTMENT: `${HOST_SITE_ENDPOINTS}/appointments`,
+  ADD_APPOINTMENT:  `${HOST_SITE_ENDPOINTS_NET}appointment`,
+  GET_APPOINTMENT_NOT_AVAILABLES: `${HOST_SITE_ENDPOINTS}/appointments/notAvailables`,
+  GET_ALL_APPOINTMENT_BYUSER: `${HOST_SITE_ENDPOINTS}/appointments/byUser`,
+  RATEAPPOINTMENT: `${HOST_SITE_ENDPOINTS_NET}appointment/QualifyAppointment`,
+}
 
 export const ENDPOINTS = {
   AUTH,
@@ -69,7 +79,8 @@ export const ENDPOINTS = {
   BRANDS,
   VEHICLES,
   ROUTINESV2,
-  REFERENCEBRAND
+  REFERENCEBRAND,
+  APPOINTMENTS
 };
 
 export default {
