@@ -36,6 +36,7 @@ export const HistoricAppointment = () => {
     if (appointment === undefined) {
       message.info('Citas no disponibles');
     }
+    console.log(appointment);
     return appointment !== undefined ? appointment.map(x => ({
       id: x.idappointment,
       title: x.nameroutine,
@@ -47,7 +48,9 @@ export const HistoricAppointment = () => {
       mechanic: `${x.name} ${x.last_name}`,
       idmaintenance: x.idmaintenance,
       rated: x.idmaintenancerating > 0,
-      costroutine: formatNumber(x.costroutine)
+      costroutine: formatNumber(x.costroutine),
+      kilometraje: x.kilometraje,
+      observaciones: x.observaciones
     })
     ) : [];
   }
@@ -98,6 +101,8 @@ export const HistoricAppointment = () => {
                       <TableCell align="right">Fecha y hora</TableCell>
                       <TableCell align="right">Costo</TableCell>
                       <TableCell align="right">Tiempo estimado</TableCell>
+                      <TableCell align="right">Kilometraje</TableCell>
+                      <TableCell align="right">Observaciones</TableCell>
                       <TableCell align="right">Estado</TableCell>
                     </TableRow>
                   </TableHead>
@@ -110,6 +115,8 @@ export const HistoricAppointment = () => {
                         <TableCell align="right">{row.appointmentdate}</TableCell>
                         <TableCell align="right">{row.costroutine}</TableCell>
                         <TableCell align="right">{row.timeroutine}</TableCell>
+                        <TableCell align="right">{row.kilometraje}</TableCell>
+                        <TableCell align="right">{row.observaciones}</TableCell>
                         <TableCell align="right">{row.status}</TableCell>
                       </TableRow>
                     ))}
