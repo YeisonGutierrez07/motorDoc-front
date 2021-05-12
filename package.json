@@ -40,7 +40,7 @@
     "antd": "^3.26.17",
     "axios": "^0.19.2",
     "bootstrap-css-only": "^4.4.1",
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "chartist": "^0.11.4",
     "chartist-plugin-tooltips-updated": "^0.0.21",
     "classnames": "^2.2.6",
